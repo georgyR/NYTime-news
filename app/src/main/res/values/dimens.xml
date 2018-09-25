@@ -7,10 +7,6 @@
     <dimen name="cardview_elevation">8dp</dimen>
     <dimen name="cardview_margin">8dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
-    <dimen name="photo_height_portrait">200dp</dimen>
-    <dimen name="photo_width_land">300dp</dimen>
-    <dimen name="photo_height_portrait_sw600dp">380dp</dimen>
-    <dimen name="photo_width_sw600dp_land">450dp</dimen>
-    <dimen name="photo_height_sw750dp">520dp</dimen>
-    <dimen name="photo_width_sw750dp_land">600dp</dimen>
+    <dimen name="photo_height">200dp</dimen>
+    <dimen name="photo_width">300dp</dimen>
 </resources>
