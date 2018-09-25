@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name" translatable="false">Exercise2</string>
+    <string name="btn_send_message">Send message</string>
+    <string name="tv_graduated">Graduated from Bauman Moscow State University</string>
+    <string name="tv_developer">Beginning android developer</string>
+    <string name="tv_profile_description">Georgy completed a master’s degree in Mechanical Engineering at Bauman Moscow State University in summer 2018. Now he is developing in IT and wants to get an android developer job.</string>
+    <string name="et_message_hint">Enter a message…</string>
+    <string name="email_subject">Hello, Georgy.</string>
+    <string name="toast_no_email_app">Email app didn\\\'t find</string>
+    <string name="toast_no_browser">Browser app didn\\\\\\\'t find</string>
+    <string name="toast_no_sms_app">SMS app didn\\\\\\\'t find</string>
+    <string name="disclaimer">© 2018 Georgy Ryabykh</string>
+    <string name="profile_name">Georgy Ryabykh</string>
+    <string name="btn_send_email">Send email</string>
+</resources>

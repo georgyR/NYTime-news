@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_send_message">Отправить сообщение</string>
+    <string name="tv_graduated">МГТУ им. Н. Э. Баумана</string>
+    <string name="tv_developer">Начинающий Android разработчик</string>
+    <string name="tv_profile_description">Георгий закончил МГТУ им. Н. Э. Баумана и имеет квалификацию инженер. Сейчас он развивается в области ИТ и хочет найти работу Android разработчиком</string>
+    <string name="et_message_hint">Введите сообщение…</string>
+    <string name="email_subject">Здравствуйте, Георгий</string>
+    <string name="toast_no_email_app">Приложение почта не найдено</string>
+    <string name="toast_no_browser">Приложение браузер не найдено</string>
+    <string name="toast_no_sms_app">Приложение SMS не найдено</string>
+    <string name="disclaimer">© 2018 Георгий Рябых</string>
+    <string name="profile_name">Георгий Рябых</string>
+    <string name="btn_send_email">Отправить email</string>
+</resources>

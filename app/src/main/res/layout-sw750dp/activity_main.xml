@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/photo_height_sw750dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_photo"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/start_padding"
+            android:paddingTop="@dimen/usual_padding"
+            android:paddingEnd="@dimen/usual_padding">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/usual_padding"
+                android:drawableStart="@drawable/ic_school_28dp"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:text="@string/tv_graduated" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/usual_padding"
+                android:drawableStart="@drawable/ic_android_28dp"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:text="@string/tv_developer" />
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/cardview_margin"
+                android:layout_marginEnd="@dimen/cardview_margin"
+                card_view:cardCornerRadius="@dimen/corner_radius"
+                card_view:cardElevation="@dimen/cardview_elevation"
+                card_view:contentPadding="@dimen/inner_cardview_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_profile_description" />
+
+            </android.support.v7.widget.CardView>
+
+            <EditText
+                android:id="@+id/et_message_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:layout_marginBottom="@dimen/usual_padding"
+                android:hint="@string/et_message_hint"
+                android:inputType="text"
+                tools:ignore="Autofill" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_send_email"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/usual_padding"
+                    android:text="@string/btn_send_email"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <Button
+                    android:id="@+id/btn_send_message"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_send_message"
+                    android:textColor="@color/colorPrimaryDark" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/image_btn_telegram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/usual_padding"
+                    android:src="@drawable/ic_telegram_28dp"
+                    tools:ignore="ContentDescription" />
+
+                <ImageButton
+                    android:id="@+id/image_btn_instagram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/usual_padding"
+                    android:src="@drawable/ic_instagram_28dp"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
