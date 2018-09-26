@@ -1,0 +1,34 @@
+package com.androidacademy.msk.exercise2;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+
+public class IntentUtils {
+
+    public static Intent getEmailIntent(@NonNull String email, @NonNull String subject,
+                                        @NonNull String message) {
+        return new Intent(Intent.ACTION_SENDTO)
+                .putExtra(Intent.EXTRA_EMAIL, new String[]{email})
+                .putExtra(Intent.EXTRA_SUBJECT, subject)
+                .putExtra(Intent.EXTRA_TEXT, message)
+                .setData(Uri.parse("mailto:"));
+    }
+
+    public static Intent getSpecificIntent(@NonNull String stringUrl, @NonNull String appPackage) {
+        Uri uri = Uri.parse(stringUrl);
+        return new Intent(Intent.ACTION_VIEW, uri).setPackage(appPackage);
+    }
+
+    public static Intent getBrowserIntent(@NonNull String stringUri) {
+        Uri uri = Uri.parse(stringUri);
+        return new Intent(Intent.ACTION_VIEW, uri);
+    }
+
+    public static Intent getSmsAppIntent(@NonNull String phoneNumber, @NonNull String message) {
+        Uri uri = Uri.parse("smsto:" + phoneNumber);
+        return new Intent(Intent.ACTION_SENDTO, uri).putExtra("sms_body", message);
+    }
+
+
+}
