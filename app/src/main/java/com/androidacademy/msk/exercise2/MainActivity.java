@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;

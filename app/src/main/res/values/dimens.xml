@@ -9,4 +9,5 @@
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="photo_height">200dp</dimen>
     <dimen name="photo_width">300dp</dimen>
+    <dimen name="separator_height">1dp</dimen>
 </resources>
