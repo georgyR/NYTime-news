@@ -15,9 +15,10 @@ public class IntentUtils {
                 .setData(Uri.parse("mailto:"));
     }
 
-    public static Intent getSpecificIntent(@NonNull String stringUrl, @NonNull String appPackage) {
-        Uri uri = Uri.parse(stringUrl);
-        return new Intent(Intent.ACTION_VIEW, uri).setPackage(appPackage);
+    public static Intent getSpecificIntent(@NonNull SocialNetworkApp app) {
+
+        Uri uri = Uri.parse(app.getAccountUrl());
+        return new Intent(Intent.ACTION_VIEW, uri).setPackage(app.getAppPackage());
     }
 
     public static Intent getBrowserIntent(@NonNull String stringUri) {

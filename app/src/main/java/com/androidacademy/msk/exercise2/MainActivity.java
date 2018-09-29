@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EMAIL = "georgy.ryabykh@gmail.com";
-    public static final String PHONE_NUMBER = "+79165766299";
+    private static final String EMAIL = "georgy.ryabykh@gmail.com";
+    private static final String PHONE_NUMBER = "+79165766299";
 
     private View rootView;
     private Button sendMessageBtn;
@@ -52,8 +52,17 @@ public class MainActivity extends AppCompatActivity {
             openEmailApp(EMAIL, emailSubject, message);
         });
 
-        telegramBtn.setOnClickListener(v -> openTelegramProfile());
-        instagramBtn.setOnClickListener(v -> openInstagramProfile());
+        telegramBtn.setOnClickListener(v -> {
+            if (!openSpecificApp(SocialNetworkApp.TELEGRAM) &&
+                    !openSpecificApp(SocialNetworkApp.TELEGRAM_X)) {
+                openUriInBrowser(SocialNetworkApp.TELEGRAM.getAccountUrl());
+            }
+        });
+        instagramBtn.setOnClickListener(v -> {
+            if (!openSpecificApp(SocialNetworkApp.INSTAGRAM)) {
+                openUriInBrowser(SocialNetworkApp.INSTAGRAM.getAccountUrl());
+            }
+        });
 
         addDisclaimerTv();
     }
@@ -67,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void openEmailApp(@NonNull String email, @NonNull String subject,
+    private void openEmailApp(@NonNull String email,
+                              @NonNull String subject,
                               @NonNull String message) {
         Intent intent = IntentUtils.getEmailIntent(email, subject, message);
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -77,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean openSpecificApp(@NonNull String stringUrl, @NonNull String appPackage) {
-        Intent intent = IntentUtils.getSpecificIntent(stringUrl, appPackage);
+    private boolean openSpecificApp(@NonNull SocialNetworkApp app) {
+        Intent intent = IntentUtils.getSpecificIntent(app);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
             return true;
@@ -93,25 +103,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             showSnackbar(getResources().getString(R.string.snackbar_no_browser));
-        }
-    }
-
-    private void openInstagramProfile() {
-        String instagramUrl = SocialNetworkApps.INSTAGRAM.getAccountUrl();
-        String instagramPackage = SocialNetworkApps.INSTAGRAM.getAppPackage();
-
-        if (!openSpecificApp(instagramUrl, instagramPackage)) {
-            openUriInBrowser(instagramUrl);
-        }
-    }
-    private void openTelegramProfile() {
-        String telegramUri = SocialNetworkApps.TELEGRAM.getAccountUrl();
-        String telegramPackage = SocialNetworkApps.TELEGRAM.getAppPackage();
-        String telegramXpackage = SocialNetworkApps.TELEGRAM_X.getAppPackage();
-
-        if (!openSpecificApp(telegramUri, telegramPackage) &&
-                !openSpecificApp(telegramUri, telegramXpackage)) {
-            openUriInBrowser(telegramUri);
         }
     }
 

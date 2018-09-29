@@ -1,6 +1,8 @@
 package com.androidacademy.msk.exercise2;
 
-public enum SocialNetworkApps {
+import android.support.annotation.NonNull;
+
+public enum SocialNetworkApp {
 
     INSTAGRAM("com.instagram.android", "https://www.instagram.com/georgy.ryabykh/"),
     TELEGRAM("org.telegram.messenger", "https://t.me/georgy_ryabykh/"),
@@ -9,15 +11,17 @@ public enum SocialNetworkApps {
     private final String appPackage;
     private final String accountUrl;
 
-    SocialNetworkApps(String appPackage, String accountUrl) {
+    SocialNetworkApp(@NonNull String appPackage, @NonNull String accountUrl) {
         this.appPackage = appPackage;
         this.accountUrl = accountUrl;
     }
 
+    @NonNull
     public String getAppPackage() {
         return appPackage;
     }
 
+    @NonNull
     public String getAccountUrl() {
         return accountUrl;
     }
