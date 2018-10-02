@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Exercise2</string>
+    <string name="app_name" translatable="false">Exercise Project</string>
     <string name="btn_send_message">Send message</string>
     <string name="tv_graduated">Graduated from Bauman Moscow State University</string>
     <string name="tv_developer">Beginning android developer</string>

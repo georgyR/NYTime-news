@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exercise2;
+package com.androidacademy.msk.exerciseproject;
 
 import android.support.annotation.NonNull;
 

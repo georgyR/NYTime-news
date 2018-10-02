@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exercise2;
+package com.androidacademy.msk.exerciseproject;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,11 +10,15 @@ public class IntentUtils {
     public static Intent getEmailIntent(@NonNull String email,
                                         @NonNull String subject,
                                         @NonNull String message) {
-        return new Intent(Intent.ACTION_SENDTO)
-                .putExtra(Intent.EXTRA_EMAIL, new String[]{email})
-                .putExtra(Intent.EXTRA_SUBJECT, subject)
-                .putExtra(Intent.EXTRA_TEXT, message)
-                .setData(Uri.parse("mailto:"));
+
+        String mailto = "mailto:" + email +
+                "?cc=" +
+                "&subject=" + Uri.encode(subject) +
+                "&body=" + Uri.encode(message);
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse(mailto));
+        return  emailIntent;
     }
 
     @NonNull

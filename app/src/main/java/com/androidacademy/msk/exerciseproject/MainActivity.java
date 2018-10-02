@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exercise2;
+package com.androidacademy.msk.exerciseproject;
 
 import android.content.Intent;
 import android.os.Bundle;
