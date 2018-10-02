@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="usual_padding">16dp</dimen>
+    <dimen name="drawable_padding">8dp</dimen>
+    <dimen name="start_padding">50dp</dimen>
+    <dimen name="inner_cardview_padding">4dp</dimen>
+    <dimen name="cardview_elevation">8dp</dimen>
+    <dimen name="cardview_margin">8dp</dimen>
+    <dimen name="corner_radius">4dp</dimen>
+    <dimen name="photo_height">200dp</dimen>
+    <dimen name="photo_width">300dp</dimen>
+    <dimen name="separator_height">1dp</dimen>
+</resources>
