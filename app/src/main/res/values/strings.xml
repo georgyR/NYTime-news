@@ -12,4 +12,5 @@
     <string name="disclaimer">© 2018 Georgy Ryabykh</string>
     <string name="profile_name">Georgy Ryabykh</string>
     <string name="btn_send_email">Send email</string>
+    <string name="menu_open_about_screen">About application</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.androidacademy.msk.exerciseproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -14,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
 
     private static final String EMAIL = "georgy.ryabykh@gmail.com";
     private static final String PHONE_NUMBER = "+79165766299";
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_about);
 
         rootView = findViewById(R.id.root_view);
         linearLayout = findViewById(R.id.linear_layout);
@@ -121,5 +122,10 @@ public class MainActivity extends AppCompatActivity {
     private void showSnackbar(@NonNull String message) {
         Snackbar snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
+    }
+
+    @NonNull
+    public static Intent getIntent(@NonNull Context context) {
+        return new Intent(context, AboutActivity.class);
     }
 }

@@ -12,4 +12,5 @@
     <string name="disclaimer">© 2018 Георгий Рябых</string>
     <string name="profile_name">Георгий Рябых</string>
     <string name="btn_send_email">Отправить email</string>
+    <string name="menu_open_about_screen">О приложение</string>
 </resources>
