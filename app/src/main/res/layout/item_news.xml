@@ -48,7 +48,7 @@
                 tools:text="Tourist filmed sitting on 5m-long crocodile" />
 
             <TextView
-                android:id="@+id/tv_preview_text"
+                android:id="@+id/tv_preview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/common_small_padding"

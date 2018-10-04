@@ -1,12 +1,25 @@
 package com.androidacademy.msk.exerciseproject.data;
 
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
+
+import com.androidacademy.msk.exerciseproject.MyApplication;
+
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
 
 public class DataUtils {
 
+    @NonNull
     public static List<NewsItem> generateNews() {
         final Category darwinAwards = new Category(1, "Darwin Awards");
         final Category criminal = new Category(2, "Criminal");
@@ -18,7 +31,7 @@ public class DataUtils {
                 "Tourist filmed sitting on 5m-long crocodile",
                 "https://e3.365dm.com/18/09/736x414/skynews-crocodile-australia_4433218.jpg",
                 darwinAwards,
-                createDate(2018, 9, 26, 10, 34),
+                createDate(2018, 10, 4, 10, 34),
                 "\"It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a "
                         + "second,\" he says.",
                 "A Danish tourist has admitted he took his life in his hands by sitting on a large crocodile in Australia.\n\n"
@@ -37,7 +50,7 @@ public class DataUtils {
                 "Police warn daredevil cliff jumpers who are 'risking their lives for likes'",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-cliff-jumping-greg-milam_4433647.jpg",
                 criminal,
-                createDate(2018, 9, 25, 12, 45),
+                createDate(2018, 10, 3, 18, 45),
                 "Police in Los Angeles say they are spending hundreds of thousands of dollars airlifting cliff jumpers out of "
                         + "dangerous spots.",
                 "Daredevils attempting dangerous cliff dives in a quest for likes has led to an increase in costly helicopter "
@@ -72,7 +85,7 @@ public class DataUtils {
                 "Nearly $18m of cocaine seized in donated boxes of bananas",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-texas-bananas-drugs_4430760.jpg",
                 criminal,
-                createDate(2018, 9, 18, 4, 4),
+                createDate(2017, 9, 18, 4, 4),
                 "Massive quantities of the drug were found in boxes of fruit that had been donated to the Texas Department of "
                         + "Criminal Justice.",
                 "A huge haul of cocaine was discovered hidden in boxes of bananas donated to the Texas Department of Criminal "
@@ -135,6 +148,55 @@ public class DataUtils {
         return news;
     }
 
+    @NonNull
+    public static String convertDateToString(@NonNull Date date) {
+        if (DateUtils.isToday(date.getTime())) {
+            Date currentDate = new Date();
+            long hourAgo = TimeUnit.MILLISECONDS.toHours(currentDate.getTime() - date.getTime());
+
+            return hourAgo + " hr. ago";
+        }
+
+        String publishTime = getStringTime(date);
+
+        if (isYesterday(date)) {
+            return "Yesterday, " + publishTime;
+        }
+
+        if (isCurrentYear(date)) {
+            Format formatter = new SimpleDateFormat("MMM d, ", Locale.US);
+            return  formatter.format(date) + publishTime;
+        }
+
+        return new SimpleDateFormat("yyyy MMM d, ", Locale.US).format(date) + publishTime;
+
+    }
+
+    @NonNull
+    private static String getStringTime(Date date) {
+        if (DateFormat.is24HourFormat(MyApplication.getContext())) {
+            Format formatter = new SimpleDateFormat("HH:mm", Locale.US);
+            return formatter.format(date);
+        } else {
+            Format formatter = new SimpleDateFormat("hh:mm a", Locale.US);
+            return formatter.format(date);
+        }
+    }
+
+
+    private static boolean isYesterday(@NonNull Date date) {
+        return DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS);
+    }
+
+    private static boolean isCurrentYear(@NonNull Date date) {
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        calendar.setTime(date);
+        int dateYear = calendar.get(Calendar.YEAR);
+        return (currentYear == dateYear);
+    }
+
+    @NonNull
     private static Date createDate(int year, int month, int date, int hrs, int min) {
         return new GregorianCalendar(year, month - 1, date, hrs, min).getTime();
     }
