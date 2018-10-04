@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/cardview_margin"
+    android:layout_marginBottom="@dimen/cardview_margin"
+    android:layout_marginStart="@dimen/cardview_side_margin"
+    android:layout_marginEnd="@dimen/cardview_side_margin"
+    card_view:cardCornerRadius="@dimen/cardview_margin"
+    card_view:cardElevation="@dimen/cardview_elevation"
+    card_view:contentPadding="@dimen/common_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/common_small_padding"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_small_padding"
+                android:fontFamily="sans-serif-condensed"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                tools:text="Darwin Awards"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_small_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_big"
+                android:textStyle="bold"
+                android:maxLines="2"
+                tools:text="Tourist filmed sitting on 5m-long crocodile" />
+
+            <TextView
+                android:id="@+id/tv_preview_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_small_padding"
+                android:textColor="@color/black"
+                android:maxLines="4"
+                tools:text="It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a second, he sas." />
+
+            <TextView
+                android:id="@+id/tv_publish_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize_small"
+                android:maxLines="1"
+                tools:text="4 hr. ago, 10:34 AM" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/news_image"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:scaleType="centerCrop"
+
+            tools:src="@tools:sample/avatars" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

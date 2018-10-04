@@ -2,6 +2,9 @@ package com.androidacademy.msk.exerciseproject;
 
 import android.content.Intent;
 import android.net.Uri;
+
+import com.androidacademy.msk.exerciseproject.data.SocialNetworkApp;
+
 import androidx.annotation.NonNull;
 
 public class IntentUtils {
