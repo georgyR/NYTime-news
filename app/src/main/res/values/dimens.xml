@@ -2,7 +2,7 @@
 <resources>
     <dimen name="common_padding">16dp</dimen>
     <dimen name="common_margin">16dp</dimen>
-    <dimen name="common_small_padding">8dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
     <dimen name="drawable_padding">8dp</dimen>
     <dimen name="start_padding">50dp</dimen>
     <dimen name="inner_cardview_padding">4dp</dimen>

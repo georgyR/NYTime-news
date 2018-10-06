@@ -19,6 +19,10 @@ import androidx.annotation.NonNull;
 
 public class DataUtils {
 
+    public static final String DARWIN_AWARDS = "Darwin Awards";
+    public static final String CRIMINAL = "Criminal";
+    public static final String ANIMALS = "Animals";
+    public static final String MUSIC = "Music";
     public static List<NewsItem> news = generateNews();
 
     @NonNull
@@ -52,17 +56,17 @@ public class DataUtils {
 
     @NonNull
     private static List<NewsItem> generateNews() {
-        final Category darwinAwards = new Category(1, "Darwin Awards");
-        final Category criminal = new Category(2, "Criminal");
-        final Category animals = new Category(3, "Animals");
-        final Category music = new Category(4, "Music");
+        final Category darwinAwards = new Category(1, DARWIN_AWARDS);
+        final Category criminal = new Category(2, CRIMINAL);
+        final Category animals = new Category(3, ANIMALS);
+        final Category music = new Category(4, MUSIC);
 
         List<NewsItem> news = new ArrayList<>();
         news.add(new NewsItem(
                 "Tourist filmed sitting on 5m-long crocodile",
                 "https://e3.365dm.com/18/09/736x414/skynews-crocodile-australia_4433218.jpg",
                 darwinAwards,
-                createDate(2018, 10, 4, 10, 34),
+                createDate(2018, 10, 6, 10, 34),
                 "\"It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a "
                         + "second,\" he says.",
                 "A Danish tourist has admitted he took his life in his hands by sitting on a large crocodile in Australia.\n\n"
@@ -81,7 +85,7 @@ public class DataUtils {
                 "Police warn daredevil cliff jumpers who are 'risking their lives for likes'",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-cliff-jumping-greg-milam_4433647.jpg",
                 criminal,
-                createDate(2018, 10, 3, 18, 45),
+                createDate(2018, 10, 5, 18, 45),
                 "Police in Los Angeles say they are spending hundreds of thousands of dollars airlifting cliff jumpers out of "
                         + "dangerous spots.",
                 "Daredevils attempting dangerous cliff dives in a quest for likes has led to an increase in costly helicopter "
@@ -99,7 +103,7 @@ public class DataUtils {
                 "Bear saved after getting his head stuck in milk can",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-bear-minnesota_4419111.jpg",
                 animals,
-                createDate(2018, 9, 20, 14, 4),
+                createDate(2017, 9, 20, 14, 4),
                 "Firefighters used the Jaws of Life to free the young black bear, a tool which is normally used to extricate car"
                         + " accident victims.",
                 "A bear has been freed after getting his head stuck in a milk can.\n\n"
@@ -116,7 +120,7 @@ public class DataUtils {
                 "Nearly $18m of cocaine seized in donated boxes of bananas",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-texas-bananas-drugs_4430760.jpg",
                 criminal,
-                createDate(2017, 9, 18, 4, 4),
+                createDate(2018, 9, 18, 4, 4),
                 "Massive quantities of the drug were found in boxes of fruit that had been donated to the Texas Department of "
                         + "Criminal Justice.",
                 "A huge haul of cocaine was discovered hidden in boxes of bananas donated to the Texas Department of Criminal "

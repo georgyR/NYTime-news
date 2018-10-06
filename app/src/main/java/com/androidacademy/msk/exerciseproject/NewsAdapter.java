@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
+    private static final int COMMON_NEWS = 0;
+    private static final int CRIMINAL_NEWS = 1;
     private List<NewsItem> newsItems;
     private OnItemClickListener clickListener;
 
@@ -28,9 +30,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public NewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new NewsAdapter.ViewHolder(inflater.inflate(R.layout.item_news, parent, false), clickListener);
+        if (viewType == CRIMINAL_NEWS) {
+            return new ViewHolder(
+                    inflater.inflate(R.layout.item_criminal_news, parent, false),
+                    clickListener);
+        } else {
+            return new ViewHolder(
+                    inflater.inflate(R.layout.item_common_news, parent, false),
+                    clickListener);
+        }
     }
 
     @Override
@@ -43,6 +53,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return newsItems.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+
+        String category = newsItems.get(position).getCategory().getName();
+        if (category.equals(DataUtils.CRIMINAL)) {
+            return CRIMINAL_NEWS;
+        } else {
+            return COMMON_NEWS;
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView categoryTextView;
@@ -51,7 +72,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private TextView publishDateTextView;
         private ImageView imageView;
 
-        public ViewHolder(@NonNull View itemView, @NonNull OnItemClickListener listener) {
+        ViewHolder(@NonNull View itemView, @NonNull OnItemClickListener listener) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.tv_category);
             titleTextView = itemView.findViewById(R.id.tv_title);
