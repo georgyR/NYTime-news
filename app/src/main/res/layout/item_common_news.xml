@@ -46,7 +46,6 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsize_big"
                 android:textStyle="bold"
-
                 tools:text="Tourist filmed sitting on 5m-long crocodile" />
 
             <TextView
@@ -74,7 +73,7 @@
             android:layout_width="@dimen/imagesize_common"
             android:layout_height="@dimen/imagesize_common"
             android:scaleType="centerCrop"
-
+            tools:ignore="ContentDescription"
             tools:src="@tools:sample/avatars" />
 
     </LinearLayout>

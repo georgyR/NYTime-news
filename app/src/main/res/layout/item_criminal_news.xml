@@ -35,6 +35,7 @@
             android:layout_height="@dimen/imagesize_big"
             android:layout_marginBottom="@dimen/small_margin"
             android:scaleType="centerCrop"
+            tools:ignore="ContentDescription"
             tools:src="@tools:sample/avatars" />
 
 
