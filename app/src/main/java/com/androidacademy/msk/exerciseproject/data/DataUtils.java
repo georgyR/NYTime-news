@@ -19,8 +19,39 @@ import androidx.annotation.NonNull;
 
 public class DataUtils {
 
+    public static List<NewsItem> news = generateNews();
+
     @NonNull
-    public static List<NewsItem> generateNews() {
+    public static List<NewsItem> getNews() {
+        return news;
+    }
+
+    @NonNull
+    public static String convertDateToString(@NonNull Date date) {
+        if (DateUtils.isToday(date.getTime())) {
+            Date currentDate = new Date();
+            long hourAgo = TimeUnit.MILLISECONDS.toHours(currentDate.getTime() - date.getTime());
+
+            return hourAgo + " hr. ago";
+        }
+
+        String publishTime = getStringTime(date);
+
+        if (isYesterday(date)) {
+            return "Yesterday, " + publishTime;
+        }
+
+        if (isCurrentYear(date)) {
+            Format formatter = new SimpleDateFormat("MMM d, ", Locale.US);
+            return  formatter.format(date) + publishTime;
+        }
+
+        return new SimpleDateFormat("yyyy MMM d, ", Locale.US).format(date) + publishTime;
+
+    }
+
+    @NonNull
+    private static List<NewsItem> generateNews() {
         final Category darwinAwards = new Category(1, "Darwin Awards");
         final Category criminal = new Category(2, "Criminal");
         final Category animals = new Category(3, "Animals");
@@ -149,30 +180,6 @@ public class DataUtils {
     }
 
     @NonNull
-    public static String convertDateToString(@NonNull Date date) {
-        if (DateUtils.isToday(date.getTime())) {
-            Date currentDate = new Date();
-            long hourAgo = TimeUnit.MILLISECONDS.toHours(currentDate.getTime() - date.getTime());
-
-            return hourAgo + " hr. ago";
-        }
-
-        String publishTime = getStringTime(date);
-
-        if (isYesterday(date)) {
-            return "Yesterday, " + publishTime;
-        }
-
-        if (isCurrentYear(date)) {
-            Format formatter = new SimpleDateFormat("MMM d, ", Locale.US);
-            return  formatter.format(date) + publishTime;
-        }
-
-        return new SimpleDateFormat("yyyy MMM d, ", Locale.US).format(date) + publishTime;
-
-    }
-
-    @NonNull
     private static String getStringTime(Date date) {
         if (DateFormat.is24HourFormat(MyApplication.getContext())) {
             Format formatter = new SimpleDateFormat("HH:mm", Locale.US);
@@ -182,7 +189,6 @@ public class DataUtils {
             return formatter.format(date);
         }
     }
-
 
     private static boolean isYesterday(@NonNull Date date) {
         return DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS);

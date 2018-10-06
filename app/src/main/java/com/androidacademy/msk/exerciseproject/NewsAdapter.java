@@ -19,16 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<NewsItem> newsItems;
+    private OnItemClickListener clickListener;
 
-    public NewsAdapter(@Nullable List<NewsItem> newsItems) {
+    public NewsAdapter(@Nullable List<NewsItem> newsItems, OnItemClickListener clickListener) {
         this.newsItems = newsItems;
+        this.clickListener = clickListener;
     }
 
     @NonNull
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new NewsAdapter.ViewHolder(inflater.inflate(R.layout.item_news, parent, false));
+        return new NewsAdapter.ViewHolder(inflater.inflate(R.layout.item_news, parent, false), clickListener);
     }
 
     @Override
@@ -49,13 +51,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private TextView publishDateTextView;
         private ImageView imageView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, @NonNull OnItemClickListener listener) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.tv_category);
             titleTextView = itemView.findViewById(R.id.tv_title);
             previewTextView = itemView.findViewById(R.id.tv_preview);
             publishDateTextView = itemView.findViewById(R.id.tv_publish_date);
             imageView = itemView.findViewById(R.id.news_image);
+
+            itemView.setOnClickListener(v -> {
+                int position = ViewHolder.this.getAdapterPosition();
+                listener.onItemClick(position);
+            });
         }
 
         private void bind(NewsItem newsItem) {
@@ -66,5 +73,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             publishDateTextView.setText(publishDate);
             Picasso.get().load(newsItem.getImageUrl()).into(imageView);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

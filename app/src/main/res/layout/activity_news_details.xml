@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".NewsDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/news_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/common_padding"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            tools:src="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_padding"
+            android:layout_marginEnd="@dimen/common_padding"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_small_padding"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_huge"
+                android:textStyle="bold"
+                tools:text="Tourist filmed sitting on 5m-long crocodile" />
+
+            <TextView
+                android:id="@+id/tv_publish_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_margin"
+                android:textSize="@dimen/textsize_small"
+                tools:text="4 hr. ago, 10:34 AM" />
+
+            <TextView
+                android:id="@+id/tv_full_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_small_padding"
+                android:textColor="@color/black"
+                tools:text="It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a second, he sas." />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,9 +1,9 @@
 package com.androidacademy.msk.exerciseproject;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 
 import com.androidacademy.msk.exerciseproject.data.DataUtils;
 
@@ -16,6 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsListActivity extends AppCompatActivity {
 
+    private static final int BIG_WIDTH_IN_DP = 600;
+    private static final int SPAN_COUNT = 2;
+
+    private NewsAdapter.OnItemClickListener clickListener = position -> {
+        startActivity(NewsDetailsActivity.createIntent(position, this));
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,15 +30,16 @@ public class NewsListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new NewsAdapter(DataUtils.generateNews()));
+        recyclerView.setAdapter(new NewsAdapter(DataUtils.getNews(), clickListener));
+        
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
 
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Surface.ROTATION_90 || orientation == Surface.ROTATION_270) {
+        if (screenWidthInDp < BIG_WIDTH_IN_DP) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            recyclerView.setLayoutManager(new GridLayoutManager(this, SPAN_COUNT));
         }
-
     }
 
     @Override
@@ -50,4 +58,5 @@ public class NewsListActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

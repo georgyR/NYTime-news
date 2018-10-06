@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginBottom="@dimen/common_margin"
         android:drawableStart="@drawable/ic_school_28dp"
         android:drawablePadding="@dimen/drawable_padding"
         android:text="@string/tv_graduated" />
@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginBottom="@dimen/common_margin"
         android:drawableStart="@drawable/ic_android_28dp"
         android:drawablePadding="@dimen/drawable_padding"
         android:text="@string/tv_developer" />
@@ -31,19 +31,19 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_height"
-        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginBottom="@dimen/common_margin"
         android:background="@color/colorPrimaryDark" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginBottom="@dimen/common_margin"
         android:text="@string/tv_profile_description" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_height"
-        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginBottom="@dimen/common_margin"
         android:background="@color/colorPrimaryDark" />
 
 
@@ -51,7 +51,7 @@
         android:id="@+id/et_message_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginBottom="@dimen/common_margin"
         android:hint="@string/et_message_hint"
         android:inputType="text"
         tools:ignore="Autofill" />
@@ -67,7 +67,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/common_padding"
+            android:layout_marginEnd="@dimen/common_margin"
             android:layout_weight="1"
             android:text="@string/btn_send_email"
             android:textColor="@color/colorPrimaryDark" />
