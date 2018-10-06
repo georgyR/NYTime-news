@@ -32,9 +32,9 @@
         <ImageView
             android:id="@+id/news_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"
+            android:layout_height="@dimen/imagesize_big"
             android:layout_marginBottom="@dimen/small_margin"
+            android:scaleType="centerCrop"
             tools:src="@tools:sample/avatars" />
 
 
@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/small_margin"
+            android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/black"
             android:textSize="@dimen/textsize_big"
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/small_margin"
+            android:ellipsize="end"
             android:maxLines="4"
             android:textColor="@color/black"
             tools:text="It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a second, he sas." />

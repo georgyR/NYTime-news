@@ -39,7 +39,7 @@ public class DataUtils {
             return hourAgo + " hr. ago";
         }
 
-        String publishTime = getStringTime(date);
+        String publishTime = getFormattedTime(date);
 
         if (isYesterday(date)) {
             return "Yesterday, " + publishTime;
@@ -184,7 +184,7 @@ public class DataUtils {
     }
 
     @NonNull
-    private static String getStringTime(Date date) {
+    private static String getFormattedTime(Date date) {
         if (DateFormat.is24HourFormat(MyApplication.getContext())) {
             Format formatter = new SimpleDateFormat("HH:mm", Locale.US);
             return formatter.format(date);
@@ -201,8 +201,10 @@ public class DataUtils {
     private static boolean isCurrentYear(@NonNull Date date) {
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
+
         calendar.setTime(date);
         int dateYear = calendar.get(Calendar.YEAR);
+
         return (currentYear == dateYear);
     }
 

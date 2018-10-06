@@ -132,7 +132,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     @NonNull
-    public static Intent getIntent(@NonNull Context context) {
+    public static Intent getStartIntent(@NonNull Context context) {
         return new Intent(context, AboutActivity.class);
     }
 }

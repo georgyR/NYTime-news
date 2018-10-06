@@ -60,7 +60,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         return true;
     }
 
-    public static Intent createIntent(int position, Context context) {
+    public static Intent getStartIntent(int position, Context context) {
         Intent intent = new Intent(context, NewsDetailsActivity.class);
         intent.putExtra(EXTRA_POSITION, position);
         return intent;

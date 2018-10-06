@@ -14,15 +14,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public class NewsListActivity extends AppCompatActivity {
 
     private static final int BIG_WIDTH_IN_DP = 600;
     private static final int SPAN_COUNT = 2;
 
-    private NewsAdapter.OnItemClickListener clickListener = position -> {
-        startActivity(NewsDetailsActivity.createIntent(position, this));
-    };
+    private NewsAdapter.OnItemClickListener clickListener = position ->
+            startActivity(NewsDetailsActivity.getStartIntent(position, this));
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +42,9 @@ public class NewsListActivity extends AppCompatActivity {
         if (screenWidthInDp < BIG_WIDTH_IN_DP) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, SPAN_COUNT));
+            recyclerView.setLayoutManager(
+                    new StaggeredGridLayoutManager(SPAN_COUNT,
+                    StaggeredGridLayoutManager.VERTICAL));
         }
     }
 
@@ -56,7 +58,7 @@ public class NewsListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuitem_open_about:
-                startActivity(AboutActivity.getIntent(this));
+                startActivity(AboutActivity.getStartIntent(this));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/cardview_margin"
-    android:layout_marginBottom="@dimen/cardview_margin"
     android:layout_marginStart="@dimen/cardview_side_margin"
+    android:layout_marginTop="@dimen/cardview_margin"
     android:layout_marginEnd="@dimen/cardview_side_margin"
+    android:layout_marginBottom="@dimen/cardview_margin"
     card_view:cardCornerRadius="@dimen/cardview_margin"
     card_view:cardElevation="@dimen/cardview_elevation"
     card_view:contentPadding="@dimen/common_padding">
@@ -31,20 +31,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_margin"
                 android:fontFamily="sans-serif-condensed"
+                android:maxLines="1"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                tools:text="Darwin Awards"
-                android:maxLines="1"/>
+                tools:text="Darwin Awards" />
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_margin"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsize_big"
                 android:textStyle="bold"
-                android:maxLines="2"
+
                 tools:text="Tourist filmed sitting on 5m-long crocodile" />
 
             <TextView
@@ -52,28 +54,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_margin"
-                android:textColor="@color/black"
+                android:ellipsize="end"
                 android:maxLines="4"
+                android:textColor="@color/black"
                 tools:text="It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a second, he sas." />
 
             <TextView
                 android:id="@+id/tv_publish_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/textsize_small"
                 android:maxLines="1"
+                android:textSize="@dimen/textsize_small"
                 tools:text="4 hr. ago, 10:34 AM" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/news_image"
-            android:layout_width="@dimen/image_size"
-            android:layout_height="@dimen/image_size"
+            android:layout_width="@dimen/imagesize_common"
+            android:layout_height="@dimen/imagesize_common"
             android:scaleType="centerCrop"
 
             tools:src="@tools:sample/avatars" />
-
 
     </LinearLayout>
 

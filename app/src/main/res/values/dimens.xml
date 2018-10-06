@@ -13,7 +13,8 @@
     <dimen name="photo_height">200dp</dimen>
     <dimen name="photo_width">300dp</dimen>
     <dimen name="separator_height">1dp</dimen>
-    <dimen name="image_size">100dp</dimen>
+    <dimen name="imagesize_common">100dp</dimen>
+    <dimen name="imagesize_big">150dp</dimen>
     <dimen name="textsize_small">12sp</dimen>
     <dimen name="textsize_big">16sp</dimen>
     <dimen name="textsize_huge">20sp</dimen>
