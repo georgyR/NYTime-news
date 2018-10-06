@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -36,7 +37,10 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        rootView = findViewById(R.id.root_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        rootView = findViewById(android.R.id.content);
         linearLayout = findViewById(R.id.linear_layout);
 
         sendMessageBtn = findViewById(R.id.btn_send_message);

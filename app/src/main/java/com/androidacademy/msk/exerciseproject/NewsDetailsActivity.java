@@ -1,9 +1,11 @@
 package com.androidacademy.msk.exerciseproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -26,21 +28,36 @@ public class NewsDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.getNavigationIcon().setColorFilter(
+                getResources().getColor(R.color.white),
+                PorterDuff.Mode.SRC_ATOP);
+
         int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
         NewsItem newsItem = DataUtils.getNews().get(position);
 
         setTitle(newsItem.getCategory().getName());
 
         imageView = findViewById(R.id.news_image);
-        titleTextView = findViewById(R.id.tv_title);
-        publishDateTextView = findViewById(R.id.tv_publish_date);
-        fullTextView = findViewById(R.id.tv_full_text);
-
         Picasso.get().load(newsItem.getImageUrl()).into(imageView);
+
+        titleTextView = findViewById(R.id.tv_title);
         titleTextView.setText(newsItem.getTitle());
-        fullTextView.setText(newsItem.getFullText());
+
+        publishDateTextView = findViewById(R.id.tv_publish_date);
         String publishDate = DataUtils.convertDateToString(newsItem.getPublishDate());
         publishDateTextView.setText(publishDate);
+
+        fullTextView = findViewById(R.id.tv_full_text);
+        fullTextView.setText(newsItem.getFullText());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public static Intent createIntent(int position, Context context) {
