@@ -19,16 +19,14 @@ import androidx.annotation.NonNull;
 
 public class DataUtils {
 
+    private DataUtils() {
+    }
+
     public static final String DARWIN_AWARDS = "Darwin Awards";
     public static final String CRIMINAL = "Criminal";
     public static final String ANIMALS = "Animals";
     public static final String MUSIC = "Music";
-    public static List<NewsItem> news = generateNews();
-
-    @NonNull
-    public static List<NewsItem> getNews() {
-        return news;
-    }
+    public static final List<NewsItem> NEWS = generateNews();
 
     @NonNull
     public static String convertDateToString(@NonNull Date date) {
@@ -184,7 +182,7 @@ public class DataUtils {
     }
 
     @NonNull
-    private static String getFormattedTime(Date date) {
+    private static String getFormattedTime(@NonNull Date date) {
         if (DateFormat.is24HourFormat(MyApplication.getContext())) {
             Format formatter = new SimpleDateFormat("HH:mm", Locale.US);
             return formatter.format(date);

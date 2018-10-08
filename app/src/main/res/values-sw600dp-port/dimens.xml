@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="photo_height">380dp</dimen>
+    <dimen name="height_photo">380dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package com.androidacademy.msk.exerciseproject;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -11,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -20,9 +22,6 @@ public class NewsListActivity extends AppCompatActivity {
 
     private static final int BIG_WIDTH_IN_DP = 600;
     private static final int SPAN_COUNT = 2;
-
-    private NewsAdapter.OnItemClickListener clickListener = position ->
-            startActivity(NewsDetailsActivity.getStartIntent(position, this));
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,18 +33,14 @@ public class NewsListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new NewsAdapter(DataUtils.getNews(), clickListener));
-        
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
 
-        if (screenWidthInDp < BIG_WIDTH_IN_DP) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        } else {
-            recyclerView.setLayoutManager(
-                    new StaggeredGridLayoutManager(SPAN_COUNT,
-                    StaggeredGridLayoutManager.VERTICAL));
-        }
+        NewsAdapter.OnItemClickListener clickListener = position ->
+                startActivity(NewsDetailsActivity.getStartIntent(position, this));
+
+        recyclerView.setAdapter(new NewsAdapter(DataUtils.NEWS, clickListener));
+
+        setLayoutManager(recyclerView);
+        setItemDecoration(recyclerView);
     }
 
     @Override
@@ -63,6 +58,28 @@ public class NewsListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setLayoutManager(@NonNull RecyclerView recyclerView) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
+
+        if (screenWidthInDp < BIG_WIDTH_IN_DP) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            recyclerView.setLayoutManager(
+                    new StaggeredGridLayoutManager(SPAN_COUNT,
+                            StaggeredGridLayoutManager.VERTICAL));
+        }
+    }
+
+    private void setItemDecoration(@NonNull RecyclerView recyclerView) {
+        DividerItemDecoration decoration
+                = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+
+        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
+        decoration.setDrawable(dividerDrawable);
+        recyclerView.addItemDecoration(decoration);
     }
 
 }

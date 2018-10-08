@@ -22,7 +22,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/photo_height"
+                android:layout_height="@dimen/height_photo"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/profile_photo"

@@ -23,7 +23,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<NewsItem> newsItems;
     private OnItemClickListener clickListener;
 
-    public NewsAdapter(@Nullable List<NewsItem> newsItems, OnItemClickListener clickListener) {
+    public NewsAdapter(@Nullable List<NewsItem> newsItems,
+                       @NonNull OnItemClickListener clickListener) {
         this.newsItems = newsItems;
         this.clickListener = clickListener;
     }
@@ -86,7 +87,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             });
         }
 
-        private void bind(NewsItem newsItem) {
+        private void bind(@NonNull NewsItem newsItem) {
             categoryTextView.setText(newsItem.getCategory().getName());
             titleTextView.setText(newsItem.getTitle());
             previewTextView.setText(newsItem.getPreviewText());

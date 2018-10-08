@@ -1,5 +1,7 @@
 package com.androidacademy.msk.exerciseproject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -24,19 +26,16 @@ public class NewsDetailsActivity extends AppCompatActivity {
     private TextView fullTextView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.getNavigationIcon().setColorFilter(
-                getResources().getColor(R.color.white),
-                PorterDuff.Mode.SRC_ATOP);
+        setupBackToolbarButton(toolbar);
 
         int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
-        NewsItem newsItem = DataUtils.getNews().get(position);
+        NewsItem newsItem = DataUtils.NEWS.get(position);
 
         setTitle(newsItem.getCategory().getName());
 
@@ -60,7 +59,14 @@ public class NewsDetailsActivity extends AppCompatActivity {
         return true;
     }
 
-    public static Intent getStartIntent(int position, Context context) {
+    private void setupBackToolbarButton(@NonNull Toolbar toolbar) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.getNavigationIcon().setColorFilter(
+                getResources().getColor(R.color.white),
+                PorterDuff.Mode.SRC_ATOP);
+    }
+
+    public static Intent getStartIntent(int position, @NonNull Context context) {
         Intent intent = new Intent(context, NewsDetailsActivity.class);
         intent.putExtra(EXTRA_POSITION, position);
         return intent;

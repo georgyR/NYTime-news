@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/common_padding"
+                android:layout_marginBottom="@dimen/padding_common"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars"
                 tools:ignore="ContentDescription" />
@@ -46,15 +46,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_padding"
-                android:layout_marginEnd="@dimen/common_padding"
+                android:layout_marginStart="@dimen/padding_common"
+                android:layout_marginEnd="@dimen/padding_common"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsize_huge"
                     android:textStyle="bold"
@@ -64,7 +64,7 @@
                     android:id="@+id/tv_publish_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/common_margin"
+                    android:layout_marginBottom="@dimen/margin_common"
                     android:textSize="@dimen/textsize_small"
                     tools:text="4 hr. ago, 10:34 AM" />
 
@@ -72,7 +72,7 @@
                     android:id="@+id/tv_full_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:textColor="@color/black"
                     tools:text="It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a second, he sas." />
 

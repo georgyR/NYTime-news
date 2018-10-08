@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="common_padding">16dp</dimen>
-    <dimen name="common_margin">16dp</dimen>
-    <dimen name="small_margin">8dp</dimen>
-    <dimen name="drawable_padding">8dp</dimen>
-    <dimen name="start_padding">50dp</dimen>
-    <dimen name="inner_cardview_padding">4dp</dimen>
-    <dimen name="cardview_elevation">4dp</dimen>
-    <dimen name="cardview_side_margin">8dp</dimen>
-    <dimen name="cardview_margin">4dp</dimen>
+    <dimen name="padding_common">16dp</dimen>
+    <dimen name="padding_drawable">8dp</dimen>
+    <dimen name="padding_start">50dp</dimen>
+    <dimen name="padding_inner_cardview">4dp</dimen>
+    <dimen name="margin_common">16dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_cardview_side">8dp</dimen>
+    <dimen name="margin_cardview">4dp</dimen>
+    <dimen name="elevation_cardview">4dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
-    <dimen name="photo_height">200dp</dimen>
-    <dimen name="photo_width">300dp</dimen>
-    <dimen name="separator_height">1dp</dimen>
+    <dimen name="height_photo">200dp</dimen>
+    <dimen name="height_separator">1dp</dimen>
+    <dimen name="height_divider">4dp</dimen>
+    <dimen name="width_photo">300dp</dimen>
     <dimen name="imagesize_common">100dp</dimen>
     <dimen name="imagesize_big">150dp</dimen>
     <dimen name="textsize_small">12sp</dimen>
