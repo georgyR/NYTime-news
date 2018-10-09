@@ -59,12 +59,18 @@ public class DataUtils {
         final Category animals = new Category(3, ANIMALS);
         final Category music = new Category(4, MUSIC);
 
+        Calendar calendar = Calendar.getInstance();
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int currentHour = calendar.get(Calendar.HOUR);
+        int currentMonth = calendar.get(Calendar.MONTH) + 1;
+        int currentYear = calendar.get(Calendar.YEAR);
+
         List<NewsItem> news = new ArrayList<>();
         news.add(new NewsItem(
                 "Tourist filmed sitting on 5m-long crocodile",
                 "https://e3.365dm.com/18/09/736x414/skynews-crocodile-australia_4433218.jpg",
                 darwinAwards,
-                createDate(2018, 10, 6, 10, 34),
+                createDate(currentYear, currentMonth, currentDay, currentHour, 0),
                 "\"It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a "
                         + "second,\" he says.",
                 "A Danish tourist has admitted he took his life in his hands by sitting on a large crocodile in Australia.\n\n"
@@ -79,11 +85,17 @@ public class DataUtils {
                         + " time, sat down again, turned towards the camera, smiled and put this thumb in the air.\n\n"
                         + "Mr Jensen admitted he took life in his hands by sitting on a live crocodile for the first time."
         ));
+
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        int yesterday = calendar.get(Calendar.DAY_OF_MONTH);
+        int yesterdayMonth = calendar.get(Calendar.MONTH) + 1;
+        int yesterdayYear = calendar.get(Calendar.YEAR);
+
         news.add(new NewsItem(
                 "Police warn daredevil cliff jumpers who are 'risking their lives for likes'",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-cliff-jumping-greg-milam_4433647.jpg",
                 criminal,
-                createDate(2018, 10, 5, 18, 45),
+                createDate(yesterdayYear, yesterdayMonth, yesterday, 18, 45),
                 "Police in Los Angeles say they are spending hundreds of thousands of dollars airlifting cliff jumpers out of "
                         + "dangerous spots.",
                 "Daredevils attempting dangerous cliff dives in a quest for likes has led to an increase in costly helicopter "
@@ -97,11 +109,15 @@ public class DataUtils {
                         + "dozens of risky selfie videos. Two men were recently rescued after being injured while being filmed at "
                         + "Hermit Falls."
         ));
+
+        calendar.add(Calendar.YEAR, -1);
+        int previousYear = calendar.get(Calendar.YEAR);
+
         news.add(new NewsItem(
                 "Bear saved after getting his head stuck in milk can",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-bear-minnesota_4419111.jpg",
                 animals,
-                createDate(2017, 9, 20, 14, 4),
+                createDate(previousYear, 9, 20, 14, 4),
                 "Firefighters used the Jaws of Life to free the young black bear, a tool which is normally used to extricate car"
                         + " accident victims.",
                 "A bear has been freed after getting his head stuck in a milk can.\n\n"

@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +29,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_news_details__toolbar);
         setSupportActionBar(toolbar);
         setupBackToolbarButton(toolbar);
 
@@ -39,17 +38,17 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
         setTitle(newsItem.getCategory().getName());
 
-        imageView = findViewById(R.id.news_image);
+        imageView = findViewById(R.id.activity_news_details__imageview_news);
         Picasso.get().load(newsItem.getImageUrl()).into(imageView);
 
-        titleTextView = findViewById(R.id.tv_title);
+        titleTextView = findViewById(R.id.activity_news_details__textview_title);
         titleTextView.setText(newsItem.getTitle());
 
-        publishDateTextView = findViewById(R.id.tv_publish_date);
+        publishDateTextView = findViewById(R.id.activity_news_details__textview_publish_date);
         String publishDate = DataUtils.convertDateToString(newsItem.getPublishDate());
         publishDateTextView.setText(publishDate);
 
-        fullTextView = findViewById(R.id.tv_full_text);
+        fullTextView = findViewById(R.id.activity_news_details__textview_full_text);
         fullTextView.setText(newsItem.getFullText());
     }
 

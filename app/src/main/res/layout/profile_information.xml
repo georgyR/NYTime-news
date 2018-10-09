@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linear_layout"
+    android:id="@+id/profile_information__linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
@@ -10,7 +10,6 @@
     android:paddingStart="@dimen/padding_start"
     android:paddingTop="@dimen/padding_common"
     android:paddingEnd="@dimen/padding_common">
-
 
     <TextView
         android:layout_width="match_parent"
@@ -48,7 +47,7 @@
 
 
     <EditText
-        android:id="@+id/et_message_text"
+        android:id="@+id/profile_information__edittext_message_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_common"
@@ -63,7 +62,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_send_email"
+            android:id="@+id/profile_information__button_send_email"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -73,7 +72,7 @@
             android:textColor="@color/colorPrimaryDark" />
 
         <Button
-            android:id="@+id/btn_send_message"
+            android:id="@+id/profile_information__button_send_message"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -91,7 +90,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/image_btn_telegram"
+            android:id="@+id/profile_information__imagebutton_telegram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -100,7 +99,7 @@
             tools:ignore="ContentDescription" />
 
         <ImageButton
-            android:id="@+id/image_btn_instagram"
+            android:id="@+id/profile_information__imagebutton_instagram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"

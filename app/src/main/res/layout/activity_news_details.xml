@@ -7,18 +7,17 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/activity_news_details__toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@android:color/white"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextColor="@android:color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,14 +33,14 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/news_image"
+                android:id="@+id/activity_news_details__imageview_news"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/padding_common"
                 android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -51,7 +50,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_title"
+                    android:id="@+id/activity_news_details__textview_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_small"
@@ -61,7 +60,7 @@
                     tools:text="Tourist filmed sitting on 5m-long crocodile" />
 
                 <TextView
-                    android:id="@+id/tv_publish_date"
+                    android:id="@+id/activity_news_details__textview_publish_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_common"
@@ -69,7 +68,7 @@
                     tools:text="4 hr. ago, 10:34 AM" />
 
                 <TextView
-                    android:id="@+id/tv_full_text"
+                    android:id="@+id/activity_news_details__textview_full_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_small"

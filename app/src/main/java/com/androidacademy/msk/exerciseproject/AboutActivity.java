@@ -37,17 +37,17 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.all_toolbar);
         setSupportActionBar(toolbar);
 
         rootView = findViewById(android.R.id.content);
-        linearLayout = findViewById(R.id.linear_layout);
+        linearLayout = findViewById(R.id.profile_information__linear_layout);
 
-        sendMessageBtn = findViewById(R.id.btn_send_message);
-        sendEmailBtn = findViewById(R.id.btn_send_email);
-        telegramBtn = findViewById(R.id.image_btn_telegram);
-        instagramBtn = findViewById(R.id.image_btn_instagram);
-        messageEt = findViewById(R.id.et_message_text);
+        sendMessageBtn = findViewById(R.id.profile_information__button_send_message);
+        sendEmailBtn = findViewById(R.id.profile_information__button_send_email);
+        telegramBtn = findViewById(R.id.profile_information__imagebutton_telegram);
+        instagramBtn = findViewById(R.id.profile_information__imagebutton_instagram);
+        messageEt = findViewById(R.id.profile_information__edittext_message_text);
 
         sendMessageBtn.setOnClickListener(v -> {
             String message = messageEt.getText().toString();
