@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject;
+package com.androidacademy.msk.exerciseproject.screen.news_details;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,13 +12,16 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidacademy.msk.exerciseproject.data.DataUtils;
-import com.androidacademy.msk.exerciseproject.data.NewsItem;
+import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.Utils.DataUtils;
+import com.androidacademy.msk.exerciseproject.Utils.DateUtils;
+import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.squareup.picasso.Picasso;
 
 public class NewsDetailsActivity extends AppCompatActivity {
 
     private static final String EXTRA_POSITION = "EXTRA_POSITION";
+
     private ImageView imageView;
     private TextView titleTextView;
     private TextView publishDateTextView;
@@ -45,7 +48,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         titleTextView.setText(newsItem.getTitle());
 
         publishDateTextView = findViewById(R.id.activity_news_details__textview_publish_date);
-        String publishDate = DataUtils.convertDateToString(newsItem.getPublishDate());
+        String publishDate = DateUtils.convertDateToString(newsItem.getPublishDate(), this);
         publishDateTextView.setText(publishDate);
 
         fullTextView = findViewById(R.id.activity_news_details__textview_full_text);
@@ -59,10 +62,14 @@ public class NewsDetailsActivity extends AppCompatActivity {
     }
 
     private void setupBackToolbarButton(@NonNull Toolbar toolbar) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.getNavigationIcon().setColorFilter(
-                getResources().getColor(R.color.white),
-                PorterDuff.Mode.SRC_ATOP);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        if (toolbar.getNavigationIcon() != null) {
+            toolbar.getNavigationIcon().setColorFilter(
+                    getResources().getColor(R.color.white),
+                    PorterDuff.Mode.SRC_ATOP);
+        }
     }
 
     public static Intent getStartIntent(int position, @NonNull Context context) {

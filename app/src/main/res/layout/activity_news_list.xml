@@ -11,10 +11,7 @@
         android:id="@+id/activity_news_list__recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".NewsListActivity"
-        tools:listitem="@layout/item_common_news">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        tools:context=".screen.news_list.NewsListActivity"
+        tools:listitem="@layout/item_common_news" />
 
 </LinearLayout>

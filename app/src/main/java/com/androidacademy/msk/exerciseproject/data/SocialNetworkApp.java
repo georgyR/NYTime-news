@@ -8,7 +8,9 @@ public enum SocialNetworkApp {
     TELEGRAM("org.telegram.messenger", "https://t.me/georgy_ryabykh/"),
     TELEGRAM_X("org.thunderdog.challegram", TELEGRAM.getAccountUrl());
 
+    @NonNull
     private final String appPackage;
+    @NonNull
     private final String accountUrl;
 
     SocialNetworkApp(@NonNull String appPackage, @NonNull String accountUrl) {

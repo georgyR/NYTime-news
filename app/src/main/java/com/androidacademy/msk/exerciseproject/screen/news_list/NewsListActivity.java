@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject;
+package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -6,7 +6,10 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.androidacademy.msk.exerciseproject.data.DataUtils;
+import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
+import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.Utils.DataUtils;
+import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +23,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public class NewsListActivity extends AppCompatActivity {
 
-    private static final int BIG_WIDTH_IN_DP = 600;
-    private static final int SPAN_COUNT = 2;
+    private static final int MIN_WIDTH_IN_DP = 300;
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,16 +35,8 @@ public class NewsListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.all_toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = findViewById(R.id.activity_news_list__recycler_view);
-        recyclerView.setHasFixedSize(true);
-
-        NewsAdapter.OnItemClickListener clickListener = position ->
-                startActivity(NewsDetailsActivity.getStartIntent(position, this));
-
-        recyclerView.setAdapter(new NewsAdapter(DataUtils.NEWS, clickListener));
-
-        setLayoutManager(recyclerView);
-        setItemDecoration(recyclerView);
+        recyclerView = findViewById(R.id.activity_news_list__recycler_view);
+        setupRecyclerView(recyclerView);
     }
 
     @Override
@@ -64,13 +60,14 @@ public class NewsListActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
 
-        if (screenWidthInDp < BIG_WIDTH_IN_DP) {
+        if (screenWidthInDp < MIN_WIDTH_IN_DP) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        } else {
-            recyclerView.setLayoutManager(
-                    new StaggeredGridLayoutManager(SPAN_COUNT,
-                            StaggeredGridLayoutManager.VERTICAL));
+            return;
         }
+
+        int snapCount = (int) (screenWidthInDp / MIN_WIDTH_IN_DP);
+        recyclerView.setLayoutManager(
+                new StaggeredGridLayoutManager(snapCount, StaggeredGridLayoutManager.VERTICAL));
     }
 
     private void setItemDecoration(@NonNull RecyclerView recyclerView) {
@@ -78,8 +75,22 @@ public class NewsListActivity extends AppCompatActivity {
                 = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
-        decoration.setDrawable(dividerDrawable);
+        if (dividerDrawable != null) {
+            decoration.setDrawable(dividerDrawable);
+        }
         recyclerView.addItemDecoration(decoration);
+    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        recyclerView.setHasFixedSize(true);
+
+        NewsAdapter.OnItemClickListener clickListener = position ->
+                startActivity(NewsDetailsActivity.getStartIntent(position, this));
+
+        recyclerView.setAdapter(new NewsAdapter(DataUtils.NEWS, clickListener, this));
+
+        setLayoutManager(recyclerView);
+        setItemDecoration(recyclerView);
     }
 
 }

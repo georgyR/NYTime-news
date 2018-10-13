@@ -1,19 +1,11 @@
-package com.androidacademy.msk.exerciseproject.data;
+package com.androidacademy.msk.exerciseproject.Utils;
 
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
+import com.androidacademy.msk.exerciseproject.data.Category;
+import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 
-import com.androidacademy.msk.exerciseproject.MyApplication;
-
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 
@@ -22,42 +14,10 @@ public class DataUtils {
     private DataUtils() {
     }
 
-    public static final String DARWIN_AWARDS = "Darwin Awards";
-    public static final String CRIMINAL = "Criminal";
-    public static final String ANIMALS = "Animals";
-    public static final String MUSIC = "Music";
     public static final List<NewsItem> NEWS = generateNews();
 
     @NonNull
-    public static String convertDateToString(@NonNull Date date) {
-        if (DateUtils.isToday(date.getTime())) {
-            Date currentDate = new Date();
-            long hourAgo = TimeUnit.MILLISECONDS.toHours(currentDate.getTime() - date.getTime());
-
-            return hourAgo + " hr. ago";
-        }
-
-        String publishTime = getFormattedTime(date);
-
-        if (isYesterday(date)) {
-            return "Yesterday, " + publishTime;
-        }
-
-        if (isCurrentYear(date)) {
-            Format formatter = new SimpleDateFormat("MMM d, ", Locale.US);
-            return  formatter.format(date) + publishTime;
-        }
-
-        return new SimpleDateFormat("yyyy MMM d, ", Locale.US).format(date) + publishTime;
-
-    }
-
-    @NonNull
     private static List<NewsItem> generateNews() {
-        final Category darwinAwards = new Category(1, DARWIN_AWARDS);
-        final Category criminal = new Category(2, CRIMINAL);
-        final Category animals = new Category(3, ANIMALS);
-        final Category music = new Category(4, MUSIC);
 
         Calendar calendar = Calendar.getInstance();
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -69,8 +29,8 @@ public class DataUtils {
         news.add(new NewsItem(
                 "Tourist filmed sitting on 5m-long crocodile",
                 "https://e3.365dm.com/18/09/736x414/skynews-crocodile-australia_4433218.jpg",
-                darwinAwards,
-                createDate(currentYear, currentMonth, currentDay, currentHour, 0),
+                Category.DARWIN_AWARDS,
+                DateUtils.createDate(currentYear, currentMonth, currentDay, currentHour, 0),
                 "\"It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a "
                         + "second,\" he says.",
                 "A Danish tourist has admitted he took his life in his hands by sitting on a large crocodile in Australia.\n\n"
@@ -94,8 +54,8 @@ public class DataUtils {
         news.add(new NewsItem(
                 "Police warn daredevil cliff jumpers who are 'risking their lives for likes'",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-cliff-jumping-greg-milam_4433647.jpg",
-                criminal,
-                createDate(yesterdayYear, yesterdayMonth, yesterday, 18, 45),
+                Category.CRIMINAL,
+                DateUtils.createDate(yesterdayYear, yesterdayMonth, yesterday, 18, 45),
                 "Police in Los Angeles say they are spending hundreds of thousands of dollars airlifting cliff jumpers out of "
                         + "dangerous spots.",
                 "Daredevils attempting dangerous cliff dives in a quest for likes has led to an increase in costly helicopter "
@@ -116,8 +76,8 @@ public class DataUtils {
         news.add(new NewsItem(
                 "Bear saved after getting his head stuck in milk can",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-bear-minnesota_4419111.jpg",
-                animals,
-                createDate(previousYear, 9, 20, 14, 4),
+                Category.ANIMALS,
+                DateUtils.createDate(previousYear, 9, 20, 14, 4),
                 "Firefighters used the Jaws of Life to free the young black bear, a tool which is normally used to extricate car"
                         + " accident victims.",
                 "A bear has been freed after getting his head stuck in a milk can.\n\n"
@@ -133,8 +93,8 @@ public class DataUtils {
         news.add(new NewsItem(
                 "Nearly $18m of cocaine seized in donated boxes of bananas",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-texas-bananas-drugs_4430760.jpg",
-                criminal,
-                createDate(2018, 9, 18, 4, 4),
+                Category.CRIMINAL,
+                DateUtils.createDate(2018, 9, 18, 4, 4),
                 "Massive quantities of the drug were found in boxes of fruit that had been donated to the Texas Department of "
                         + "Criminal Justice.",
                 "A huge haul of cocaine was discovered hidden in boxes of bananas donated to the Texas Department of Criminal "
@@ -153,8 +113,8 @@ public class DataUtils {
         news.add(new NewsItem(
                 "US government hacker jailed after losing secrets",
                 "https://e3.365dm.com/17/09/736x414/d55722dc4eb37f6959d2e047c14710d586aab99f90aa1e4acfd9f992125294f5_4107038.jpg",
-                criminal,
-                createDate(2018, 9, 17, 12, 45),
+                Category.CRIMINAL,
+                DateUtils.createDate(2018, 9, 17, 12, 45),
                 "Nghia Hoang Pho, 68, who developed hacking tools for the National Security Agency, illegally stored material "
                         + "on his home computer.",
                 "A man who illegally took home hacking tools from his workplace at the National Security Agency, and then "
@@ -177,8 +137,8 @@ public class DataUtils {
         news.add(new NewsItem(
                 "Wet Wet Wet announce Liberty X star Kevin Simm as new frontman",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-wet-wet-wet-kevin-simm_4433314.jpg",
-                music,
-                createDate(2018, 9, 17, 12, 45),
+                Category.MUSIC,
+                DateUtils.createDate(2018, 9, 17, 12, 45),
                 "The Voice 2016 winner says he was \"really taken aback\" by the opportunity after singing the band's songs "
                         + "early in his career.",
                 "The Scottish band, who are best-known for their 1994 cover of The Troggs' 1960s hit Love Is All Around, "
@@ -195,35 +155,5 @@ public class DataUtils {
         ));
 
         return news;
-    }
-
-    @NonNull
-    private static String getFormattedTime(@NonNull Date date) {
-        if (DateFormat.is24HourFormat(MyApplication.getContext())) {
-            Format formatter = new SimpleDateFormat("HH:mm", Locale.US);
-            return formatter.format(date);
-        } else {
-            Format formatter = new SimpleDateFormat("hh:mm a", Locale.US);
-            return formatter.format(date);
-        }
-    }
-
-    private static boolean isYesterday(@NonNull Date date) {
-        return DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS);
-    }
-
-    private static boolean isCurrentYear(@NonNull Date date) {
-        Calendar calendar = Calendar.getInstance();
-        int currentYear = calendar.get(Calendar.YEAR);
-
-        calendar.setTime(date);
-        int dateYear = calendar.get(Calendar.YEAR);
-
-        return (currentYear == dateYear);
-    }
-
-    @NonNull
-    private static Date createDate(int year, int month, int date, int hrs, int min) {
-        return new GregorianCalendar(year, month - 1, date, hrs, min).getTime();
     }
 }

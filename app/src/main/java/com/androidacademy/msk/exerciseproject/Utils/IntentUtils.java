@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject;
+package com.androidacademy.msk.exerciseproject.Utils;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +8,9 @@ import com.androidacademy.msk.exerciseproject.data.SocialNetworkApp;
 import androidx.annotation.NonNull;
 
 public class IntentUtils {
+
+    private IntentUtils() {
+    }
 
     @NonNull
     public static Intent getEmailIntent(@NonNull String email,

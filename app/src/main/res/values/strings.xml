@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Exercise Project</string>
+    <string name="app_name" translatable="false">News</string>
     <string name="btn_send_message">Send message</string>
     <string name="tv_graduated">Graduated from Bauman Moscow State University</string>
     <string name="tv_developer">Beginning android developer</string>
@@ -13,4 +13,6 @@
     <string name="profile_name">Georgy Ryabykh</string>
     <string name="btn_send_email">Send email</string>
     <string name="menu_open_about_author">About author</string>
+    <string name="date_utils_hr_ago">%1$d hr. ago</string>
+    <string name="date_utils_yesterday">Yesterday, %1$s</string>
 </resources>

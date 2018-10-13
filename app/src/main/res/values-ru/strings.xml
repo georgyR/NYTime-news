@@ -13,4 +13,6 @@
     <string name="profile_name">Георгий Рябых</string>
     <string name="btn_send_email">Отправить email</string>
     <string name="menu_open_about_author">О авторе</string>
+    <string name="date_utils_hr_ago" translatable="false">%1$d ч. назад</string>
+    <string name="date_utils_yesterday">Вчера, %1$s</string>
 </resources>

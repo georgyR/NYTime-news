@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject;
+package com.androidacademy.msk.exerciseproject.screen.about;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.androidacademy.msk.exerciseproject.Utils.IntentUtils;
+import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.SocialNetworkApp;
 import com.google.android.material.snackbar.Snackbar;
 
