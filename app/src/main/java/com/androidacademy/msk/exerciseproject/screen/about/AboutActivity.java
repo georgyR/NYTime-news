@@ -1,11 +1,8 @@
-package com.androidacademy.msk.exerciseproject;
+package com.androidacademy.msk.exerciseproject.screen.about;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +11,17 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.androidacademy.msk.exerciseproject.Utils.IntentUtils;
+import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.data.SocialNetworkApp;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+public class AboutActivity extends AppCompatActivity {
 
     private static final String EMAIL = "georgy.ryabykh@gmail.com";
     private static final String PHONE_NUMBER = "+79165766299";
@@ -27,19 +34,27 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private EditText messageEt;
 
+    @NonNull
+    public static Intent getStartIntent(@NonNull Context context) {
+        return new Intent(context, AboutActivity.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_about);
 
-        rootView = findViewById(R.id.root_view);
-        linearLayout = findViewById(R.id.linear_layout);
+        Toolbar toolbar = findViewById(R.id.all_toolbar);
+        setSupportActionBar(toolbar);
 
-        sendMessageBtn = findViewById(R.id.btn_send_message);
-        sendEmailBtn = findViewById(R.id.btn_send_email);
-        telegramBtn = findViewById(R.id.image_btn_telegram);
-        instagramBtn = findViewById(R.id.image_btn_instagram);
-        messageEt = findViewById(R.id.et_message_text);
+        rootView = findViewById(android.R.id.content);
+        linearLayout = findViewById(R.id.profile_information__linear_layout);
+
+        sendMessageBtn = findViewById(R.id.profile_information__button_send_message);
+        sendEmailBtn = findViewById(R.id.profile_information__button_send_email);
+        telegramBtn = findViewById(R.id.profile_information__imagebutton_telegram);
+        instagramBtn = findViewById(R.id.profile_information__imagebutton_instagram);
+        messageEt = findViewById(R.id.profile_information__edittext_message_text);
 
         sendMessageBtn.setOnClickListener(v -> {
             String message = messageEt.getText().toString();

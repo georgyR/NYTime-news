@@ -3,7 +3,7 @@
     <string name="btn_send_message">Отправить сообщение</string>
     <string name="tv_graduated">МГТУ им. Н. Э. Баумана</string>
     <string name="tv_developer">Начинающий Android разработчик</string>
-    <string name="tv_profile_description">Георгий закончил МГТУ им. Н. Э. Баумана и имеет квалификацию инженер. Сейчас он развивается в области ИТ и хочет найти работу Android разработчиком</string>
+    <string name="tv_profile_description">Георгий закончил МГТУ им. Н. Э. Баумана и имеет квалификацию инженер. Сейчас он развивается в области ИТ и хочет стать профессиональным Android разработчиком</string>
     <string name="et_message_hint">Введите сообщение…</string>
     <string name="email_subject">Здравствуйте, Георгий</string>
     <string name="snackbar_no_email_app">Приложение почта не найдено</string>
@@ -12,4 +12,7 @@
     <string name="disclaimer">© 2018 Георгий Рябых</string>
     <string name="profile_name">Георгий Рябых</string>
     <string name="btn_send_email">Отправить email</string>
+    <string name="menu_open_about_author">О авторе</string>
+    <string name="date_utils_hr_ago" translatable="false">%1$d ч. назад</string>
+    <string name="date_utils_yesterday">Вчера, %1$s</string>
 </resources>

@@ -1,57 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linear_layout"
+    android:id="@+id/profile_information__linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingStart="@dimen/start_padding"
-    android:paddingTop="@dimen/usual_padding"
-    android:paddingEnd="@dimen/usual_padding">
-
+    android:paddingStart="@dimen/padding_start"
+    android:paddingTop="@dimen/padding_common"
+    android:paddingEnd="@dimen/padding_common">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/usual_padding"
+        android:layout_marginBottom="@dimen/margin_common"
         android:drawableStart="@drawable/ic_school_28dp"
-        android:drawablePadding="@dimen/drawable_padding"
+        android:drawablePadding="@dimen/padding_drawable"
         android:text="@string/tv_graduated" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/usual_padding"
+        android:layout_marginBottom="@dimen/margin_common"
         android:drawableStart="@drawable/ic_android_28dp"
-        android:drawablePadding="@dimen/drawable_padding"
+        android:drawablePadding="@dimen/padding_drawable"
         android:text="@string/tv_developer" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/separator_height"
-        android:layout_marginBottom="@dimen/usual_padding"
+        android:layout_height="@dimen/height_separator"
+        android:layout_marginBottom="@dimen/margin_common"
         android:background="@color/colorPrimaryDark" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/usual_padding"
+        android:layout_marginBottom="@dimen/margin_common"
         android:text="@string/tv_profile_description" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/separator_height"
-        android:layout_marginBottom="@dimen/usual_padding"
+        android:layout_height="@dimen/height_separator"
+        android:layout_marginBottom="@dimen/margin_common"
         android:background="@color/colorPrimaryDark" />
 
 
     <EditText
-        android:id="@+id/et_message_text"
+        android:id="@+id/profile_information__edittext_message_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/usual_padding"
+        android:layout_marginBottom="@dimen/margin_common"
         android:hint="@string/et_message_hint"
         android:inputType="text"
         tools:ignore="Autofill" />
@@ -63,17 +62,17 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_send_email"
+            android:id="@+id/profile_information__button_send_email"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/margin_common"
             android:layout_weight="1"
             android:text="@string/btn_send_email"
             android:textColor="@color/colorPrimaryDark" />
 
         <Button
-            android:id="@+id/btn_send_message"
+            android:id="@+id/profile_information__button_send_message"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -91,20 +90,20 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/image_btn_telegram"
+            android:id="@+id/profile_information__imagebutton_telegram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/usual_padding"
+            android:padding="@dimen/padding_common"
             android:src="@drawable/ic_telegram_28dp"
             tools:ignore="ContentDescription" />
 
         <ImageButton
-            android:id="@+id/image_btn_instagram"
+            android:id="@+id/profile_information__imagebutton_instagram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/usual_padding"
+            android:padding="@dimen/padding_common"
             android:src="@drawable/ic_instagram_28dp"
             tools:ignore="ContentDescription" />
     </LinearLayout>

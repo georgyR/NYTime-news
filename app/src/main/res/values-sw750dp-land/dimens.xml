@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="photo_width">600dp</dimen>
+    <dimen name="width_photo">600dp</dimen>
 </resources>
