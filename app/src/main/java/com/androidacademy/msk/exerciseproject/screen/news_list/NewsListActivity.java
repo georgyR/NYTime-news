@@ -2,6 +2,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -36,10 +37,14 @@ public class NewsListActivity extends AppCompatActivity {
 
     private static final int MIN_WIDTH_IN_DP = 300;
     private static final String TAG = "thread_debug";
+    private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private Disposable disposable;
+    private RecyclerView.LayoutManager layoutManager;
+    private Parcelable listState;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +66,23 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.activity_news_list, menu);
         return true;
@@ -78,6 +100,12 @@ public class NewsListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(LIST_STATE_KEY, layoutManager.onSaveInstanceState());
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         disposable.dispose();
@@ -89,13 +117,15 @@ public class NewsListActivity extends AppCompatActivity {
         float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
 
         if (screenWidthInDp < MIN_WIDTH_IN_DP) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            return;
+            layoutManager = new LinearLayoutManager(this);
+        } else {
+            int snapCount = (int) (screenWidthInDp / MIN_WIDTH_IN_DP);
+            layoutManager = new StaggeredGridLayoutManager(
+                    snapCount,
+                    StaggeredGridLayoutManager.VERTICAL);
         }
 
-        int snapCount = (int) (screenWidthInDp / MIN_WIDTH_IN_DP);
-        recyclerView.setLayoutManager(
-                new StaggeredGridLayoutManager(snapCount, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private void setItemDecoration(@NonNull RecyclerView recyclerView) {
