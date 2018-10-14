@@ -34,6 +34,11 @@ public class AboutActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private EditText messageEt;
 
+    @NonNull
+    public static Intent getStartIntent(@NonNull Context context) {
+        return new Intent(context, AboutActivity.class);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,10 +136,5 @@ public class AboutActivity extends AppCompatActivity {
     private void showSnackbar(@NonNull String message) {
         Snackbar snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
-    }
-
-    @NonNull
-    public static Intent getStartIntent(@NonNull Context context) {
-        return new Intent(context, AboutActivity.class);
     }
 }

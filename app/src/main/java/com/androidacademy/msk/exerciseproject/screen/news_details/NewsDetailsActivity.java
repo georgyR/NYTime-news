@@ -27,6 +27,13 @@ public class NewsDetailsActivity extends AppCompatActivity {
     private TextView publishDateTextView;
     private TextView fullTextView;
 
+    @NonNull
+    public static Intent getStartIntent(int position, @NonNull Context context) {
+        Intent intent = new Intent(context, NewsDetailsActivity.class);
+        intent.putExtra(EXTRA_POSITION, position);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +77,5 @@ public class NewsDetailsActivity extends AppCompatActivity {
                     getResources().getColor(R.color.white),
                     PorterDuff.Mode.SRC_ATOP);
         }
-    }
-
-    public static Intent getStartIntent(int position, @NonNull Context context) {
-        Intent intent = new Intent(context, NewsDetailsActivity.class);
-        intent.putExtra(EXTRA_POSITION, position);
-        return intent;
     }
 }
