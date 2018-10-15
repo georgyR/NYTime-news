@@ -1,10 +1,10 @@
 package com.androidacademy.msk.exerciseproject.data.model;
 
+import android.support.annotation.NonNull;
+
 import com.androidacademy.msk.exerciseproject.data.Category;
 
 import java.util.Date;
-
-import androidx.annotation.NonNull;
 
 public class NewsItem {
     @NonNull
