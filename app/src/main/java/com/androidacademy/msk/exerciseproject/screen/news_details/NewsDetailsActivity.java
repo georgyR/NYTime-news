@@ -21,9 +21,13 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
     private static final String EXTRA_POSITION = "EXTRA_POSITION";
 
+    @NonNull
     private ImageView imageView;
+    @NonNull
     private TextView titleTextView;
+    @NonNull
     private TextView publishDateTextView;
+    @NonNull
     private TextView fullTextView;
 
     @NonNull

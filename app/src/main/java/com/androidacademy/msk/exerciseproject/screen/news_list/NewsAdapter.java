@@ -19,8 +19,11 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
+    @NonNull
     private List<NewsItem> newsItems;
+    @NonNull
     private final OnItemClickListener clickListener;
+    @NonNull
     private final LayoutInflater inflater;
 
     public NewsAdapter(@NonNull List<NewsItem> newsItems,

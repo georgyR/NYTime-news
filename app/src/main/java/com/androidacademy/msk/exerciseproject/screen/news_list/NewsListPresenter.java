@@ -1,5 +1,6 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.Utils.DataUtils;
@@ -18,10 +19,13 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class NewsListPresenter extends MvpPresenter<NewsListView> {
 
+    @NonNull
     private static final String TAG = "thread_debug";
+    @NonNull
+    private Disposable disposable;
 
     public void getNews() {
-        Disposable subscribe = Observable
+        disposable = Observable
                 .create((ObservableOnSubscribe<List<NewsItem>>) emitter -> {
                     Log.d(TAG, "loading news: " + Thread.currentThread());
                     Thread.sleep(2000);
@@ -34,10 +38,16 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                     getViewState().showProgressBar();
                 })
                 .subscribe(newsItems -> {
-                    Log.d(TAG, "subscribe: " + Thread.currentThread());
+                    Log.d(TAG, "disposable: " + Thread.currentThread());
 
                     getViewState().showNews(newsItems);
                     getViewState().hideProgressBar();
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 }

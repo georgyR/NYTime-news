@@ -26,12 +26,19 @@ public class AboutActivity extends AppCompatActivity {
     private static final String EMAIL = "georgy.ryabykh@gmail.com";
     private static final String PHONE_NUMBER = "+79165766299";
 
+    @NonNull
     private View rootView;
+    @NonNull
     private Button sendMessageBtn;
+    @NonNull
     private Button sendEmailBtn;
+    @NonNull
     private ImageButton telegramBtn;
+    @NonNull
     private ImageButton instagramBtn;
+    @NonNull
     private LinearLayout linearLayout;
+    @NonNull
     private EditText messageEt;
 
     @NonNull

@@ -31,9 +31,13 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     private static final int MIN_WIDTH_IN_DP = 300;
     private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
 
+    @NonNull
     private RecyclerView recyclerView;
+    @NonNull
     private ProgressBar progressBar;
+    @NonNull
     private RecyclerView.LayoutManager layoutManager;
+    @Nullable
     private Parcelable listState;
 
     @InjectPresenter
@@ -94,10 +98,13 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (layoutManager != null) {
-            listState = layoutManager.onSaveInstanceState();
-            outState.putParcelable(LIST_STATE_KEY, listState);
-        }
+        listState = layoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, listState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
