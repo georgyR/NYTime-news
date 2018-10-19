@@ -42,9 +42,11 @@ public class NewsDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        Toolbar toolbar = findViewById(R.id.activity_news_details__toolbar);
+        Toolbar toolbar = findViewById(R.id.all_toolbar);
         setSupportActionBar(toolbar);
-        setupBackToolbarButton(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
         NewsItem newsItem = DataUtils.NEWS.get(position);
@@ -69,16 +71,5 @@ public class NewsDetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    private void setupBackToolbarButton(@NonNull Toolbar toolbar) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        if (toolbar.getNavigationIcon() != null) {
-            toolbar.getNavigationIcon().setColorFilter(
-                    getResources().getColor(R.color.white),
-                    PorterDuff.Mode.SRC_ATOP);
-        }
     }
 }

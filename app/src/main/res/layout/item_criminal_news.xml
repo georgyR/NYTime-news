@@ -8,6 +8,7 @@
     android:layout_marginTop="@dimen/margin_cardview"
     android:layout_marginEnd="@dimen/margin_cardview_side"
     android:layout_marginBottom="@dimen/margin_cardview"
+    android:foreground="?attr/selectableItemBackground"
     card_view:cardCornerRadius="@dimen/margin_cardview"
     card_view:cardElevation="@dimen/elevation_cardview"
     card_view:contentPadding="@dimen/padding_common">
@@ -26,7 +27,7 @@
             android:fontFamily="sans-serif-condensed"
             android:maxLines="1"
             android:textAllCaps="true"
-            android:textColor="@color/black"
+            android:textColor="@android:color/black"
             tools:text="Darwin Awards" />
 
         <ImageView
@@ -46,7 +47,7 @@
             android:layout_marginBottom="@dimen/margin_small"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/black"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/textsize_big"
             android:textStyle="bold"
             tools:text="Tourist filmed sitting on 5m-long crocodile" />
@@ -58,7 +59,7 @@
             android:layout_marginBottom="@dimen/margin_small"
             android:ellipsize="end"
             android:maxLines="4"
-            android:textColor="@color/black"
+            android:textColor="@android:color/black"
             tools:text="It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a second, he sas." />
 
         <TextView

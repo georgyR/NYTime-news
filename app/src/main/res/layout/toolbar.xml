@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/all_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    android:minHeight="?attr/actionBarSize"
-    app:titleTextColor="@android:color/white" />
+    android:elevation="4dp"
+    android:textColorPrimary="@android:color/black"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:layout_scrollFlags="scroll|enterAlways"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
