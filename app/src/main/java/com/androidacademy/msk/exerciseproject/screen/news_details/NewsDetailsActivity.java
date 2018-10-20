@@ -2,7 +2,6 @@ package com.androidacademy.msk.exerciseproject.screen.news_details;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.Utils.DataUtils;
-import com.androidacademy.msk.exerciseproject.Utils.DateUtils;
+import com.androidacademy.msk.exerciseproject.utils.DataUtils;
+import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.squareup.picasso.Picasso;
 

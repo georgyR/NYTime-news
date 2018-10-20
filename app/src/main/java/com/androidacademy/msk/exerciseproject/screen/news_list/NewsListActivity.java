@@ -39,6 +39,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     private RecyclerView.LayoutManager layoutManager;
     @Nullable
     private Parcelable listState;
+    @NonNull
+    private NewsAdapter adapter;
 
     @InjectPresenter
     public NewsListPresenter presenter;
@@ -55,10 +57,6 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         recyclerView = findViewById(R.id.activity_news_list__recycler_view);
         setupRecyclerView(recyclerView);
-
-        if (savedInstanceState == null) {
-            presenter.getNews();
-        }
     }
 
     @Override
@@ -108,11 +106,16 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void showNews(@NonNull List<NewsItem> news) {
-        NewsAdapter.OnItemClickListener clickListener = position ->
-                startActivity(NewsDetailsActivity.getStartIntent(position, this));
-        recyclerView.setAdapter(new NewsAdapter(news, clickListener, this));
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
+
+    @Override
+    public void addNews(@NonNull List<NewsItem> news) {
+        adapter.addListData(news);
+    }
+
 
     @Override
     public void showProgressBar() {
@@ -124,6 +127,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void openDetailsScreen(int position) {
+        startActivity(NewsDetailsActivity.getStartIntent(position, this));
     }
 
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {
@@ -156,5 +164,9 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         recyclerView.setHasFixedSize(true);
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
+        NewsAdapter.OnItemClickListener clickListener = position ->
+                presenter.onItemClicked(position);
+        adapter = new NewsAdapter(clickListener, this);
+        recyclerView.setAdapter(adapter);
     }
 }

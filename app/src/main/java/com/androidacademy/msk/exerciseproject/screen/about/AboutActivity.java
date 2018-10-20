@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.Utils.IntentUtils;
+import com.androidacademy.msk.exerciseproject.utils.IntentUtils;
 import com.androidacademy.msk.exerciseproject.data.SocialNetworkApp;
 
 
@@ -29,17 +29,17 @@ public class AboutActivity extends AppCompatActivity {
     @NonNull
     private View rootView;
     @NonNull
-    private Button sendMessageBtn;
+    private Button sendMessageButton;
     @NonNull
-    private Button sendEmailBtn;
+    private Button sendEmailButton;
     @NonNull
-    private ImageButton telegramBtn;
+    private ImageButton telegramImageButton;
     @NonNull
-    private ImageButton instagramBtn;
+    private ImageButton instagramImageButton;
     @NonNull
     private LinearLayout linearLayout;
     @NonNull
-    private EditText messageEt;
+    private EditText messageEditText;
 
     @NonNull
     public static Intent getStartIntent(@NonNull Context context) {
@@ -53,40 +53,49 @@ public class AboutActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.all_toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         rootView = findViewById(android.R.id.content);
         linearLayout = findViewById(R.id.profile_information__linear_layout);
 
-        sendMessageBtn = findViewById(R.id.profile_information__button_send_message);
-        sendEmailBtn = findViewById(R.id.profile_information__button_send_email);
-        telegramBtn = findViewById(R.id.profile_information__imagebutton_telegram);
-        instagramBtn = findViewById(R.id.profile_information__imagebutton_instagram);
-        messageEt = findViewById(R.id.profile_information__edittext_message_text);
+        sendMessageButton = findViewById(R.id.profile_information__button_send_message);
+        sendEmailButton = findViewById(R.id.profile_information__button_send_email);
+        telegramImageButton = findViewById(R.id.profile_information__imagebutton_telegram);
+        instagramImageButton = findViewById(R.id.profile_information__imagebutton_instagram);
+        messageEditText = findViewById(R.id.profile_information__edittext_message_text);
 
-        sendMessageBtn.setOnClickListener(v -> {
-            String message = messageEt.getText().toString();
+        sendMessageButton.setOnClickListener(v -> {
+            String message = messageEditText.getText().toString();
             openSmsApp(PHONE_NUMBER, message);
         });
 
-        sendEmailBtn.setOnClickListener(v -> {
+        sendEmailButton.setOnClickListener(v -> {
             String emailSubject = getString(R.string.email_subject);
-            String message = messageEt.getText().toString();
+            String message = messageEditText.getText().toString();
             openEmailApp(EMAIL, emailSubject, message);
         });
 
-        telegramBtn.setOnClickListener(v -> {
+        telegramImageButton.setOnClickListener(v -> {
             if (!openSpecificApp(SocialNetworkApp.TELEGRAM) &&
                     !openSpecificApp(SocialNetworkApp.TELEGRAM_X)) {
                 openUriInBrowser(SocialNetworkApp.TELEGRAM.getAccountUrl());
             }
         });
-        instagramBtn.setOnClickListener(v -> {
+        instagramImageButton.setOnClickListener(v -> {
             if (!openSpecificApp(SocialNetworkApp.INSTAGRAM)) {
                 openUriInBrowser(SocialNetworkApp.INSTAGRAM.getAccountUrl());
             }
         });
 
-        addDisclaimerTv();
+        addDisclaimerTextView(linearLayout);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void openSmsApp(@NonNull String phoneNumber, @NonNull String message) {
@@ -128,7 +137,7 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    private void addDisclaimerTv() {
+    private void addDisclaimerTextView(LinearLayout linearLayout) {
         TextView disclaimerTv = new TextView(this);
 
         disclaimerTv.setText(R.string.disclaimer);
