@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,11 +8,12 @@
     android:layout_marginTop="@dimen/margin_cardview"
     android:layout_marginEnd="@dimen/margin_cardview_side"
     android:layout_marginBottom="@dimen/margin_cardview"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_cardview"
     app:cardElevation="@dimen/elevation_cardview"
     app:contentPadding="@dimen/padding_common">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -26,7 +27,7 @@
             android:fontFamily="sans-serif-condensed"
             android:maxLines="1"
             android:textAllCaps="true"
-            android:textColor="@color/black"
+            android:textColor="@android:color/black"
             app:layout_constraintEnd_toStartOf="@+id/item_news__imageview_news"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +41,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/black"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/textsize_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/item_news__imageview_news"
@@ -56,7 +57,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:ellipsize="end"
             android:maxLines="4"
-            android:textColor="@color/black"
+            android:textColor="@android:color/black"
             app:layout_constraintEnd_toStartOf="@+id/item_news__imageview_news"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_news__textview_title"
@@ -87,6 +88,6 @@
             tools:ignore="ContentDescription"
             tools:src="@tools:sample/avatars" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</android.support.v7.widget.CardView>

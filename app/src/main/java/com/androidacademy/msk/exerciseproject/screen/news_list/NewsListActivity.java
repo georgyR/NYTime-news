@@ -2,30 +2,50 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
-import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.Utils.DataUtils;
+import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
+import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import java.util.List;
 
-public class NewsListActivity extends AppCompatActivity {
+public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
 
     private static final int MIN_WIDTH_IN_DP = 300;
+    private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
 
+    @NonNull
     private RecyclerView recyclerView;
+    @NonNull
+    private ProgressBar progressBar;
+    @NonNull
+    private View errorView;
+    @NonNull
+    private RecyclerView.LayoutManager layoutManager;
+    @Nullable
+    private Parcelable listState;
+    @NonNull
+    private NewsAdapter adapter;
+
+    @InjectPresenter
+    public NewsListPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +55,29 @@ public class NewsListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.all_toolbar);
         setSupportActionBar(toolbar);
 
+        progressBar = findViewById(R.id.activity_news_list__progressbar);
+
         recyclerView = findViewById(R.id.activity_news_list__recycler_view);
         setupRecyclerView(recyclerView);
+
+        errorView = findViewById(R.id.activity_news_list__view_error);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
     }
 
     @Override
@@ -56,18 +97,65 @@ public class NewsListActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        listState = layoutManager.onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, listState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void showNews(@NonNull List<NewsItem> news) {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
+
+        adapter.addListData(news);
+    }
+
+    @Override
+    public void showError() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        errorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void openDetailsScreen(int position) {
+        startActivity(NewsDetailsActivity.getStartIntent(position, this));
+    }
+
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
 
         if (screenWidthInDp < MIN_WIDTH_IN_DP) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            return;
+            layoutManager = new LinearLayoutManager(this);
+        } else {
+            int snapCount = (int) (screenWidthInDp / MIN_WIDTH_IN_DP);
+            layoutManager = new StaggeredGridLayoutManager(
+                    snapCount,
+                    StaggeredGridLayoutManager.VERTICAL);
         }
-
-        int snapCount = (int) (screenWidthInDp / MIN_WIDTH_IN_DP);
-        recyclerView.setLayoutManager(
-                new StaggeredGridLayoutManager(snapCount, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private void setItemDecoration(@NonNull RecyclerView recyclerView) {
@@ -83,14 +171,11 @@ public class NewsListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-
-        NewsAdapter.OnItemClickListener clickListener = position ->
-                startActivity(NewsDetailsActivity.getStartIntent(position, this));
-
-        recyclerView.setAdapter(new NewsAdapter(DataUtils.NEWS, clickListener, this));
-
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
+        NewsAdapter.OnItemClickListener clickListener = position ->
+                presenter.onItemClicked(position);
+        adapter = new NewsAdapter(clickListener, this);
+        recyclerView.setAdapter(adapter);
     }
-
 }

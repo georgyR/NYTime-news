@@ -1,20 +1,18 @@
 package com.androidacademy.msk.exerciseproject.screen.news_details;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.Utils.DataUtils;
-import com.androidacademy.msk.exerciseproject.Utils.DateUtils;
+import com.androidacademy.msk.exerciseproject.utils.DataUtils;
+import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.squareup.picasso.Picasso;
 
@@ -22,9 +20,13 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
     private static final String EXTRA_POSITION = "EXTRA_POSITION";
 
+    @NonNull
     private ImageView imageView;
+    @NonNull
     private TextView titleTextView;
+    @NonNull
     private TextView publishDateTextView;
+    @NonNull
     private TextView fullTextView;
 
     @NonNull
@@ -39,9 +41,11 @@ public class NewsDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        Toolbar toolbar = findViewById(R.id.activity_news_details__toolbar);
+        Toolbar toolbar = findViewById(R.id.all_toolbar);
         setSupportActionBar(toolbar);
-        setupBackToolbarButton(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
         NewsItem newsItem = DataUtils.NEWS.get(position);
@@ -66,16 +70,5 @@ public class NewsDetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    private void setupBackToolbarButton(@NonNull Toolbar toolbar) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        if (toolbar.getNavigationIcon() != null) {
-            toolbar.getNavigationIcon().setColorFilter(
-                    getResources().getColor(R.color.white),
-                    PorterDuff.Mode.SRC_ATOP);
-        }
     }
 }

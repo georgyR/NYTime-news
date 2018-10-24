@@ -1,6 +1,8 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,26 +10,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.Utils.DateUtils;
+import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.androidacademy.msk.exerciseproject.data.Category;
 import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private List<NewsItem> newsItems;
+    @NonNull
+    private List<NewsItem> news = new ArrayList<>();
+    @NonNull
     private final OnItemClickListener clickListener;
+    @NonNull
     private final LayoutInflater inflater;
 
-    public NewsAdapter(@NonNull List<NewsItem> newsItems,
-                       @NonNull OnItemClickListener clickListener,
+    public NewsAdapter(@NonNull OnItemClickListener clickListener,
                        @NonNull Context context) {
-        this.newsItems = newsItems;
         this.clickListener = clickListener;
         inflater = LayoutInflater.from(context);
     }
@@ -42,17 +43,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(newsItems.get(position));
+        holder.bind(news.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return newsItems.size();
+        return news.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Category category = newsItems.get(position).getCategory();
+        Category category = news.get(position).getCategory();
 
         switch (category) {
             case CRIMINAL:
@@ -60,6 +61,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             default:
                 return R.layout.item_common_news;
         }
+    }
+
+    public void addListData(List<NewsItem> newsItems) {
+        news.addAll(newsItems);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

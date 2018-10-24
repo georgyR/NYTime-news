@@ -1,4 +1,6 @@
-package com.androidacademy.msk.exerciseproject.Utils;
+package com.androidacademy.msk.exerciseproject.utils;
+
+import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.data.Category;
 import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
@@ -7,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 
 public class DataUtils {
 

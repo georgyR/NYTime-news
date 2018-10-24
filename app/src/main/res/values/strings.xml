@@ -15,4 +15,5 @@
     <string name="menu_open_about_author">About author</string>
     <string name="date_utils_hr_ago">%1$d hr. ago</string>
     <string name="date_utils_yesterday">Yesterday, %1$s</string>
+    <string name="message_error">Something has gone wrong</string>
 </resources>

@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_news_list__recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".screen.news_list.NewsListActivity"
-        tools:listitem="@layout/item_common_news" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <include layout="@layout/toolbar" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_news_list__recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/padding_small"
+                tools:listitem="@layout/item_common_news" />
+
+            <ProgressBar
+                android:id="@+id/activity_news_list__progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/activity_news_list__view_error"
+                layout="@layout/error"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</FrameLayout>

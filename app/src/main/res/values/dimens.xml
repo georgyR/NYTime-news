@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_common">16dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
     <dimen name="padding_drawable">8dp</dimen>
     <dimen name="padding_start">50dp</dimen>
     <dimen name="padding_inner_cardview">4dp</dimen>
@@ -9,6 +10,7 @@
     <dimen name="margin_cardview_side">8dp</dimen>
     <dimen name="margin_cardview">4dp</dimen>
     <dimen name="elevation_cardview">4dp</dimen>
+    <dimen name="elevation_toolbar">8dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="height_photo">200dp</dimen>
     <dimen name="height_separator">1dp</dimen>

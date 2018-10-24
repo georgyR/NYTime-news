@@ -1,6 +1,7 @@
-package com.androidacademy.msk.exerciseproject.Utils;
+package com.androidacademy.msk.exerciseproject.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
 
 import com.androidacademy.msk.exerciseproject.R;
@@ -11,8 +12,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import androidx.annotation.NonNull;
 
 public class DateUtils {
 
