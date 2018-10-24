@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_common">16dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
     <dimen name="padding_drawable">8dp</dimen>
     <dimen name="padding_start">50dp</dimen>
     <dimen name="padding_inner_cardview">4dp</dimen>

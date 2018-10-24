@@ -36,6 +36,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @NonNull
     private ProgressBar progressBar;
     @NonNull
+    private View errorView;
+    @NonNull
     private RecyclerView.LayoutManager layoutManager;
     @Nullable
     private Parcelable listState;
@@ -57,6 +59,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         recyclerView = findViewById(R.id.activity_news_list__recycler_view);
         setupRecyclerView(recyclerView);
+
+        errorView = findViewById(R.id.activity_news_list__view_error);
     }
 
     @Override
@@ -112,21 +116,26 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void addNews(@NonNull List<NewsItem> news) {
+    public void showNews(@NonNull List<NewsItem> news) {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
+
         adapter.addListData(news);
     }
 
+    @Override
+    public void showError() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        errorView.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
     }
 
     @Override

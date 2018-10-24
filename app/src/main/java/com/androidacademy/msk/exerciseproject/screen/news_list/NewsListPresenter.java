@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsListPresenter extends MvpPresenter<NewsListView> {
 
     @NonNull
-    private static final String TAG = "thread_debug";
+    private static final String TAG = "rx_exception";
     @NonNull
     private Disposable disposable;
 
@@ -41,11 +41,11 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
-                .subscribe(newsItems -> {
-                            getViewState().hideProgressBar();
-                            getViewState().addNews(newsItems);
-                        },
-                        throwable -> Log.d(TAG, "rx error"));
+                .subscribe(newsItems -> getViewState().showNews(newsItems),
+                        throwable -> {
+                            getViewState().showError();
+                            Log.d(TAG, "failed creating single from news list", throwable);
+                        });
     }
 
     public void onItemClicked(int position) {

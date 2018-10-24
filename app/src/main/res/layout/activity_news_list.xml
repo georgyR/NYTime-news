@@ -11,20 +11,31 @@
 
         <include layout="@layout/toolbar" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/activity_news_list__recycler_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_common_news" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_news_list__recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/padding_small"
+                tools:listitem="@layout/item_common_news" />
+
+            <ProgressBar
+                android:id="@+id/activity_news_list__progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/activity_news_list__view_error"
+                layout="@layout/error"
+                android:visibility="gone"/>
+
+        </FrameLayout>
 
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/activity_news_list__progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible"/>
-
 </FrameLayout>

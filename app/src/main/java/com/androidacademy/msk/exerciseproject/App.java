@@ -7,11 +7,11 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 public class App extends Application {
 
-    public static final String TAG = "rx_exception";
+    private static final String TAG = "rx_exception";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        RxJavaPlugins.setErrorHandler(e -> Log.e(TAG, e.getMessage()));
+        RxJavaPlugins.setErrorHandler(e -> Log.d(TAG, "RxJava exception", e));
     }
 }

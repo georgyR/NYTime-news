@@ -16,10 +16,10 @@ public interface NewsListView extends MvpView {
     void showProgressBar();
 
     @StateStrategyType(SingleStateStrategy.class)
-    void hideProgressBar();
+    void showNews(@NonNull List<NewsItem> news);
 
     @StateStrategyType(SingleStateStrategy.class)
-    void addNews(@NonNull List<NewsItem> news);
+    void showError();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void openDetailsScreen(int position);
