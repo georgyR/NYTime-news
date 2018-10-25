@@ -6,6 +6,7 @@ import android.text.format.DateFormat;
 
 import com.androidacademy.msk.exerciseproject.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,12 +20,16 @@ public class DateUtils {
     }
 
     @NonNull
-    public static Date createDate(int year, int month, int date, int hrs, int min) {
-        return new GregorianCalendar(year, month - 1, date, hrs, min).getTime();
-    }
+    public static String convertTimestampToString(@NonNull String timestamp, @NonNull Context context) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.US);
+        Date date;
+        try {
+             date = formatter.parse(timestamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "parsing time error";
+        }
 
-    @NonNull
-    public static String convertDateToString(@NonNull Date date, @NonNull Context context) {
         if (android.text.format.DateUtils.isToday(date.getTime())) {
             Date currentDate = new Date();
             long hourAgo = TimeUnit.MILLISECONDS.toHours(currentDate.getTime() - date.getTime());
@@ -37,7 +42,7 @@ public class DateUtils {
             return context.getString(R.string.date_utils_yesterday, publishTime);
         }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.US);
+        formatter = new SimpleDateFormat("", Locale.US);
 
         if (isCurrentYear(date)) {
             formatter.applyPattern("MMM d, ");

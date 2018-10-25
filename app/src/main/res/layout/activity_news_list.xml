@@ -32,7 +32,7 @@
 
             <include
                 android:id="@+id/activity_news_list__view_error"
-                layout="@layout/error"
+                layout="@layout/view_error"
                 android:visibility="gone"/>
 
         </FrameLayout>

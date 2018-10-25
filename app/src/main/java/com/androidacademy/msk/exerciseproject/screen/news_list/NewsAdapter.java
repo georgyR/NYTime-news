@@ -3,6 +3,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
-import com.androidacademy.msk.exerciseproject.data.Category;
-import com.androidacademy.msk.exerciseproject.data.model.OfflineNewsItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
-    private List<OfflineNewsItem> news = new ArrayList<>();
+    private List<NewsItem> news = new ArrayList<>();
     @NonNull
     private final OnItemClickListener clickListener;
     @NonNull
@@ -37,7 +37,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                inflater.inflate(viewType, parent, false),
+                inflater.inflate(R.layout.item_common_news, parent, false),
                 clickListener);
     }
 
@@ -51,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return news.size();
     }
 
-    @Override
+    /*@Override
     public int getItemViewType(int position) {
         Category category = news.get(position).getCategory();
 
@@ -61,9 +61,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             default:
                 return R.layout.item_common_news;
         }
-    }
+    }*/
 
-    public void addListData(List<OfflineNewsItem> newsItems) {
+    public void addListData(List<NewsItem> newsItems) {
         news.addAll(newsItems);
         notifyDataSetChanged();
     }
@@ -92,13 +92,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             });
         }
 
-        private void bind(@NonNull OfflineNewsItem newsItem) {
-            categoryTextView.setText(newsItem.getCategory().getName());
+        private void bind(@NonNull NewsItem newsItem) {
+            String section = newsItem.getSection();
+            categoryTextView.setText(section);
             titleTextView.setText(newsItem.getTitle());
-            previewTextView.setText(newsItem.getPreviewText());
-            String publishDate = DateUtils.convertDateToString(newsItem.getPublishDate(), inflater.getContext());
+            previewTextView.setText(newsItem.getAbstractX());
+
+            String publishDate = DateUtils.convertTimestampToString(
+                    newsItem.getPublishedDate(),
+                    inflater.getContext());
             publishDateTextView.setText(publishDate);
-            Picasso.get().load(newsItem.getImageUrl()).into(imageView);
+
+            if (newsItem.getMultimedia().size() != 0) {
+                imageView.setVisibility(View.VISIBLE);
+                int previewImagePosition = newsItem.getMultimedia().size() - 2;
+                String previewImageUrl = newsItem.getMultimedia().get(previewImagePosition).getUrl();
+                Picasso.get().load(previewImageUrl).into(imageView);
+            } else {
+                imageView.setVisibility(View.GONE);
+            }
         }
     }
 

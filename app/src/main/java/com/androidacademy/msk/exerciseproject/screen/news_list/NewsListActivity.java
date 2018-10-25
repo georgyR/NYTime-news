@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.model.OfflineNewsItem;
+import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -116,7 +116,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void showNews(@NonNull List<OfflineNewsItem> news) {
+    public void showNews(@NonNull List<NewsItem> news) {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);

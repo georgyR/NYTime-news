@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.model.OfflineNewsItem;
-import com.androidacademy.msk.exerciseproject.utils.DataUtils;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +45,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
+        /*int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
         OfflineNewsItem newsItem = DataUtils.NEWS.get(position);
 
         setTitle(newsItem.getCategory().getName());
@@ -63,7 +61,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         publishDateTextView.setText(publishDate);
 
         fullTextView = findViewById(R.id.activity_news_details__textview_full_text);
-        fullTextView.setText(newsItem.getFullText());
+        fullTextView.setText(newsItem.getFullText());*/
     }
 
     @Override

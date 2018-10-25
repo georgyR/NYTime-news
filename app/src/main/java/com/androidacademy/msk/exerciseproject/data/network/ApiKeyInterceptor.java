@@ -1,5 +1,7 @@
 package com.androidacademy.msk.exerciseproject.data.network;
 
+import android.support.annotation.NonNull;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -14,12 +16,12 @@ public class ApiKeyInterceptor implements Interceptor {
 
     private final String apiKey;
 
-    public ApiKeyInterceptor(String apiKey) {
+    public ApiKeyInterceptor(@NonNull String apiKey) {
         this.apiKey = apiKey;
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
         HttpUrl url = request.url().newBuilder()
