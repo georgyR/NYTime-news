@@ -60,4 +60,8 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     public void onItemClicked(int position) {
         getViewState().openDetailsScreen(position);
     }
+
+    public void onTryAgainButtonClicked() {
+        getNews();
+    }
 }

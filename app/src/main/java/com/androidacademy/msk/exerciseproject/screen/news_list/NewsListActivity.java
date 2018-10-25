@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.androidacademy.msk.exerciseproject.R;
@@ -39,6 +40,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     private View errorView;
     @NonNull
     private RecyclerView.LayoutManager layoutManager;
+    @NonNull
+    private Button tryAgainButton;
     @Nullable
     private Parcelable listState;
     @NonNull
@@ -61,6 +64,9 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         setupRecyclerView(recyclerView);
 
         errorView = findViewById(R.id.activity_news_list__view_error);
+
+        tryAgainButton = findViewById(R.id.view_error__button_try_again);
+        tryAgainButton.setOnClickListener(v -> presenter.onTryAgainButtonClicked());
     }
 
     @Override
