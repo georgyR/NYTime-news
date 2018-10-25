@@ -3,7 +3,8 @@ package com.androidacademy.msk.exerciseproject.utils;
 import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.data.Category;
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.data.model.OfflineNewsItem;
+import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,10 +16,10 @@ public class DataUtils {
     private DataUtils() {
     }
 
-    public static final List<NewsItem> NEWS = generateNews();
+    public static final List<OfflineNewsItem> NEWS = generateNews();
 
     @NonNull
-    private static List<NewsItem> generateNews() {
+    private static List<OfflineNewsItem> generateNews() {
 
         Calendar calendar = Calendar.getInstance();
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -26,8 +27,8 @@ public class DataUtils {
         int currentMonth = calendar.get(Calendar.MONTH) + 1;
         int currentYear = calendar.get(Calendar.YEAR);
 
-        List<NewsItem> news = new ArrayList<>();
-        news.add(new NewsItem(
+        List<OfflineNewsItem> news = new ArrayList<>();
+        news.add(new OfflineNewsItem(
                 "Tourist filmed sitting on 5m-long crocodile",
                 "https://e3.365dm.com/18/09/736x414/skynews-crocodile-australia_4433218.jpg",
                 Category.DARWIN_AWARDS,
@@ -52,7 +53,7 @@ public class DataUtils {
         int yesterdayMonth = calendar.get(Calendar.MONTH) + 1;
         int yesterdayYear = calendar.get(Calendar.YEAR);
 
-        news.add(new NewsItem(
+        news.add(new OfflineNewsItem(
                 "Police warn daredevil cliff jumpers who are 'risking their lives for likes'",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-cliff-jumping-greg-milam_4433647.jpg",
                 Category.CRIMINAL,
@@ -74,7 +75,7 @@ public class DataUtils {
         calendar.add(Calendar.YEAR, -1);
         int previousYear = calendar.get(Calendar.YEAR);
 
-        news.add(new NewsItem(
+        news.add(new OfflineNewsItem(
                 "Bear saved after getting his head stuck in milk can",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-bear-minnesota_4419111.jpg",
                 Category.ANIMALS,
@@ -91,7 +92,7 @@ public class DataUtils {
                         + "accident victims - and a spreader to pry the can off.\n\n"
                         + "After being released, the seemingly healthy bear ran off into the woods."
         ));
-        news.add(new NewsItem(
+        news.add(new OfflineNewsItem(
                 "Nearly $18m of cocaine seized in donated boxes of bananas",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-texas-bananas-drugs_4430760.jpg",
                 Category.CRIMINAL,
@@ -111,7 +112,7 @@ public class DataUtils {
                         + "\"They immediately notified port authorities and awaited their instruction.\""
                         + "US Customs arrived and tested the substance, which confirmed the powder was cocaine."
         ));
-        news.add(new NewsItem(
+        news.add(new OfflineNewsItem(
                 "US government hacker jailed after losing secrets",
                 "https://e3.365dm.com/17/09/736x414/d55722dc4eb37f6959d2e047c14710d586aab99f90aa1e4acfd9f992125294f5_4107038.jpg",
                 Category.CRIMINAL,
@@ -135,7 +136,7 @@ public class DataUtils {
                         + " that an NSA employee had actually been hacked when he downloaded pirate software and disabled "
                         + "Kaspersky's anti-virus."
         ));
-        news.add(new NewsItem(
+        news.add(new OfflineNewsItem(
                 "Wet Wet Wet announce Liberty X star Kevin Simm as new frontman",
                 "https://e3.365dm.com/18/09/2048x1152/skynews-wet-wet-wet-kevin-simm_4433314.jpg",
                 Category.MUSIC,

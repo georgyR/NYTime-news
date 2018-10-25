@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.data.model.OfflineNewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DataUtils;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.squareup.picasso.Picasso;
 
 public class NewsDetailsActivity extends AppCompatActivity {
@@ -48,7 +48,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         }
 
         int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
-        NewsItem newsItem = DataUtils.NEWS.get(position);
+        OfflineNewsItem newsItem = DataUtils.NEWS.get(position);
 
         setTitle(newsItem.getCategory().getName());
 

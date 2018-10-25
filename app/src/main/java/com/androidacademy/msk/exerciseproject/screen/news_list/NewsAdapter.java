@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.androidacademy.msk.exerciseproject.data.Category;
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.data.model.OfflineNewsItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
-    private List<NewsItem> news = new ArrayList<>();
+    private List<OfflineNewsItem> news = new ArrayList<>();
     @NonNull
     private final OnItemClickListener clickListener;
     @NonNull
@@ -63,7 +63,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    public void addListData(List<NewsItem> newsItems) {
+    public void addListData(List<OfflineNewsItem> newsItems) {
         news.addAll(newsItems);
         notifyDataSetChanged();
     }
@@ -92,7 +92,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             });
         }
 
-        private void bind(@NonNull NewsItem newsItem) {
+        private void bind(@NonNull OfflineNewsItem newsItem) {
             categoryTextView.setText(newsItem.getCategory().getName());
             titleTextView.setText(newsItem.getTitle());
             previewTextView.setText(newsItem.getPreviewText());
