@@ -12,20 +12,29 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.data.Section;
 import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
+import com.androidacademy.msk.exerciseproject.utils.DataUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
 
@@ -39,16 +48,20 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @NonNull
     private View errorView;
     @NonNull
-    private RecyclerView.LayoutManager layoutManager;
-    @NonNull
     private Button tryAgainButton;
+    @NonNull
+    private Spinner spinner;
+    @NonNull
+    private RecyclerView.LayoutManager layoutManager;
     @Nullable
     private Parcelable listState;
     @NonNull
     private NewsAdapter adapter;
 
+
     @InjectPresenter
     public NewsListPresenter presenter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +70,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         Toolbar toolbar = findViewById(R.id.all_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         progressBar = findViewById(R.id.activity_news_list__progressbar);
 
@@ -67,6 +81,9 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         tryAgainButton = findViewById(R.id.view_error__button_try_again);
         tryAgainButton.setOnClickListener(v -> presenter.onTryAgainButtonClicked());
+
+        spinner = findViewById(R.id.activity_news_list__spinner);
+        setupSpinner(spinner);
     }
 
     @Override
@@ -128,6 +145,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         errorView.setVisibility(View.GONE);
 
         adapter.addListData(news);
+        recyclerView.scrollToPosition(0);
     }
 
     @Override
@@ -183,5 +201,22 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
                 presenter.onItemClicked(position);
         adapter = new NewsAdapter(clickListener, this);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setupSpinner(@NonNull Spinner spinner) {
+        List<String> spinnerList = DataUtils.convertEmunValuesToList(Section.values());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, spinnerList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                presenter.onSpinnerItemClicked(spinnerList.get(position).toLowerCase());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 }

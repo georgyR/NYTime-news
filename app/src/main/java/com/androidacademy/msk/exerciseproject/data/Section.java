@@ -7,7 +7,7 @@ public enum Section {
     WORLD,
     NATIONAL,
     POLITICS,
-    UPSHOTS,
+    UPSHOT,
     NYREGION,
     BUSINESS,
     TECHNOLOGY,

@@ -3,7 +3,6 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.data.Section;
 import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.squareup.picasso.Picasso;
@@ -37,7 +37,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                inflater.inflate(R.layout.item_common_news, parent, false),
+                inflater.inflate(viewType, parent, false),
                 clickListener);
     }
 
@@ -51,19 +51,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return news.size();
     }
 
-    /*@Override
+    @Override
     public int getItemViewType(int position) {
-        Category category = news.get(position).getCategory();
+        try {
+            Section section = Section.valueOf(news.get(position).getSection().toUpperCase());
 
-        switch (category) {
-            case CRIMINAL:
-                return R.layout.item_criminal_news;
-            default:
-                return R.layout.item_common_news;
+            switch (section) {
+                case WORLD:
+                    return R.layout.item_world_news;
+                default:
+                    return R.layout.item_common_news;
+            }
+        } catch (IllegalArgumentException e) {
+            return R.layout.item_common_news;
+
         }
-    }*/
+    }
 
     public void addListData(List<NewsItem> newsItems) {
+        news.clear();
         news.addAll(newsItems);
         notifyDataSetChanged();
     }

@@ -20,10 +20,11 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     @NonNull
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    private String currentSelectedSection = null;
+
     @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        getNews();
+    public void attachView(NewsListView view) {
+        super.attachView(view);
     }
 
     @Override
@@ -32,20 +33,8 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
         compositeDisposable.clear();
     }
 
-    private void getNews() {
-
-        /*disposable = Single
-                .fromCallable(() -> DataUtils.NEWS)
-                .delay(2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showProgressBar())
-                .subscribe(newsItems -> getViewState().showNews(newsItems),
-                        throwable -> {
-                            getViewState().showError();
-                            Log.d(TAG, "failed creating single from news list", throwable);
-                        });*/
-        compositeDisposable.add(App.getApiEndpoint().getNews(Section.HOME.toString().toLowerCase())
+    private void getNews(String section) {
+        compositeDisposable.add(App.getApiEndpoint().getNews(section)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
@@ -62,6 +51,16 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     }
 
     public void onTryAgainButtonClicked() {
-        getNews();
+        getNews(currentSelectedSection);
+    }
+
+
+    public void onSpinnerItemClicked(@NonNull String section) {
+        Log.d(TAG, "onSpinnerItemClicked: " + section);
+        if (!section.equals(currentSelectedSection)) {
+            getNews(section);
+            currentSelectedSection = section;
+        }
+
     }
 }
