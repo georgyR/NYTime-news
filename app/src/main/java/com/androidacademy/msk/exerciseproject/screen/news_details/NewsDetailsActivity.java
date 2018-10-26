@@ -7,30 +7,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.webkit.WebView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.utils.DateUtils;
-import com.squareup.picasso.Picasso;
 
 public class NewsDetailsActivity extends AppCompatActivity {
 
-    private static final String EXTRA_POSITION = "EXTRA_POSITION";
+    private static final String EXTRA_URL = "EXTRA_URL";
 
     @NonNull
-    private ImageView imageView;
-    @NonNull
-    private TextView titleTextView;
-    @NonNull
-    private TextView publishDateTextView;
-    @NonNull
-    private TextView fullTextView;
+    private WebView webView;
 
     @NonNull
-    public static Intent getStartIntent(int position, @NonNull Context context) {
+    public static Intent getStartIntent(String url, @NonNull Context context) {
         Intent intent = new Intent(context, NewsDetailsActivity.class);
-        intent.putExtra(EXTRA_POSITION, position);
+        intent.putExtra(EXTRA_URL, url);
         return intent;
     }
 
@@ -45,23 +36,9 @@ public class NewsDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        /*int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
-        OfflineNewsItem newsItem = DataUtils.NEWS.get(position);
-
-        setTitle(newsItem.getCategory().getName());
-
-        imageView = findViewById(R.id.activity_news_details__imageview_news);
-        Picasso.get().load(newsItem.getImageUrl()).into(imageView);
-
-        titleTextView = findViewById(R.id.activity_news_details__textview_title);
-        titleTextView.setText(newsItem.getTitle());
-
-        publishDateTextView = findViewById(R.id.activity_news_details__textview_publish_date);
-        String publishDate = DateUtils.convertDateToString(newsItem.getPublishDate(), this);
-        publishDateTextView.setText(publishDate);
-
-        fullTextView = findViewById(R.id.activity_news_details__textview_full_text);
-        fullTextView.setText(newsItem.getFullText());*/
+        webView = findViewById(R.id.activity_news_details__webview);
+        String url = getIntent().getStringExtra(EXTRA_URL);
+        webView.loadUrl(url);
     }
 
     @Override

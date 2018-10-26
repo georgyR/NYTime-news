@@ -93,7 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             itemView.setOnClickListener(v -> {
                 int position = ViewHolder.this.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(position);
+                    listener.onItemClick(news.get(position).getUrl());
                 }
             });
         }
@@ -121,6 +121,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(String url);
     }
 }

@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +20,7 @@ public class DateUtils {
 
     @NonNull
     public static String convertTimestampToString(@NonNull String timestamp, @NonNull Context context) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
         Date date;
         try {
              date = formatter.parse(timestamp);

@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,10 +30,7 @@ import com.androidacademy.msk.exerciseproject.utils.DataUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
 
@@ -163,8 +159,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void openDetailsScreen(int position) {
-        startActivity(NewsDetailsActivity.getStartIntent(position, this));
+    public void openDetailsScreen(String url) {
+        startActivity(NewsDetailsActivity.getStartIntent(url, this));
     }
 
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {
@@ -197,8 +193,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         recyclerView.setHasFixedSize(true);
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
-        NewsAdapter.OnItemClickListener clickListener = position ->
-                presenter.onItemClicked(position);
+        NewsAdapter.OnItemClickListener clickListener = url -> presenter.onItemClicked(url);
         adapter = new NewsAdapter(clickListener, this);
         recyclerView.setAdapter(adapter);
     }

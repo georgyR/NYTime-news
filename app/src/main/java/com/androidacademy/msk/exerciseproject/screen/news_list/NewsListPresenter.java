@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.App;
-import com.androidacademy.msk.exerciseproject.data.Section;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -46,8 +45,8 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                         }));
     }
 
-    public void onItemClicked(int position) {
-        getViewState().openDetailsScreen(position);
+    public void onItemClicked(String url) {
+        getViewState().openDetailsScreen(url);
     }
 
     public void onTryAgainButtonClicked() {
