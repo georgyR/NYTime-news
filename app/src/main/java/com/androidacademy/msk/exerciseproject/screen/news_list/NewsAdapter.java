@@ -57,8 +57,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             Section section = Section.valueOf(news.get(position).getSection().toUpperCase());
 
             switch (section) {
-                case WORLD:
-                    return R.layout.item_world_news;
+                case TECHNOLOGY:
+                    return R.layout.item_technology_news;
                 default:
                     return R.layout.item_common_news;
             }
@@ -111,6 +111,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             if (newsItem.getMultimedia().size() != 0) {
                 imageView.setVisibility(View.VISIBLE);
+                //get the position of the best quality preview image - it is always
+                // the second position from the end of a list
                 int previewImagePosition = newsItem.getMultimedia().size() - 2;
                 String previewImageUrl = newsItem.getMultimedia().get(previewImagePosition).getUrl();
                 Picasso.get().load(previewImageUrl).into(imageView);

@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.Section;
 import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
 import com.androidacademy.msk.exerciseproject.utils.DataUtils;
@@ -31,6 +32,10 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
+
+import static com.androidacademy.msk.exerciseproject.screen.UiState.ERROR;
+import static com.androidacademy.msk.exerciseproject.screen.UiState.HAS_DATA;
+import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
 
 public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
 
@@ -53,11 +58,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     private Parcelable listState;
     @NonNull
     private NewsAdapter adapter;
-
+    @NonNull
+    private ViewVisibilitySwitcher visibilitySwitcher;
 
     @InjectPresenter
     public NewsListPresenter presenter;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +79,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         setupRecyclerView(recyclerView);
 
         errorView = findViewById(R.id.activity_news_list__view_error);
+
+        visibilitySwitcher = new ViewVisibilitySwitcher(recyclerView, progressBar, errorView);
 
         tryAgainButton = findViewById(R.id.view_error__button_try_again);
         tryAgainButton.setOnClickListener(v -> presenter.onTryAgainButtonClicked());
@@ -136,9 +143,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @Override
     public void showNews(@NonNull List<NewsItem> news) {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        errorView.setVisibility(View.GONE);
+        visibilitySwitcher.setUiState(HAS_DATA);
 
         adapter.addListData(news);
         recyclerView.scrollToPosition(0);
@@ -146,16 +151,12 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @Override
     public void showError() {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
-        errorView.setVisibility(View.VISIBLE);
+        visibilitySwitcher.setUiState(ERROR);
     }
 
     @Override
     public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        errorView.setVisibility(View.GONE);
+        visibilitySwitcher.setUiState(LOADING);
     }
 
     @Override

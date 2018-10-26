@@ -28,8 +28,6 @@ public class NewsItem {
     private String url;
     @SerializedName("published_date")
     private String publishedDate;
-    @SerializedName("material_type_facet")
-    private String materialTypeFacet;
     @SerializedName("multimedia")
     private List<MultimediaBean> multimedia;
 
@@ -80,14 +78,6 @@ public class NewsItem {
 
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
-    }
-
-    public String getMaterialTypeFacet() {
-        return materialTypeFacet;
-    }
-
-    public void setMaterialTypeFacet(String materialTypeFacet) {
-        this.materialTypeFacet = materialTypeFacet;
     }
 
     public List<MultimediaBean> getMultimedia() {
