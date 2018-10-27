@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,18 +14,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--    <android.support.v4.widget.NestedScrollView
-            android:id="@+id/activity_news_details__newsted_scrollview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-    <WebView
-        android:id="@+id/activity_news_details__webview"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        <WebView
+            android:id="@+id/activity_news_details__webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <include
         android:id="@+id/activity_news_details__progressbar"
