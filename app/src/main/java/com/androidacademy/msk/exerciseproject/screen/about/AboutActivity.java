@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.SocialNetworkApp;
+import com.androidacademy.msk.exerciseproject.network.SocialNetworkApp;
 import com.androidacademy.msk.exerciseproject.utils.IntentUtils;
 
 

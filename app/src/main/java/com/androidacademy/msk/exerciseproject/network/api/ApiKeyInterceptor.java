@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.data.network;
+package com.androidacademy.msk.exerciseproject.network.api;
 
 import android.support.annotation.NonNull;
 
@@ -13,7 +13,7 @@ public class ApiKeyInterceptor implements Interceptor {
 
 
     private static final String API_KEY_PARAMETER = "api-key";
-
+    @NonNull
     private final String apiKey;
 
     public ApiKeyInterceptor(@NonNull String apiKey) {

@@ -32,7 +32,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
     @NonNull
     private View errorView;
     @NonNull
-    private Button tryGainButton;
+    private Button tryAgainButton;
     @NonNull
     private ProgressBar progressBar;
     @NonNull
@@ -63,8 +63,8 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
         visibilitySwitcher = new ViewVisibilitySwitcher(webView, progressBar, errorView);
 
-        tryGainButton = findViewById(R.id.view_error__button_try_again);
-        tryGainButton.setOnClickListener(v -> webView.reload());
+        tryAgainButton = findViewById(R.id.view_error__button_try_again);
+        tryAgainButton.setOnClickListener(v -> webView.reload());
     }
 
     @Override

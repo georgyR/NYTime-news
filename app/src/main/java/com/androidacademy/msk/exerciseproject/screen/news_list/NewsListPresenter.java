@@ -1,9 +1,9 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.App;
+import com.androidacademy.msk.exerciseproject.network.api.Section;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -15,11 +15,9 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsListPresenter extends MvpPresenter<NewsListView> {
 
     @NonNull
-    private static final String TAG = "rx_exception";
-    @NonNull
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    private String currentSelectedSection = null;
+    private Section currentSelectedSection = null;
 
     @Override
     public void attachView(NewsListView view) {
@@ -32,17 +30,20 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
         compositeDisposable.clear();
     }
 
-    private void getNews(String section) {
-        compositeDisposable.add(App.getApiEndpoint().getNews(section)
+    private void getNews(Section section) {
+        compositeDisposable.add(App.getApi().getNews(section.getLowerCaseName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
                 .subscribe(
-                        newsRequest -> getViewState().showNews(newsRequest.getResults()),
-                        throwable -> {
-                            getViewState().showError();
-                            Log.d(TAG, "getNews: view_error " + throwable.getMessage());
-                        }));
+                        newsRequest -> {
+                            if (newsRequest.getResults() != null) {
+                                getViewState().showNews(newsRequest.getResults());
+                            } else {
+                                getViewState().showError();
+                            }
+                        },
+                        throwable -> getViewState().showError()));
     }
 
     public void onItemClicked(String url) {
@@ -54,8 +55,7 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     }
 
 
-    public void onSpinnerItemClicked(@NonNull String section) {
-        Log.d(TAG, "onSpinnerItemClicked: " + section);
+    public void onSpinnerItemClicked(@NonNull Section section) {
         if (!section.equals(currentSelectedSection)) {
             getNews(section);
             currentSelectedSection = section;

@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.Section;
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.network.api.Section;
+import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
-    private List<NewsItem> news = new ArrayList<>();
+    private final List<NewsItem> news = new ArrayList<>();
     @NonNull
     private final OnItemClickListener clickListener;
     @NonNull
@@ -104,15 +104,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             titleTextView.setText(newsItem.getTitle());
             previewTextView.setText(newsItem.getAbstractX());
 
-            String publishDate = DateUtils.convertTimestampToString(
-                    newsItem.getPublishedDate(),
-                    inflater.getContext());
+            String publishDate = null;
+            if (newsItem.getPublishedDate() != null) {
+                publishDate = DateUtils.convertTimestampToString(
+                        newsItem.getPublishedDate(),
+                        inflater.getContext());
+            }
             publishDateTextView.setText(publishDate);
 
-            if (newsItem.getMultimedia().size() != 0) {
+            if (newsItem.getMultimedia() != null && newsItem.getMultimedia().size() > 1) {
                 imageView.setVisibility(View.VISIBLE);
-                //get the position of the best quality preview image - it is always
-                // the second position from the end of a list
+                // Get the position of the best quality preview image.
+                // It is the second position from the end of a list.
                 int previewImagePosition = newsItem.getMultimedia().size() - 2;
                 String previewImageUrl = newsItem.getMultimedia().get(previewImagePosition).getUrl();
                 Picasso.get().load(previewImageUrl).into(imageView);

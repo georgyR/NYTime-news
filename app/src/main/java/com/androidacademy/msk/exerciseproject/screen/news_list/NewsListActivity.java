@@ -22,12 +22,12 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.Section;
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.network.api.Section;
+import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
-import com.androidacademy.msk.exerciseproject.utils.DataUtils;
+import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -200,14 +200,14 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     private void setupSpinner(@NonNull Spinner spinner) {
-        List<String> spinnerList = DataUtils.convertEmunValuesToList(Section.values());
+        List<String> spinnerList = EnumUtils.convertEnumValuesToList(Section.values());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, spinnerList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                presenter.onSpinnerItemClicked(spinnerList.get(position).toLowerCase());
+                presenter.onSpinnerItemClicked(Section.values()[position]);
             }
 
             @Override

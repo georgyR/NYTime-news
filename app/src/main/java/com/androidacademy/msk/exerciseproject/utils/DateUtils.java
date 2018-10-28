@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class DateUtils {
 
     private DateUtils() {
+        throw new UnsupportedOperationException("There should be no class instance");
     }
 
     @NonNull

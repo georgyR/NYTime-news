@@ -1,6 +1,9 @@
-package com.androidacademy.msk.exerciseproject.data.network;
+package com.androidacademy.msk.exerciseproject.network.api;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+
+import com.androidacademy.msk.exerciseproject.BuildConfig;
 
 import java.util.concurrent.TimeUnit;
 
@@ -10,14 +13,14 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NYTimesApi {
+public class NYTimesApiProvider {
 
     private static final String URL = "https://api.nytimes.com/svc/topstories/v2/";
     private static final String API_KEY = "753fb43c9ecd4286b7e684e38e51d5ad";
-    private static final int TIMEOUT_IN_SECONDS = 2;
+    private static final int TIMEOUT_IN_SECONDS = 5;
 
-    private NYTimesApi() {
-        throw new RuntimeException("There is must be no instance!");
+    private NYTimesApiProvider() {
+        throw new UnsupportedOperationException("There should be no class instance");
     }
 
     @NonNull
@@ -32,12 +35,17 @@ public class NYTimesApi {
 
     @NonNull
     private static OkHttpClient buildOkHttpClient() {
-        HttpLoggingInterceptor loggingInterceptor =
-                new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-        return new OkHttpClient.Builder()
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor loggingInterceptor =
+                    new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            builder.addInterceptor(loggingInterceptor);
+        }
+
+        return builder
                 .addInterceptor(new ApiKeyInterceptor(API_KEY))
-                .addInterceptor(loggingInterceptor)
                 .connectTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .writeTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
@@ -45,10 +53,10 @@ public class NYTimesApi {
     }
 
     @NonNull
-    public static ApiEndpoint createApiEndpoint() {
+    public static NYTimesApi createApi() {
         OkHttpClient client = buildOkHttpClient();
         Retrofit retrofit = buildRetrofit(client);
-        return retrofit.create(ApiEndpoint.class);
+        return retrofit.create(NYTimesApi.class);
     }
 
 
