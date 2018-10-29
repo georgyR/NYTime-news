@@ -12,15 +12,6 @@ public enum Section {
     BUSINESS,
     TECHNOLOGY,
     SCIENCE,
-    HEALTH;
-
-    public String getLowerCaseName() {
-        return this.toString().toLowerCase();
-    }
-
-    public String getHeadwordName() {
-        return this.toString().substring(0, 1) +
-                this.toString().substring(1).toLowerCase();
-    }
+    HEALTH
 
 }

@@ -35,7 +35,9 @@ public class NYTimesApiProvider {
 
     @NonNull
     private static OkHttpClient buildOkHttpClient() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .addInterceptor(new ApiKeyInterceptor(API_KEY));
 
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor =
@@ -45,7 +47,6 @@ public class NYTimesApiProvider {
         }
 
         return builder
-                .addInterceptor(new ApiKeyInterceptor(API_KEY))
                 .connectTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .writeTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)

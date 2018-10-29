@@ -12,9 +12,12 @@ public class Image {
      */
 
     @SerializedName("url")
+    @Nullable
     private String url;
+
     @SerializedName("height")
     private int height;
+
     @SerializedName("width")
     private int width;
 

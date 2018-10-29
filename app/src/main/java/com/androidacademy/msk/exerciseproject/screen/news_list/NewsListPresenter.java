@@ -1,6 +1,7 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
@@ -30,8 +31,8 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
         compositeDisposable.clear();
     }
 
-    private void getNews(Section section) {
-        compositeDisposable.add(App.getApi().getNews(section.getLowerCaseName())
+    private void getNews(@NonNull Section section) {
+        compositeDisposable.add(App.getApi().getNews(section.toString().toLowerCase())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
@@ -46,7 +47,7 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                         throwable -> getViewState().showError()));
     }
 
-    public void onItemClicked(String url) {
+    public void onItemClicked(@NonNull String url) {
         getViewState().openDetailsScreen(url);
     }
 

@@ -2,8 +2,6 @@ package com.androidacademy.msk.exerciseproject.utils;
 
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.network.api.Section;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +12,12 @@ public class EnumUtils {
     }
 
     @NonNull
-    public static List<String> convertEnumValuesToList(Section[] sectionArray) {
-        List<String> spinnerList = new ArrayList<>(sectionArray.length);
-        for (Section section : sectionArray) {
-            String result = section.getHeadwordName();
-            spinnerList.add(result);
+    public static <T extends Enum<T>> List<String> convertEnumValuesToList(@NonNull T[] enumArray) {
+        List<String> list = new ArrayList<>(enumArray.length);
+        for (T enumItem : enumArray) {
+            String result = StringUtils.capitalize(enumItem.toString());
+            list.add(result);
         }
-        return spinnerList;
+        return list;
     }
 }
