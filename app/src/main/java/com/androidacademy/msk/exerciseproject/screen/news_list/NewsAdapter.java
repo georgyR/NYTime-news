@@ -13,7 +13,7 @@ import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
 import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +118,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 // It is the second position from the end of a list.
                 int previewImagePosition = newsItem.getMultimedia().size() - 2;
                 String previewImageUrl = newsItem.getMultimedia().get(previewImagePosition).getUrl();
-                Picasso.get().load(previewImageUrl).into(imageView);
+                Glide.with(imageView.getRootView().getContext()).load(previewImageUrl).into(imageView);
             } else {
                 imageView.setVisibility(View.GONE);
             }
