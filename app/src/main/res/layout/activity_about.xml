@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/height_photo"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/profile_photo"
+                android:src="@drawable/photo_details"
                 tools:ignore="ContentDescription" />
 
             <include layout="@layout/view_profile_information" />

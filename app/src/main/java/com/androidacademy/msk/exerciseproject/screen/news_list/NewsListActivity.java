@@ -1,5 +1,7 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -23,7 +25,7 @@ import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
-import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.model.network.NetworkNewsItem;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
@@ -63,6 +65,10 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @InjectPresenter
     public NewsListPresenter presenter;
+
+    public static Intent getStartIntent(@NonNull Context context) {
+        return new Intent(context, NewsListActivity.class);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -142,7 +148,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void showNews(@NonNull List<NewsItem> news) {
+    public void showNews(@NonNull List<NetworkNewsItem> news) {
         visibilitySwitcher.setUiState(HAS_DATA);
 
         adapter.addListData(news);

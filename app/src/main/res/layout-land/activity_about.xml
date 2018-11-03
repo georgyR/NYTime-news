@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_photo"
+            android:src="@drawable/photo_details"
             tools:ignore="ContentDescription" />
 
         <ScrollView

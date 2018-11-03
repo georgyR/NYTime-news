@@ -1,10 +1,10 @@
-package com.androidacademy.msk.exerciseproject.network.model;
+package com.androidacademy.msk.exerciseproject.model.network;
 
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Image {
+public class NetworkImage {
     /**
      * url : https://static01.nyt.com/images/2018/10/24/nyregion/25CLINTON3-promo/25CLINTON3-promo-thumbStandard.jpg
      * height : 75

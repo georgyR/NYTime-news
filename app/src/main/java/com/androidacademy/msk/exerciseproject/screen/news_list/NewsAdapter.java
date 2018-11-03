@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.model.network.NetworkNewsItem;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
-import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.bumptech.glide.Glide;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
-    private final List<NewsItem> news = new ArrayList<>();
+    private final List<NetworkNewsItem> news = new ArrayList<>();
     @NonNull
     private final OnItemClickListener clickListener;
     @NonNull
@@ -68,7 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    public void addListData(List<NewsItem> newsItems) {
+    public void addListData(List<NetworkNewsItem> newsItems) {
         news.clear();
         news.addAll(newsItems);
         notifyDataSetChanged();
@@ -98,7 +98,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             });
         }
 
-        private void bind(@NonNull NewsItem newsItem) {
+        private void bind(@NonNull NetworkNewsItem newsItem) {
             String section = newsItem.getSection();
             categoryTextView.setText(section);
             titleTextView.setText(newsItem.getTitle());

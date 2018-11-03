@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.network.model;
+package com.androidacademy.msk.exerciseproject.model.network;
 
 import android.support.annotation.Nullable;
 
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class NewsItem {
+public class NetworkNewsItem {
 
     /**
      * section : New York
@@ -44,7 +44,7 @@ public class NewsItem {
 
     @SerializedName("multimedia")
     @Nullable
-    private List<Image> multimedia;
+    private List<NetworkImage> multimedia;
 
 
     @Nullable
@@ -102,11 +102,11 @@ public class NewsItem {
     }
 
     @Nullable
-    public List<Image> getMultimedia() {
+    public List<NetworkImage> getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia(@Nullable List<Image> multimedia) {
+    public void setMultimedia(@Nullable List<NetworkImage> multimedia) {
         this.multimedia = multimedia;
     }
 
