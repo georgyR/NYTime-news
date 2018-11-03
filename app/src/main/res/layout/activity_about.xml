@@ -28,7 +28,7 @@
                 android:src="@drawable/profile_photo"
                 tools:ignore="ContentDescription" />
 
-            <include layout="@layout/profile_information" />
+            <include layout="@layout/view_profile_information" />
 
         </LinearLayout>
 

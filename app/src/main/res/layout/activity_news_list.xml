@@ -9,7 +9,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar" />
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/all_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="@dimen/elevation_toolbar"
+            android:textColorPrimary="@android:color/black"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <Spinner
+                android:id="@+id/activity_news_list__spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
+        </android.support.v7.widget.Toolbar>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -23,16 +41,14 @@
                 android:paddingTop="@dimen/padding_small"
                 tools:listitem="@layout/item_common_news" />
 
-            <ProgressBar
+            <include
                 android:id="@+id/activity_news_list__progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+                layout="@layout/progressbar"
+                android:visibility="gone"/>
 
             <include
                 android:id="@+id/activity_news_list__view_error"
-                layout="@layout/error"
+                layout="@layout/view_error"
                 android:visibility="gone"/>
 
         </FrameLayout>

@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-            <include layout="@layout/profile_information" />
+            <include layout="@layout/view_profile_information" />
 
         </ScrollView>
 

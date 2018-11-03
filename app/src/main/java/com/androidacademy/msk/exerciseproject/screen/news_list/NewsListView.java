@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
@@ -22,5 +22,5 @@ public interface NewsListView extends MvpView {
     void showError();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void openDetailsScreen(int position);
+    void openDetailsScreen(String url);
 }

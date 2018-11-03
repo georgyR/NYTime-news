@@ -2,37 +2,46 @@ package com.androidacademy.msk.exerciseproject.screen.news_details;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.utils.DataUtils;
-import com.androidacademy.msk.exerciseproject.utils.DateUtils;
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
-import com.squareup.picasso.Picasso;
+import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
+
+import static com.androidacademy.msk.exerciseproject.screen.UiState.ERROR;
+import static com.androidacademy.msk.exerciseproject.screen.UiState.HAS_DATA;
+import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
 
 public class NewsDetailsActivity extends AppCompatActivity {
 
-    private static final String EXTRA_POSITION = "EXTRA_POSITION";
+    private static final String EXTRA_URL = "EXTRA_URL";
 
     @NonNull
-    private ImageView imageView;
+    private WebView webView;
     @NonNull
-    private TextView titleTextView;
+    private View errorView;
     @NonNull
-    private TextView publishDateTextView;
+    private Button tryAgainButton;
     @NonNull
-    private TextView fullTextView;
+    private ProgressBar progressBar;
+    @NonNull
+    private ViewVisibilitySwitcher visibilitySwitcher;
 
     @NonNull
-    public static Intent getStartIntent(int position, @NonNull Context context) {
+    public static Intent getStartIntent(@NonNull String url, @NonNull Context context) {
         Intent intent = new Intent(context, NewsDetailsActivity.class);
-        intent.putExtra(EXTRA_POSITION, position);
+        intent.putExtra(EXTRA_URL, url);
         return intent;
     }
 
@@ -47,28 +56,62 @@ public class NewsDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
-        NewsItem newsItem = DataUtils.NEWS.get(position);
+        progressBar = findViewById(R.id.activity_news_details__progressbar);
+        errorView = findViewById(R.id.activity_news_details__view_error);
+        webView = findViewById(R.id.activity_news_details__webview);
+        setupWebView(webView, savedInstanceState);
 
-        setTitle(newsItem.getCategory().getName());
+        visibilitySwitcher = new ViewVisibilitySwitcher(webView, progressBar, errorView);
 
-        imageView = findViewById(R.id.activity_news_details__imageview_news);
-        Picasso.get().load(newsItem.getImageUrl()).into(imageView);
+        tryAgainButton = findViewById(R.id.view_error__button_try_again);
+        tryAgainButton.setOnClickListener(v -> webView.reload());
+    }
 
-        titleTextView = findViewById(R.id.activity_news_details__textview_title);
-        titleTextView.setText(newsItem.getTitle());
-
-        publishDateTextView = findViewById(R.id.activity_news_details__textview_publish_date);
-        String publishDate = DateUtils.convertDateToString(newsItem.getPublishDate(), this);
-        publishDateTextView.setText(publishDate);
-
-        fullTextView = findViewById(R.id.activity_news_details__textview_full_text);
-        fullTextView.setText(newsItem.getFullText());
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        webView.saveState(outState);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void setupWebView(@NonNull WebView webView,
+                              @Nullable Bundle savedInstanceState) {
+        webView.restoreState(savedInstanceState);
+        webView.setWebViewClient(new DetailsWebViewClient());
+        String url = getIntent().getStringExtra(EXTRA_URL);
+        webView.loadUrl(url);
+    }
+
+    private class DetailsWebViewClient extends WebViewClient {
+
+        private boolean loadingIsFailed;
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            loadingIsFailed = false;
+            visibilitySwitcher.setUiState(LOADING);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+            loadingIsFailed = true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            if (loadingIsFailed) {
+                visibilitySwitcher.setUiState(ERROR);
+            } else {
+                visibilitySwitcher.setUiState(HAS_DATA);
+            }
+        }
     }
 }

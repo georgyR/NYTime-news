@@ -1,54 +1,66 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.annotation.Nullable;
 
-import com.androidacademy.msk.exerciseproject.utils.DataUtils;
+import com.androidacademy.msk.exerciseproject.App;
+import com.androidacademy.msk.exerciseproject.network.api.Section;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class NewsListPresenter extends MvpPresenter<NewsListView> {
 
     @NonNull
-    private static final String TAG = "rx_exception";
-    @NonNull
-    private Disposable disposable;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private Section currentSelectedSection = null;
 
     @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        getNews();
+    public void attachView(NewsListView view) {
+        super.attachView(view);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disposable.dispose();
+        compositeDisposable.clear();
     }
 
-    private void getNews() {
-        disposable = Single
-                .fromCallable(() -> DataUtils.NEWS)
-                .delay(2, TimeUnit.SECONDS)
+    private void getNews(@NonNull Section section) {
+        compositeDisposable.add(App.getApi().getNews(section.toString().toLowerCase())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
-                .subscribe(newsItems -> getViewState().showNews(newsItems),
-                        throwable -> {
-                            getViewState().showError();
-                            Log.d(TAG, "failed creating single from news list", throwable);
-                        });
+                .subscribe(
+                        newsRequest -> {
+                            if (newsRequest.getResults() != null) {
+                                getViewState().showNews(newsRequest.getResults());
+                            } else {
+                                getViewState().showError();
+                            }
+                        },
+                        throwable -> getViewState().showError()));
     }
 
-    public void onItemClicked(int position) {
-        getViewState().openDetailsScreen(position);
+    public void onItemClicked(@NonNull String url) {
+        getViewState().openDetailsScreen(url);
+    }
+
+    public void onTryAgainButtonClicked() {
+        getNews(currentSelectedSection);
+    }
+
+
+    public void onSpinnerItemClicked(@NonNull Section section) {
+        if (!section.equals(currentSelectedSection)) {
+            getNews(section);
+            currentSelectedSection = section;
+        }
+
     }
 }

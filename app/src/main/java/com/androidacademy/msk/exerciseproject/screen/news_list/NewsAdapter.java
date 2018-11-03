@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.network.api.Section;
+import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
-import com.androidacademy.msk.exerciseproject.data.Category;
-import com.androidacademy.msk.exerciseproject.data.model.NewsItem;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
-    private List<NewsItem> news = new ArrayList<>();
+    private final List<NewsItem> news = new ArrayList<>();
     @NonNull
     private final OnItemClickListener clickListener;
     @NonNull
@@ -53,17 +53,23 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        Category category = news.get(position).getCategory();
+        try {
+            Section section = Section.valueOf(news.get(position).getSection().toUpperCase());
 
-        switch (category) {
-            case CRIMINAL:
-                return R.layout.item_criminal_news;
-            default:
-                return R.layout.item_common_news;
+            switch (section) {
+                case TECHNOLOGY:
+                    return R.layout.item_technology_news;
+                default:
+                    return R.layout.item_common_news;
+            }
+        } catch (IllegalArgumentException e) {
+            return R.layout.item_common_news;
+
         }
     }
 
     public void addListData(List<NewsItem> newsItems) {
+        news.clear();
         news.addAll(newsItems);
         notifyDataSetChanged();
     }
@@ -87,22 +93,39 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             itemView.setOnClickListener(v -> {
                 int position = ViewHolder.this.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(position);
+                    listener.onItemClick(news.get(position).getUrl());
                 }
             });
         }
 
         private void bind(@NonNull NewsItem newsItem) {
-            categoryTextView.setText(newsItem.getCategory().getName());
+            String section = newsItem.getSection();
+            categoryTextView.setText(section);
             titleTextView.setText(newsItem.getTitle());
-            previewTextView.setText(newsItem.getPreviewText());
-            String publishDate = DateUtils.convertDateToString(newsItem.getPublishDate(), inflater.getContext());
+            previewTextView.setText(newsItem.getAbstractX());
+
+            String publishDate = null;
+            if (newsItem.getPublishedDate() != null) {
+                publishDate = DateUtils.convertTimestampToString(
+                        newsItem.getPublishedDate(),
+                        inflater.getContext());
+            }
             publishDateTextView.setText(publishDate);
-            Picasso.get().load(newsItem.getImageUrl()).into(imageView);
+
+            if (newsItem.getMultimedia() != null && newsItem.getMultimedia().size() > 1) {
+                imageView.setVisibility(View.VISIBLE);
+                // Get the position of the best quality preview image.
+                // It is the second position from the end of a list.
+                int previewImagePosition = newsItem.getMultimedia().size() - 2;
+                String previewImageUrl = newsItem.getMultimedia().get(previewImagePosition).getUrl();
+                Glide.with(imageView.getRootView().getContext()).load(previewImageUrl).into(imageView);
+            } else {
+                imageView.setVisibility(View.GONE);
+            }
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(String url);
     }
 }
