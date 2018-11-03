@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.model.network.NetworkNewsItem;
+import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;

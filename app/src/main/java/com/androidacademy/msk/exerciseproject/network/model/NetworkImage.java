@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.model.network;
+package com.androidacademy.msk.exerciseproject.network.model;
 
 import android.support.annotation.Nullable;
 

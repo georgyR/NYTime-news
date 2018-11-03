@@ -10,8 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.model.network.NetworkNewsItem;
+import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
+import com.androidacademy.msk.exerciseproject.utils.DataUtils;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.bumptech.glide.Glide;
 
@@ -112,16 +113,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             }
             publishDateTextView.setText(publishDate);
 
-            if (newsItem.getMultimedia() != null && newsItem.getMultimedia().size() > 1) {
-                imageView.setVisibility(View.VISIBLE);
-                // Get the position of the best quality preview image.
-                // It is the second position from the end of a list.
-                int previewImagePosition = newsItem.getMultimedia().size() - 2;
-                String previewImageUrl = newsItem.getMultimedia().get(previewImagePosition).getUrl();
+            String previewImageUrl = DataUtils.getPreviewImageUrl(newsItem);
+            if (previewImageUrl != null) {
                 Glide.with(imageView.getRootView().getContext()).load(previewImageUrl).into(imageView);
             } else {
                 imageView.setVisibility(View.GONE);
             }
+
         }
     }
 
