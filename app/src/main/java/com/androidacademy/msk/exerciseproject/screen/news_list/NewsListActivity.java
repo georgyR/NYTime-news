@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
 import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
@@ -35,6 +40,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
+import static com.androidacademy.msk.exerciseproject.screen.UiState.EMPTY;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.ERROR;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.HAS_DATA;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
@@ -51,7 +57,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @NonNull
     private View errorView;
     @NonNull
+    private View emptyListView;
+    @NonNull
     private Button tryAgainButton;
+    @NonNull
+    private FloatingActionButton fab;
     @NonNull
     private Spinner spinner;
     @NonNull
@@ -86,10 +96,19 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         errorView = findViewById(R.id.activity_news_list__view_error);
 
-        visibilitySwitcher = new ViewVisibilitySwitcher(recyclerView, progressBar, errorView);
+        emptyListView = findViewById(R.id.activity_news_list_view_empty_list);
+
+        visibilitySwitcher = new ViewVisibilitySwitcher(
+                recyclerView,
+                progressBar,
+                errorView,
+                emptyListView);
 
         tryAgainButton = findViewById(R.id.view_error__button_try_again);
         tryAgainButton.setOnClickListener(v -> presenter.onTryAgainButtonClicked());
+
+        fab = findViewById(R.id.activity_news_list_fab);
+        fab.setOnClickListener(v -> presenter.onFabClicked());
 
         spinner = findViewById(R.id.activity_news_list__spinner);
         setupSpinner(spinner);
@@ -148,7 +167,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void showNews(@NonNull List<NetworkNewsItem> news) {
+    public void showNews(@NonNull List<DbNewsItem> news) {
         visibilitySwitcher.setUiState(HAS_DATA);
 
         adapter.addListData(news);
@@ -158,6 +177,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @Override
     public void showError() {
         visibilitySwitcher.setUiState(ERROR);
+    }
+
+    @Override
+    public void showEmptyView() {
+        visibilitySwitcher.setUiState(EMPTY);
     }
 
     @Override
@@ -197,7 +221,17 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setHasFixedSize(true);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
+
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
         NewsAdapter.OnItemClickListener clickListener = url -> presenter.onItemClicked(url);

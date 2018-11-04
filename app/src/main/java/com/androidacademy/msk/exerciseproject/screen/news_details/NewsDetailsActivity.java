@@ -61,7 +61,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         webView = findViewById(R.id.activity_news_details__webview);
         setupWebView(webView, savedInstanceState);
 
-        visibilitySwitcher = new ViewVisibilitySwitcher(webView, progressBar, errorView);
+        visibilitySwitcher = new ViewVisibilitySwitcher(webView, progressBar, errorView, null);
 
         tryAgainButton = findViewById(R.id.view_error__button_try_again);
         tryAgainButton.setOnClickListener(v -> webView.reload());

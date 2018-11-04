@@ -9,9 +9,13 @@ import android.support.annotation.Nullable;
 @Entity(tableName = "news_item")
 public class DbNewsItem {
 
+    @ColumnInfo(name = "id")
     @PrimaryKey
-    @NonNull
-    private String id;
+    private int id;
+
+    @ColumnInfo(name = "main_section")
+    @Nullable
+    private String mainSection;
 
     @ColumnInfo(name = "section")
     @Nullable
@@ -44,7 +48,8 @@ public class DbNewsItem {
     public DbNewsItem() {
     }
 
-    public DbNewsItem(@NonNull String id,
+    public DbNewsItem(int id,
+                      @Nullable String mainSection,
                       @Nullable String section,
                       @Nullable String title,
                       @Nullable String abstractX,
@@ -53,6 +58,7 @@ public class DbNewsItem {
                       @Nullable String previewImageUrl,
                       @Nullable String fullsizeImageUrl) {
         this.id = id;
+        this.mainSection = mainSection;
         this.section = section;
         this.title = title;
         this.abstractX = abstractX;
@@ -62,13 +68,21 @@ public class DbNewsItem {
         this.fullsizeImageUrl = fullsizeImageUrl;
     }
 
-    @NonNull
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(@NonNull String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Nullable
+    public String getMainSection() {
+        return mainSection;
+    }
+
+    public void setMainSection(@Nullable String mainSection) {
+        this.mainSection = mainSection;
     }
 
     @Nullable

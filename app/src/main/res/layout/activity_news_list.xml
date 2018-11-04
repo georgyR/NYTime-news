@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:stateListAnimator="@animator/shadow_appbarlayout">
 
         <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,40 +20,51 @@
             android:elevation="@dimen/elevation_toolbar"
             android:textColorPrimary="@android:color/black"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <Spinner
                 android:id="@+id/activity_news_list__spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </Spinner>
+                android:layout_height="wrap_content" />
 
         </android.support.v7.widget.Toolbar>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    </android.support.design.widget.AppBarLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/activity_news_list__recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingTop="@dimen/padding_small"
-                tools:listitem="@layout/item_common_news" />
 
-            <include
-                android:id="@+id/activity_news_list__progressbar"
-                layout="@layout/progressbar"
-                android:visibility="gone"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_news_list__recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/padding_small"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_common_news" />
 
-            <include
-                android:id="@+id/activity_news_list__view_error"
-                layout="@layout/view_error"
-                android:visibility="gone"/>
+    <include
+        android:id="@+id/activity_news_list__progressbar"
+        layout="@layout/progressbar"
+        android:visibility="gone" />
 
-        </FrameLayout>
+    <include
+        android:id="@+id/activity_news_list__view_error"
+        layout="@layout/view_error"
+        android:visibility="gone" />
 
-    </LinearLayout>
-</FrameLayout>
+    <include
+        android:id="@+id/activity_news_list_view_empty_list"
+        layout="@layout/view_empty_list"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_news_list_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_refresh_black_24dp" />
+
+</android.support.design.widget.CoordinatorLayout>

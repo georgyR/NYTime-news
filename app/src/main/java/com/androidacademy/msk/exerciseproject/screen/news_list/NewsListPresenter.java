@@ -1,12 +1,17 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.androidacademy.msk.exerciseproject.App;
+import com.androidacademy.msk.exerciseproject.db.NewsConverter;
+import com.androidacademy.msk.exerciseproject.db.NewsDao;
+import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
+import com.androidacademy.msk.exerciseproject.utils.NewsDataUtils;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -19,10 +24,12 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private Section currentSelectedSection = null;
+    private NewsDao database = App.getDatabase().getNewsDao();
 
     @Override
-    public void attachView(NewsListView view) {
-        super.attachView(view);
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        getViewState().showEmptyView();
     }
 
     @Override
@@ -31,19 +38,28 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
         compositeDisposable.clear();
     }
 
-    private void getNews(@NonNull Section section) {
-        compositeDisposable.add(App.getApi().getNews(section.toString().toLowerCase())
+    private void getNews(@NonNull String section) {
+        compositeDisposable.add(App.getApi().getNews(section)
+                .map(newsResponse -> NewsConverter.toDatabase(newsResponse.getResults(), newsResponse.getSection()))
+                .doOnSuccess(
+                        newsItems -> {
+                            database.deleteBySection(section);
+                            database.insertAll(newsItems);
+                        }
+                )
+                .onErrorReturn(throwable -> {
+                    List<DbNewsItem> news = database.getNews(section);
+                    if (news.isEmpty()) {
+                        return null;
+                    } else {
+                        return NewsDataUtils.sortByDate(news);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
                 .subscribe(
-                        newsRequest -> {
-                            if (newsRequest.getResults() != null) {
-                                getViewState().showNews(newsRequest.getResults());
-                            } else {
-                                getViewState().showError();
-                            }
-                        },
+                        news -> getViewState().showNews(NewsDataUtils.sortByDate(news)),
                         throwable -> getViewState().showError()));
     }
 
@@ -52,13 +68,16 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     }
 
     public void onTryAgainButtonClicked() {
-        getNews(currentSelectedSection);
+        getNews(currentSelectedSection.toString().toLowerCase());
     }
 
+    public void onFabClicked() {
+        getNews(currentSelectedSection.toString().toLowerCase());
+    }
 
     public void onSpinnerItemClicked(@NonNull Section section) {
         if (!section.equals(currentSelectedSection)) {
-            getNews(section);
+            /*getNews(section);*/
             currentSelectedSection = section;
         }
 

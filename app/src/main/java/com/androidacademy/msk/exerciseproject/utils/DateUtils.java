@@ -19,6 +19,18 @@ public class DateUtils {
         throw new UnsupportedOperationException("There should be no class instance");
     }
 
+    public static long convertTimestampToUnixDate(@NonNull String timestamp) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+        Date date;
+        try {
+            date = formatter.parse(timestamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return date.getTime();
+    }
+
     @NonNull
     public static String convertTimestampToString(@NonNull String timestamp, @NonNull Context context) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);

@@ -82,11 +82,11 @@
             android:layout_width="@dimen/imagesize_common"
             android:layout_height="@dimen/imagesize_common"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_blank"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"
-            tools:src="@tools:sample/avatars" />
+            tools:ignore="ContentDescription" />
 
     </android.support.constraint.ConstraintLayout>
 

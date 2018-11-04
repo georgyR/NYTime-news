@@ -1,7 +1,9 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
+import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
-import com.androidacademy.msk.exerciseproject.utils.DataUtils;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +28,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
-    private final List<NetworkNewsItem> news = new ArrayList<>();
+    private final List<DbNewsItem> news = new ArrayList<>();
     @NonNull
     private final OnItemClickListener clickListener;
     @NonNull
@@ -69,7 +75,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    public void addListData(List<NetworkNewsItem> newsItems) {
+    public void addListData(List<DbNewsItem> newsItems) {
         news.clear();
         news.addAll(newsItems);
         notifyDataSetChanged();
@@ -99,7 +105,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             });
         }
 
-        private void bind(@NonNull NetworkNewsItem newsItem) {
+        private void bind(@NonNull DbNewsItem newsItem) {
             String section = newsItem.getSection();
             categoryTextView.setText(section);
             titleTextView.setText(newsItem.getTitle());
@@ -113,9 +119,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             }
             publishDateTextView.setText(publishDate);
 
-            String previewImageUrl = DataUtils.getPreviewImageUrl(newsItem);
+            String previewImageUrl = newsItem.getPreviewImageUrl();
             if (previewImageUrl != null) {
-                Glide.with(imageView.getRootView().getContext()).load(previewImageUrl).into(imageView);
+                Context context = imageView.getRootView().getContext();
+                RequestOptions requestOptions = new RequestOptions().error(R.drawable.ic_image_blank);
+                Glide.with(context).load(previewImageUrl).apply(requestOptions).into(imageView);
             } else {
                 imageView.setVisibility(View.GONE);
             }

@@ -24,6 +24,13 @@ public class NYTimesApiProvider {
     }
 
     @NonNull
+    public static NYTimesApi createApi() {
+        OkHttpClient client = buildOkHttpClient();
+        Retrofit retrofit = buildRetrofit(client);
+        return retrofit.create(NYTimesApi.class);
+    }
+
+    @NonNull
     private static Retrofit buildRetrofit(@NonNull OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(URL)
@@ -51,13 +58,6 @@ public class NYTimesApiProvider {
                 .writeTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .build();
-    }
-
-    @NonNull
-    public static NYTimesApi createApi() {
-        OkHttpClient client = buildOkHttpClient();
-        Retrofit retrofit = buildRetrofit(client);
-        return retrofit.create(NYTimesApi.class);
     }
 
 

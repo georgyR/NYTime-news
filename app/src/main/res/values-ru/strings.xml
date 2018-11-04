@@ -17,4 +17,5 @@
     <string name="date_utils_yesterday">Вчера, %1$s</string>
     <string name="message_error">Что-то пошло не так</string>
     <string name="button_try_again">Попробовать снова</string>
+    <string name="message_empty_list">Список новостей пуст. Для загрузки новостей, пожалуйста, нажмите на кнопку обновления.</string>
 </resources>

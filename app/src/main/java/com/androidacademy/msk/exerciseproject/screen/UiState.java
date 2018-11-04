@@ -4,6 +4,7 @@ public enum UiState {
 
     HAS_DATA,
     LOADING,
-    ERROR
+    ERROR,
+    EMPTY
 
 }

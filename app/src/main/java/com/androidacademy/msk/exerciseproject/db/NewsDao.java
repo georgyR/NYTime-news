@@ -1,6 +1,7 @@
 package com.androidacademy.msk.exerciseproject.db;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -15,8 +16,12 @@ public interface NewsDao {
     @Query("SELECT * FROM news_item")
     List<DbNewsItem> getAll();
 
-
+    @Query("SELECT * FROM news_item WHERE main_section = :section")
+    List<DbNewsItem> getNews(String section);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<DbNewsItem> news);
+
+    @Query("DELETE FROM news_item WHERE main_section = :section")
+    void deleteBySection(String section);
 }
