@@ -22,7 +22,8 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 public class App extends Application {
 
-    private static final String TAG = "rx_exception";
+    public static final String UI_DEBUG_TAG = "UI_DEBUG_TAG";
+    private static final String RX_DEBUG_TAG = "RX_DEBUG_TAG";
     private static NYTimesApi api;
     private static AppDatabase database;
 
@@ -57,22 +58,22 @@ public class App extends Application {
                 e.getCause();
             }
             if ((e instanceof SocketException) || (e instanceof IOException)) {
-                Log.d(TAG, "Irrelevant network problem or API that throws on cancellation", e);
+                Log.d(RX_DEBUG_TAG, "Irrelevant network problem or API that throws on cancellation", e);
                 return;
             }
             if (e instanceof InterruptedException) {
-                Log.d(TAG, "Some blocking code was interrupted by a dispose call", e);
+                Log.d(RX_DEBUG_TAG, "Some blocking code was interrupted by a dispose call", e);
                 return;
             }
             if ((e instanceof NullPointerException) || (e instanceof IllegalArgumentException)) {
-                Log.d(TAG, "That's likely a bug in the application", e);
+                Log.d(RX_DEBUG_TAG, "That's likely a bug in the application", e);
                 return;
             }
             if (e instanceof IllegalStateException) {
-                Log.d(TAG, "That's a bug in RxJava or in a custom operator", e);
+                Log.d(RX_DEBUG_TAG, "That's a bug in RxJava or in a custom operator", e);
                 return;
             }
-            Log.d(TAG, "Undeliverable exception received, not sure what to do", e);
+            Log.d(RX_DEBUG_TAG, "Undeliverable exception received, not sure what to do", e);
         });
     }
 

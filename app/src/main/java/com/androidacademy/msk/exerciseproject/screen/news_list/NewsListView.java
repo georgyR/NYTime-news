@@ -27,5 +27,5 @@ public interface NewsListView extends MvpView {
 
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void openDetailsScreen(String url);
+    void openDetailsScreen(int id);
 }

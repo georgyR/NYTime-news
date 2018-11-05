@@ -15,7 +15,7 @@
     <dimen name="height_photo">200dp</dimen>
     <dimen name="height_separator">1dp</dimen>
     <dimen name="height_divider">4dp</dimen>
-    <dimen name="width_photo">300dp</dimen>
+    <dimen name="width_image_common">300dp</dimen>
     <dimen name="imagesize_common">100dp</dimen>
     <dimen name="imagesize_big">150dp</dimen>
     <dimen name="textsize_small">12sp</dimen>

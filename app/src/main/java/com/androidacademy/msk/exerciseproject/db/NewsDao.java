@@ -16,8 +16,11 @@ public interface NewsDao {
     @Query("SELECT * FROM news_item")
     List<DbNewsItem> getAll();
 
+    @Query("SELECT * FROM news_item WHERE id = :id")
+    DbNewsItem getNewsById(int id);
+
     @Query("SELECT * FROM news_item WHERE main_section = :section")
-    List<DbNewsItem> getNews(String section);
+    List<DbNewsItem> getNewsBySection(String section);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<DbNewsItem> news);

@@ -3,7 +3,9 @@ package com.androidacademy.msk.exerciseproject.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
+import android.util.Log;
 
+import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
 
 import java.text.ParseException;
@@ -19,6 +21,7 @@ public class DateUtils {
         throw new UnsupportedOperationException("There should be no class instance");
     }
 
+    @NonNull
     public static long convertTimestampToUnixDate(@NonNull String timestamp) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
         Date date;
@@ -32,14 +35,32 @@ public class DateUtils {
     }
 
     @NonNull
-    public static String convertTimestampToString(@NonNull String timestamp, @NonNull Context context) {
+    public static String convertTimestampToString(@NonNull String timestamp) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+        Date date;
+        try {
+            date = formatter.parse(timestamp);
+        } catch (ParseException e) {
+            Log.d(App.UI_DEBUG_TAG, "parsing date error", e);
+            e.printStackTrace();
+            return "";
+        }
+
+        formatter.applyPattern("MMM d, yyyy ");
+        return formatter.format(date);
+
+    }
+
+    @NonNull
+    public static String convertTimestampToSpecialString(@NonNull String timestamp, @NonNull Context context) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
         Date date;
         try {
              date = formatter.parse(timestamp);
         } catch (ParseException e) {
+            Log.d(App.UI_DEBUG_TAG, "parsing date error", e);
             e.printStackTrace();
-            return "parsing time error";
+            return "";
         }
 
         if (android.text.format.DateUtils.isToday(date.getTime())) {

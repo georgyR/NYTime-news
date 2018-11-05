@@ -190,8 +190,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void openDetailsScreen(String url) {
-        startActivity(NewsDetailsActivity.getStartIntent(url, this));
+    public void openDetailsScreen(int id) {
+        startActivity(NewsDetailsActivity.getStartIntent(id, this));
     }
 
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {
@@ -234,7 +234,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
-        NewsAdapter.OnItemClickListener clickListener = url -> presenter.onItemClicked(url);
+        NewsAdapter.OnItemClickListener clickListener = id -> presenter.onItemClicked(id);
         adapter = new NewsAdapter(clickListener, this);
         recyclerView.setAdapter(adapter);
     }

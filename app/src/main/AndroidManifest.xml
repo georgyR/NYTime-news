@@ -29,8 +29,7 @@
             android:label="@string/profile_name" />
 
         <activity
-            android:name=".screen.news_details.NewsDetailsActivity"
-            android:configChanges="orientation" />
+            android:name=".screen.news_details.NewsDetailsActivity" />
 
     </application>
 

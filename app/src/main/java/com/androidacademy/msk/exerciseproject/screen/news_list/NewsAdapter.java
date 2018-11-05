@@ -1,9 +1,7 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +14,7 @@ import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +94,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             itemView.setOnClickListener(v -> {
                 int position = ViewHolder.this.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(news.get(position).getUrl());
+                    listener.onItemClick(news.get(position).getId());
                 }
             });
         }
@@ -113,7 +107,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             String publishDate = null;
             if (newsItem.getPublishedDate() != null) {
-                publishDate = DateUtils.convertTimestampToString(
+                publishDate = DateUtils.convertTimestampToSpecialString(
                         newsItem.getPublishedDate(),
                         inflater.getContext());
             }
@@ -132,6 +126,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String url);
+        void onItemClick(int id);
     }
 }

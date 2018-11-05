@@ -48,7 +48,7 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                         }
                 )
                 .onErrorReturn(throwable -> {
-                    List<DbNewsItem> news = database.getNews(section);
+                    List<DbNewsItem> news = database.getNewsBySection(section);
                     if (news.isEmpty()) {
                         return null;
                     } else {
@@ -63,8 +63,8 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                         throwable -> getViewState().showError()));
     }
 
-    public void onItemClicked(@NonNull String url) {
-        getViewState().openDetailsScreen(url);
+    public void onItemClicked(int id) {
+        getViewState().openDetailsScreen(id);
     }
 
     public void onTryAgainButtonClicked() {
@@ -77,7 +77,7 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
 
     public void onSpinnerItemClicked(@NonNull Section section) {
         if (!section.equals(currentSelectedSection)) {
-            /*getNews(section);*/
+            /*getNewsBySection(section);*/
             currentSelectedSection = section;
         }
 
