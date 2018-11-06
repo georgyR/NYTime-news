@@ -13,9 +13,14 @@
     <string name="profile_name">Georgy Ryabykh</string>
     <string name="button_send_email">Send email</string>
     <string name="menu_open_about_author">About author</string>
+    <string name="menu_edit_news">Edit news</string>
     <string name="date_utils_hr_ago">%1$d hr. ago</string>
     <string name="date_utils_yesterday">Yesterday, %1$s</string>
     <string name="message_error">Something has gone wrong</string>
     <string name="button_try_again">Try again</string>
     <string name="message_empty_list">The news list is empty.\nPlease, tap the update button for upload it.</string>
+    <string name="news_editor_set_date">Set date</string>
+    <string name="menu_save_changes">Save changes</string>
+    <string name="news_editor_title">News editor</string>
+    <string name="message_leave_without_saving">Do you want to leave the editor without save changes?</string>
 </resources>

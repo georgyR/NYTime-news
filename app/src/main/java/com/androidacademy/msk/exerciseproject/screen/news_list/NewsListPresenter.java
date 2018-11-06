@@ -1,6 +1,9 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.db.NewsConverter;
@@ -63,8 +66,8 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                         throwable -> getViewState().showError()));
     }
 
-    public void onItemClicked(int id) {
-        getViewState().openDetailsScreen(id);
+    public void onItemClicked(int id, int position) {
+        getViewState().openDetailsScreen(id, position);
     }
 
     public void onTryAgainButtonClicked() {
@@ -77,9 +80,18 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
 
     public void onSpinnerItemClicked(@NonNull Section section) {
         if (!section.equals(currentSelectedSection)) {
-            /*getNewsBySection(section);*/
             currentSelectedSection = section;
         }
+    }
+
+    public void onActivityResult(int lastClickedItemId, int position) {
+        new Thread(() -> {
+            DbNewsItem newsItem = database.getNewsById(lastClickedItemId);
+            Log.d("SAVE_DEBUG", "onActivityResult: " + newsItem);
+            new Handler(Looper.getMainLooper()).post(() ->
+                    getViewState().updateCertainNewsItemInList(newsItem, position)
+            );
+        }).start();
 
     }
 }

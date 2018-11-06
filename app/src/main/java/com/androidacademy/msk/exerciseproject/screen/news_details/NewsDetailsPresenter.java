@@ -18,6 +18,10 @@ public class NewsDetailsPresenter extends MvpPresenter<NewsDetailsView> {
         getNewsDetails(id);
     }
 
+    public void onNewsEdited(int id) {
+        getNewsDetails(id);
+    }
+
     private void getNewsDetails(int id) {
         new Thread(() -> {
             DbNewsItem newsItem = database.getNewsById(id);
@@ -25,5 +29,4 @@ public class NewsDetailsPresenter extends MvpPresenter<NewsDetailsView> {
         }).start();
 
     }
-
 }

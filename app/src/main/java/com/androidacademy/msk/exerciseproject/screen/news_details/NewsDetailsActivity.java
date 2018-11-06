@@ -6,15 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
-import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
+import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDetailsView {
 
     private static final String EXTRA_ID = "EXTRA_ID";
+    private static final int EDIT_NEWS_REQUEST = 100;
 
     @NonNull
     private TextView titleTextView;
@@ -32,6 +34,10 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     private TextView abstractTextView;
     @NonNull
     private TextView dateTextView;
+    @NonNull
+    private TextView timeTextView;
+
+    private int id;
 
     @InjectPresenter
     public NewsDetailsPresenter presenter;
@@ -54,13 +60,46 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        int id = getIntent().getIntExtra(EXTRA_ID, 0);
+        id = getIntent().getIntExtra(EXTRA_ID, 0);
+
         presenter.onCreateActivity(id);
+
 
         titleTextView = findViewById(R.id.activity_news_details__title);
         imageView = findViewById(R.id.activity_news_details__image);
         abstractTextView = findViewById(R.id.activity_news_details__abstract);
-        dateTextView = findViewById(R.id.activity_news_details__date);
+        dateTextView = findViewById(R.id.textview_news_details_date);
+        timeTextView = findViewById(R.id.textview_news_details_time);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_news_details, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuitem_edit_news:
+                startActivityForResult(
+                        NewsEditorActivity.getStartIntent(id, this),
+                        EDIT_NEWS_REQUEST);
+                break;
+            default:
+                Log.d(App.UI_DEBUG_TAG, "Unknown menu item id");
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == EDIT_NEWS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                presenter.onNewsEdited(id);
+                setResult(RESULT_OK);
+            }
+        }
     }
 
     @Override
@@ -82,8 +121,10 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
         abstractTextView.setText(newsItem.getAbstractX());
         String publishedDate = newsItem.getPublishedDate();
         if (publishedDate != null) {
-            String date = DateUtils.convertTimestampToString(publishedDate);
+            String date = DateUtils.getFormattedDate(publishedDate);
             dateTextView.setText(date);
+            String time = DateUtils.getFormattedTime(publishedDate, this);
+            timeTextView.setText(time);
         }
     }
 }

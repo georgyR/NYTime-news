@@ -75,6 +75,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void updateNewsItem(int position, DbNewsItem newsItem) {
+        news.set(position, newsItem);
+        notifyItemChanged(position);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView categoryTextView;
@@ -94,7 +99,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             itemView.setOnClickListener(v -> {
                 int position = ViewHolder.this.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(news.get(position).getId());
+                    listener.onItemClick(news.get(position).getId(), position);
                 }
             });
         }
@@ -107,7 +112,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             String publishDate = null;
             if (newsItem.getPublishedDate() != null) {
-                publishDate = DateUtils.convertTimestampToSpecialString(
+                publishDate = DateUtils.getSpecialFormattedDate(
                         newsItem.getPublishedDate(),
                         inflater.getContext());
             }
@@ -126,6 +131,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int id);
+        void onItemClick(int id, int position);
     }
 }

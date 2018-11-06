@@ -2,11 +2,9 @@ package com.androidacademy.msk.exerciseproject.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
-import com.bumptech.glide.Glide;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,8 +53,8 @@ public class NewsDataUtils {
             }
 
             return Long.compare(
-                    DateUtils.convertTimestampToUnixDate(timestamp2),
-                    DateUtils.convertTimestampToUnixDate(timestamp1));
+                    DateUtils.getUnixDate(timestamp2),
+                    DateUtils.getUnixDate(timestamp1));
         });
 
         return newsItems;

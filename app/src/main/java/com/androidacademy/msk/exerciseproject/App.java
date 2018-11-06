@@ -2,6 +2,7 @@ package com.androidacademy.msk.exerciseproject;
 
 import android.app.Application;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -27,12 +28,7 @@ public class App extends Application {
     private static NYTimesApi api;
     private static AppDatabase database;
 
-    public static final List<Class<?>> NETWORK_EXCEPTIONS = Arrays.asList(
-            UnknownHostException.class,
-            SocketTimeoutException.class,
-            ConnectException.class
-    );
-
+    private static Context applicationContext;
 
     @NonNull
     public static NYTimesApi getApi() {
@@ -44,9 +40,16 @@ public class App extends Application {
         return database;
     }
 
+    @NonNull
+    public static Context getContext() {
+        return applicationContext;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        applicationContext = this;
 
         api = NYTimesApiProvider.createApi();
 

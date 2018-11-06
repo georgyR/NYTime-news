@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +27,6 @@ import android.widget.Spinner;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.network.api.Section;
-import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
@@ -48,7 +44,10 @@ import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
 public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
 
     private static final int MIN_WIDTH_IN_DP = 300;
+    private static final int EDIT_NEWS_REQUEST = 100;
     private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
+    private static final String LAST_CLICKED_ITEM_POSITION_KEY = "LAST_CLICKED_ITEM_POSITION_KEY";
+    private static final String LAST_CLICKED_ITEM_ID_KEY = "LAST_CLICKED_ITEM_ID_KEY";
 
     @NonNull
     private RecyclerView recyclerView;
@@ -72,6 +71,9 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     private NewsAdapter adapter;
     @NonNull
     private ViewVisibilitySwitcher visibilitySwitcher;
+
+    private int lastClickedItemPosition;
+    private int lastClickedItemId;
 
     @InjectPresenter
     public NewsListPresenter presenter;
@@ -119,6 +121,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
             listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            lastClickedItemPosition = savedInstanceState.getInt(LAST_CLICKED_ITEM_POSITION_KEY);
+            lastClickedItemId = savedInstanceState.getInt(LAST_CLICKED_ITEM_ID_KEY);
         }
 
     }
@@ -153,6 +157,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         super.onSaveInstanceState(outState);
         listState = layoutManager.onSaveInstanceState();
         outState.putParcelable(LIST_STATE_KEY, listState);
+        outState.putInt(LAST_CLICKED_ITEM_POSITION_KEY, lastClickedItemPosition);
+        outState.putInt(LAST_CLICKED_ITEM_ID_KEY, lastClickedItemId);
     }
 
     @Override
@@ -165,6 +171,16 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         onBackPressed();
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == EDIT_NEWS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                presenter.onActivityResult(lastClickedItemId, lastClickedItemPosition);
+            }
+        }
+    }
+
 
     @Override
     public void showNews(@NonNull List<DbNewsItem> news) {
@@ -190,8 +206,16 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void openDetailsScreen(int id) {
-        startActivity(NewsDetailsActivity.getStartIntent(id, this));
+    public void openDetailsScreen(int id, int position) {
+        lastClickedItemId = id;
+        lastClickedItemPosition = position;
+        startActivityForResult(NewsDetailsActivity.getStartIntent(id, this), EDIT_NEWS_REQUEST);
+    }
+
+
+    @Override
+    public void updateCertainNewsItemInList(@NonNull DbNewsItem newsItem, int position) {
+        adapter.updateNewsItem(position, newsItem);
     }
 
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {
@@ -224,7 +248,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy){
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0)
                     fab.hide();
                 else if (dy < 0)
@@ -234,7 +258,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
-        NewsAdapter.OnItemClickListener clickListener = id -> presenter.onItemClicked(id);
+        NewsAdapter.OnItemClickListener clickListener = (id, position) -> presenter.onItemClicked(id, position);
         adapter = new NewsAdapter(clickListener, this);
         recyclerView.setAdapter(adapter);
     }

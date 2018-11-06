@@ -21,14 +21,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/activity_news_details__main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_common"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/activity_news_details__title"
+            <EditText
+                android:id="@+id/edittext_news_editor_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_common"
@@ -40,42 +39,44 @@
                 tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
 
             <ImageView
-                android:id="@+id/activity_news_details__image"
+                android:id="@+id/imageview_news_editor"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/width_image_common"
                 android:layout_marginBottom="@dimen/margin_common"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/activity_news_details__abstract"
+            <EditText
+                android:id="@+id/edittext_news_editor_abstract"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_common"
                 android:layout_marginEnd="@dimen/margin_common"
                 android:layout_marginBottom="@dimen/margin_common"
                 android:textColor="@android:color/black"
+                android:textSize="@dimen/textsize_common"
                 tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/textview_news_details_time"
+                <Button
+                    android:id="@+id/textview_news_editor_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_common"
                     android:layout_marginEnd="@dimen/margin_common"
-                    android:textColor="@android:color/black"
+                    android:textAllCaps="false"
                     tools:text="06:34 AM" />
 
-                <TextView
-                    android:id="@+id/textview_news_details_date"
+                <Button
+                    android:id="@+id/textview_news_editor_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:textAllCaps="false"
                     tools:text="Nov. 4, 2018" />
+
             </LinearLayout>
 
 
@@ -83,4 +84,3 @@
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
-

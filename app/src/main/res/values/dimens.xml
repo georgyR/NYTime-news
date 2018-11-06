@@ -19,6 +19,7 @@
     <dimen name="imagesize_common">100dp</dimen>
     <dimen name="imagesize_big">150dp</dimen>
     <dimen name="textsize_small">12sp</dimen>
+    <dimen name="textsize_common">14sp</dimen>
     <dimen name="textsize_big">16sp</dimen>
     <dimen name="textsize_huge">20sp</dimen>
 </resources>

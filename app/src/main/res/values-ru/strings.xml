@@ -13,9 +13,14 @@
     <string name="profile_name">Георгий Рябых</string>
     <string name="button_send_email">Отправить email</string>
     <string name="menu_open_about_author">О авторе</string>
-    <string name="date_utils_hr_ago" translatable="false">%1$d ч. назад</string>
+    <string name="date_utils_hr_ago">%1$d ч. назад</string>
     <string name="date_utils_yesterday">Вчера, %1$s</string>
     <string name="message_error">Что-то пошло не так</string>
     <string name="button_try_again">Попробовать снова</string>
     <string name="message_empty_list">Список новостей пуст. Для загрузки новостей, пожалуйста, нажмите на кнопку обновления.</string>
+    <string name="menu_edit_news">Редактировать новость</string>
+    <string name="news_editor_set_date">Установить дату</string>
+    <string name="menu_save_changes">Сохранить изменения</string>
+    <string name="news_editor_title">Редактор новостей</string>
+    <string name="message_leave_without_saving">Покинуть редактор без сохранения изменений?</string>
 </resources>
