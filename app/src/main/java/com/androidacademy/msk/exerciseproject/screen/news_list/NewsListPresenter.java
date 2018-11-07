@@ -3,6 +3,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.App;
@@ -25,9 +26,13 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
 
     @NonNull
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-    private Section currentSelectedSection = null;
+    @NonNull
+    private Section currentSelectedSection;
+    @NonNull
     private NewsDao database = App.getDatabase().getNewsDao();
+
+    private int lastClickedItemPosition;
+    private int lastClickedItemId;
 
     @Override
     protected void onFirstViewAttach() {
@@ -39,6 +44,41 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     public void onDestroy() {
         super.onDestroy();
         compositeDisposable.clear();
+    }
+
+    public void onItemClicked(int id, int position) {
+        lastClickedItemId = id;
+        lastClickedItemPosition = position;
+        getViewState().openDetailsScreen(id);
+    }
+
+    public void onTryAgainButtonClicked() {
+        getNews(currentSelectedSection.toString().toLowerCase());
+    }
+
+    public void onFabClicked() {
+        getNews(currentSelectedSection.toString().toLowerCase());
+    }
+
+    public void onSpinnerItemClicked(@NonNull Section section) {
+        if (!section.equals(currentSelectedSection)) {
+            currentSelectedSection = section;
+        }
+    }
+
+    public void onListItemChanged() {
+        new Thread(() -> {
+            DbNewsItem newsItem = database.getNewsById(lastClickedItemId);
+            Log.d("SAVE_DEBUG", "onListItemChanged: " + newsItem);
+            new Handler(Looper.getMainLooper()).post(() ->
+                    getViewState().updateCertainNewsItemInList(newsItem, lastClickedItemPosition)
+            );
+        }).start();
+
+    }
+
+    public void onListItemDeleted() {
+        getViewState().deleteNewsItemInList(lastClickedItemPosition);
     }
 
     private void getNews(@NonNull String section) {
@@ -64,38 +104,5 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                 .subscribe(
                         news -> getViewState().showNews(NewsDataUtils.sortByDate(news)),
                         throwable -> getViewState().showError()));
-    }
-
-    public void onItemClicked(int id, int position) {
-        getViewState().openDetailsScreen(id, position);
-    }
-
-    public void onTryAgainButtonClicked() {
-        getNews(currentSelectedSection.toString().toLowerCase());
-    }
-
-    public void onFabClicked() {
-        getNews(currentSelectedSection.toString().toLowerCase());
-    }
-
-    public void onSpinnerItemClicked(@NonNull Section section) {
-        if (!section.equals(currentSelectedSection)) {
-            currentSelectedSection = section;
-        }
-    }
-
-    public void onListItemChanged(int id, int position) {
-        new Thread(() -> {
-            DbNewsItem newsItem = database.getNewsById(id);
-            Log.d("SAVE_DEBUG", "onListItemChanged: " + newsItem);
-            new Handler(Looper.getMainLooper()).post(() ->
-                    getViewState().updateCertainNewsItemInList(newsItem, position)
-            );
-        }).start();
-
-    }
-
-    public void onListItemDeleted(int position) {
-        getViewState().deleteNewsItemInList(position);
     }
 }

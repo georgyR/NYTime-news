@@ -135,10 +135,12 @@ public class DateUtils {
     }
 
     @NonNull
-    public static Calendar getCalendarFromTimestamp(@NonNull String timestamp) {
+    public static Calendar getCalendarFromTimestamp(@Nullable String timestamp) {
         Calendar calendar = Calendar.getInstance();
-        Date date = DateUtils.getDateFromTimestamp(timestamp);
-        calendar.setTime(date);
+        if (timestamp != null) {
+            Date date = DateUtils.getDateFromTimestamp(timestamp);
+            calendar.setTime(date);
+        }
         return calendar;
     }
 

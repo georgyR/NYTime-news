@@ -13,7 +13,7 @@
 
         <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/all_toolbar"
+            android:id="@+id/toolbar_newslist"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -24,7 +24,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <Spinner
-                android:id="@+id/activity_news_list__spinner"
+                android:id="@+id/spinner_newslist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -34,7 +34,7 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_news_list__recycler_view"
+        android:id="@+id/recyclerview__newslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -43,22 +43,22 @@
         tools:listitem="@layout/item_common_news" />
 
     <include
-        android:id="@+id/activity_news_list__progressbar"
+        android:id="@+id/progressbar_newslist"
         layout="@layout/progressbar"
         android:visibility="gone" />
 
     <include
-        android:id="@+id/activity_news_list__view_error"
+        android:id="@+id/errorview_newslist"
         layout="@layout/view_error"
         android:visibility="gone" />
 
     <include
-        android:id="@+id/activity_news_list_view_empty_list"
+        android:id="@+id/viewempty_newslist"
         layout="@layout/view_empty_list"
         android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/activity_news_list_fab"
+        android:id="@+id/fab_newslist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

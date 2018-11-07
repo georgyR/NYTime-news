@@ -47,4 +47,10 @@ public class DatePickerDialogFragment extends DialogFragment {
         int day = getArguments().getInt(DAY_KEY);
         return new DatePickerDialog(getActivity(), listener, year, month, day);
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 }

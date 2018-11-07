@@ -47,8 +47,6 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     private static final int MIN_WIDTH_IN_DP = 300;
     private static final int EDIT_NEWS_REQUEST = 10;
     private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
-    private static final String LAST_CLICKED_ITEM_POSITION_KEY = "LAST_CLICKED_ITEM_POSITION_KEY";
-    private static final String LAST_CLICKED_ITEM_ID_KEY = "LAST_CLICKED_ITEM_ID_KEY";
 
     @NonNull
     private RecyclerView recyclerView;
@@ -73,8 +71,6 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @NonNull
     private ViewVisibilitySwitcher visibilitySwitcher;
 
-    private int lastClickedItemPosition;
-    private int lastClickedItemId;
 
     @InjectPresenter
     public NewsListPresenter presenter;
@@ -88,18 +84,18 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
 
-        Toolbar toolbar = findViewById(R.id.all_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_newslist);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        progressBar = findViewById(R.id.activity_news_list__progressbar);
+        progressBar = findViewById(R.id.progressbar_newslist);
 
-        recyclerView = findViewById(R.id.activity_news_list__recycler_view);
+        recyclerView = findViewById(R.id.recyclerview__newslist);
         setupRecyclerView(recyclerView);
 
-        errorView = findViewById(R.id.activity_news_list__view_error);
+        errorView = findViewById(R.id.errorview_newslist);
 
-        emptyListView = findViewById(R.id.activity_news_list_view_empty_list);
+        emptyListView = findViewById(R.id.viewempty_newslist);
 
         visibilitySwitcher = new ViewVisibilitySwitcher(
                 recyclerView,
@@ -107,14 +103,27 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
                 errorView,
                 emptyListView);
 
-        tryAgainButton = findViewById(R.id.view_error__button_try_again);
+        tryAgainButton = findViewById(R.id.button_viewerror_try_again);
         tryAgainButton.setOnClickListener(v -> presenter.onTryAgainButtonClicked());
 
-        fab = findViewById(R.id.activity_news_list_fab);
+        fab = findViewById(R.id.fab_newslist);
         fab.setOnClickListener(v -> presenter.onFabClicked());
 
-        spinner = findViewById(R.id.activity_news_list__spinner);
+        spinner = findViewById(R.id.spinner_newslist);
         setupSpinner(spinner);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == EDIT_NEWS_REQUEST) {
+            switch (resultCode) {
+                case NewsEditorActivity.RESULT_NEWS_IS_CHANGED:
+                    presenter.onListItemChanged();
+                    break;
+                case NewsDetailsActivity.RESULT_NEWS_IS_DELETED:
+                    presenter.onListItemDeleted();
+            }
+        }
     }
 
     @Override
@@ -122,8 +131,6 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
             listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-            lastClickedItemPosition = savedInstanceState.getInt(LAST_CLICKED_ITEM_POSITION_KEY);
-            lastClickedItemId = savedInstanceState.getInt(LAST_CLICKED_ITEM_ID_KEY);
         }
 
     }
@@ -158,33 +165,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         super.onSaveInstanceState(outState);
         listState = layoutManager.onSaveInstanceState();
         outState.putParcelable(LIST_STATE_KEY, listState);
-        outState.putInt(LAST_CLICKED_ITEM_POSITION_KEY, lastClickedItemPosition);
-        outState.putInt(LAST_CLICKED_ITEM_ID_KEY, lastClickedItemId);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == EDIT_NEWS_REQUEST) {
-            switch (resultCode) {
-                case NewsEditorActivity.RESULT_NEWS_IS_CHANGED:
-                    presenter.onListItemChanged(lastClickedItemId, lastClickedItemPosition);
-                    break;
-                case NewsDetailsActivity.RESULT_NEWS_IS_DELETED:
-                    presenter.onListItemDeleted(lastClickedItemPosition);
-            }
-        }
-    }
 
     @Override
     public void showNews(@NonNull List<DbNewsItem> news) {
@@ -210,12 +192,9 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    public void openDetailsScreen(int id, int position) {
-        lastClickedItemId = id;
-        lastClickedItemPosition = position;
+    public void openDetailsScreen(int id) {
         startActivityForResult(NewsDetailsActivity.getStartIntent(id, this), EDIT_NEWS_REQUEST);
     }
-
 
     @Override
     public void updateCertainNewsItemInList(@NonNull DbNewsItem newsItem, int position) {
@@ -226,6 +205,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     public void deleteNewsItemInList(int position) {
         adapter.deleteNewsItem(position);
     }
+
 
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();

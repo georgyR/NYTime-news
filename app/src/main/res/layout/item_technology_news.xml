@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_news__textview_category"
+            android:id="@+id/textview_itemnews_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
@@ -31,7 +31,7 @@
             tools:text="Darwin Awards" />
 
         <ImageView
-            android:id="@+id/item_news__imageview_news"
+            android:id="@+id/imageview_itemnews"
             android:layout_width="match_parent"
             android:layout_height="@dimen/imagesize_big"
             android:layout_marginBottom="@dimen/margin_small"
@@ -41,7 +41,7 @@
 
 
         <TextView
-            android:id="@+id/item_news__textview_title"
+            android:id="@+id/textview_itemnews_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
@@ -53,7 +53,7 @@
             tools:text="Tourist filmed sitting on 5m-long crocodile" />
 
         <TextView
-            android:id="@+id/item_news__textview_preview"
+            android:id="@+id/textview_itemnews_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
@@ -63,7 +63,7 @@
             tools:text="It was dangerous, I know. It is a scary feeling sitting on something that could kill you in a fraction of a second, he sas." />
 
         <TextView
-            android:id="@+id/item_news__textview_publish_date"
+            android:id="@+id/textview_itemnews_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"

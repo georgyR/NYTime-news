@@ -26,7 +26,9 @@ public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
         getNewsDetails(id);
     }
 
-    public void onSaveOptionItemClicked() {
+    public void onSaveOptionItemClicked(String editedTitle, String editedAbstractx) {
+        currentNewsItem.setTitle(editedTitle);
+        currentNewsItem.setAbstractX(editedAbstractx);
         new Thread(() -> database.updateNewsItem(currentNewsItem)).start();
     }
 
@@ -50,13 +52,6 @@ public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
         getViewState().updateDate(formattedDate);
     }
 
-    public void onTitleChanged(String title) {
-        currentNewsItem.setTitle(title);
-    }
-
-    public void onAbstractChanged(String abstractx) {
-        currentNewsItem.setAbstractX(abstractx);
-    }
 
     private void getNewsDetails(int id) {
         new Thread(() -> {
@@ -69,4 +64,5 @@ public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
         }).start();
 
     }
+
 }

@@ -10,7 +10,6 @@
         layout="@layout/toolbar" />
 
     <ScrollView
-        android:id="@+id/root_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -28,7 +27,7 @@
                 android:src="@drawable/photo_details"
                 tools:ignore="ContentDescription" />
 
-            <include layout="@layout/view_profile_information" />
+            <include layout="@layout/view_profile" />
 
         </LinearLayout>
 

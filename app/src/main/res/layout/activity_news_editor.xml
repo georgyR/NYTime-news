@@ -27,7 +27,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/edittext_news_editor_title"
+                android:id="@+id/edittext_newseditor_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_common"
@@ -39,7 +39,7 @@
                 tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
 
             <ImageView
-                android:id="@+id/imageview_news_editor"
+                android:id="@+id/imageview_newseditor"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/width_image_common"
                 android:layout_marginBottom="@dimen/margin_common"
@@ -47,7 +47,7 @@
                 tools:src="@tools:sample/avatars" />
 
             <EditText
-                android:id="@+id/edittext_news_editor_abstract"
+                android:id="@+id/edittext_newseditor_abstract"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_common"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/textview_news_editor_time"
+                    android:id="@+id/textview_newseditor_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_common"
@@ -71,7 +71,7 @@
                     tools:text="06:34 AM" />
 
                 <Button
-                    android:id="@+id/textview_news_editor_date"
+                    android:id="@+id/textview_newseditor_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAllCaps="false"

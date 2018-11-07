@@ -56,21 +56,18 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        Toolbar toolbar = findViewById(R.id.all_toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        Toolbar toolbar = findViewById(R.id.toolbar_all);
+        setupToolbar(toolbar);
 
         id = getIntent().getIntExtra(EXTRA_ID, 0);
 
         presenter.onCreateActivity(id);
 
-        titleTextView = findViewById(R.id.activity_news_details__title);
-        imageView = findViewById(R.id.activity_news_details__image);
-        abstractTextView = findViewById(R.id.activity_news_details__abstract);
-        dateTextView = findViewById(R.id.textview_news_details_date);
-        timeTextView = findViewById(R.id.textview_news_details_time);
+        titleTextView = findViewById(R.id.textview_newsdetails_title);
+        imageView = findViewById(R.id.imageview_newsdetails);
+        abstractTextView = findViewById(R.id.textview_newsdetails_abstract);
+        dateTextView = findViewById(R.id.textview_newsdetails_date);
+        timeTextView = findViewById(R.id.textview_newsdetails_time);
     }
 
     @Override
@@ -109,13 +106,7 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public void showNewsDetails(DbNewsItem newsItem) {
+    public void showNewsDetails(@NonNull DbNewsItem newsItem) {
         setTitle(newsItem.getSection());
         titleTextView.setText(newsItem.getTitle());
         Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
@@ -127,5 +118,13 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
             String time = DateUtils.getFormattedTime(publishedDate, this);
             timeTextView.setText(time);
         }
+    }
+
+    private void setupToolbar(@NonNull Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 }

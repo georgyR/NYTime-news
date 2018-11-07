@@ -42,6 +42,11 @@ public class LeaveWithoutSaveDialogFragment extends DialogFragment {
 
         void onDialogPositiveClick();
         void onDialogNegativeClick();
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

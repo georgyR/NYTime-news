@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 
-@Database(entities = {DbNewsItem.class}, version = 1)
+@Database(entities = {DbNewsItem.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public static final String DATABASE_NAME = "news.db";

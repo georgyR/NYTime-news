@@ -22,17 +22,15 @@ public class NewsDetailsPresenter extends MvpPresenter<NewsDetailsView> {
         getNewsDetails(id);
     }
 
+    public void onDeleteOptionsItemSelected(int id) {
+        new Thread(() -> database.deleteNewsItemById(id)).start();
+    }
+
     private void getNewsDetails(int id) {
         new Thread(() -> {
             DbNewsItem newsItem = database.getNewsById(id);
             new Handler(Looper.getMainLooper()).post(() -> getViewState().showNewsDetails(newsItem));
         }).start();
 
-    }
-
-    public void onDeleteOptionsItemSelected(int id) {
-        new Thread(() -> {
-            database.deleteNewsItemById(id);
-        }).start();
     }
 }

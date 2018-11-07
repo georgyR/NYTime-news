@@ -27,10 +27,11 @@ public interface NewsListView extends MvpView {
     void showEmptyView();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void openDetailsScreen(int id, int position);
+    void openDetailsScreen(int id);
 
     @StateStrategyType(AddToEndStrategy.class)
     void updateCertainNewsItemInList(@NonNull DbNewsItem item, int position);
 
+    @StateStrategyType(AddToEndStrategy.class)
     void deleteNewsItemInList(int position);
 }

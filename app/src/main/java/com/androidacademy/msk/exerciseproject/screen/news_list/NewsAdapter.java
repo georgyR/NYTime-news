@@ -95,11 +95,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         ViewHolder(@NonNull View itemView, @NonNull OnItemClickListener listener) {
             super(itemView);
-            categoryTextView = itemView.findViewById(R.id.item_news__textview_category);
-            titleTextView = itemView.findViewById(R.id.item_news__textview_title);
-            previewTextView = itemView.findViewById(R.id.item_news__textview_preview);
-            publishDateTextView = itemView.findViewById(R.id.item_news__textview_publish_date);
-            imageView = itemView.findViewById(R.id.item_news__imageview_news);
+            categoryTextView = itemView.findViewById(R.id.textview_itemnews_category);
+            titleTextView = itemView.findViewById(R.id.textview_itemnews_title);
+            previewTextView = itemView.findViewById(R.id.textview_itemnews_preview);
+            publishDateTextView = itemView.findViewById(R.id.textview_itemnews_date);
+            imageView = itemView.findViewById(R.id.imageview_itemnews);
 
             itemView.setOnClickListener(v -> {
                 int position = ViewHolder.this.getAdapterPosition();
@@ -131,7 +131,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             } else {
                 imageView.setVisibility(View.GONE);
             }
-
         }
     }
 

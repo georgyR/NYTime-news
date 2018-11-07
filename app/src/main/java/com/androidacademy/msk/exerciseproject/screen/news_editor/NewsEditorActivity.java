@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +16,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.androidacademy.msk.exerciseproject.App;
@@ -33,8 +30,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class NewsEditorActivity extends MvpAppCompatActivity implements
         NewsEditorView,
@@ -44,7 +39,6 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
     private static final String EXTRA_ID = "EXTRA_ID";
     public static final int RESULT_NEWS_IS_CHANGED = 40;
-
 
     @NonNull
     private EditText titleEditText;
@@ -56,7 +50,6 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
     private Button dateTextView;
     @NonNull
     private Button timeTextView;
-
 
     @InjectPresenter
     public NewsEditorPresenter presenter;
@@ -75,19 +68,21 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
         setTitle(R.string.news_editor_title);
 
-        Toolbar toolbar = findViewById(R.id.all_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_all);
         setSupportActionBar(toolbar);
 
-        titleEditText = findViewById(R.id.edittext_news_editor_title);
-        imageView = findViewById(R.id.imageview_news_editor);
-        abstractEditText = findViewById(R.id.edittext_news_editor_abstract);
-        dateTextView = findViewById(R.id.textview_news_editor_date);
-        timeTextView = findViewById(R.id.textview_news_editor_time);
+        titleEditText = findViewById(R.id.edittext_newseditor_title);
+        imageView = findViewById(R.id.imageview_newseditor);
+        abstractEditText = findViewById(R.id.edittext_newseditor_abstract);
+        dateTextView = findViewById(R.id.textview_newseditor_date);
+        timeTextView = findViewById(R.id.textview_newseditor_time);
 
-        int id;
-        id = getIntent().getIntExtra(EXTRA_ID, 0);
 
-        presenter.onCreateActivity(id);
+        int id = getIntent().getIntExtra(EXTRA_ID, 0);
+
+        if (savedInstanceState == null) {
+            presenter.onCreateActivity(id);
+        }
     }
 
     @Override
@@ -100,7 +95,9 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuitem_save_changes:
-                presenter.onSaveOptionItemClicked();
+                presenter.onSaveOptionItemClicked(
+                        titleEditText.getText().toString(),
+                        abstractEditText.getText().toString());
                 setResult(RESULT_NEWS_IS_CHANGED);
                 finish();
                 break;
@@ -112,7 +109,6 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         return true;
     }
 
-
     @Override
     public void onBackPressed() {
         DialogFragment dialog = new LeaveWithoutSaveDialogFragment();
@@ -121,46 +117,13 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
                 LeaveWithoutSaveDialogFragment.class.getSimpleName());
     }
 
+
     @Override
     public void showNewsDetails(DbNewsItem newsItem) {
         titleEditText.setText(newsItem.getTitle());
-        titleEditText.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                presenter.onTitleChanged(titleEditText.getText().toString());
-            }
-        });
 
         Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
         abstractEditText.setText(newsItem.getAbstractX());
-        abstractEditText.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                presenter.onAbstractChanged(abstractEditText.getText().toString());
-            }
-        });
 
         String publishedDate = newsItem.getPublishedDate();
         if (publishedDate != null) {
@@ -172,6 +135,7 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
 
         timeTextView.setOnClickListener(v -> {
+
             Calendar calendar = DateUtils.getCalendarFromTimestamp(publishedDate);
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
@@ -203,9 +167,6 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         dateTextView.setText(formattedDate);
     }
 
-    @Override
-    public void onDialogNegativeClick() {
-    }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -221,5 +182,9 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
     public void onDialogPositiveClick() {
         setResult(RESULT_CANCELED);
         finish();
+    }
+
+    @Override
+    public void onDialogNegativeClick() {
     }
 }

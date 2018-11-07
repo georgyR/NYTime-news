@@ -2,6 +2,7 @@ package com.androidacademy.msk.exerciseproject.db.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,6 +49,7 @@ public class DbNewsItem {
     public DbNewsItem() {
     }
 
+    @Ignore
     public DbNewsItem(int id,
                       @Nullable String mainSection,
                       @Nullable String section,

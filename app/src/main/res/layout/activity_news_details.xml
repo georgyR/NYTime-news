@@ -21,14 +21,14 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/activity_news_details__main"
+            android:id="@+id/linearlayout_newsdetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_common"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/activity_news_details__title"
+                android:id="@+id/textview_newsdetails_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_common"
@@ -40,7 +40,7 @@
                 tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
 
             <ImageView
-                android:id="@+id/activity_news_details__image"
+                android:id="@+id/imageview_newsdetails"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/width_image_common"
                 android:layout_marginBottom="@dimen/margin_common"
@@ -48,7 +48,7 @@
                 tools:src="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/activity_news_details__abstract"
+                android:id="@+id/textview_newsdetails_abstract"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_common"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textview_news_details_time"
+                    android:id="@+id/textview_newsdetails_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_common"
@@ -71,7 +71,7 @@
                     tools:text="06:34 AM" />
 
                 <TextView
-                    android:id="@+id/textview_news_details_date"
+                    android:id="@+id/textview_newsdetails_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
