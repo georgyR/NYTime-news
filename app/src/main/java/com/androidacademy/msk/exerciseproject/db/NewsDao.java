@@ -30,5 +30,8 @@ public interface NewsDao {
     void deleteBySection(String section);
 
     @Update
-    void updateUserItem(DbNewsItem newsItem);
+    void updateNewsItem(DbNewsItem newsItem);
+
+    @Query("DELETE FROM news_item WHERE id = :id")
+    void deleteNewsItemById(int id);
 }

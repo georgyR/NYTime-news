@@ -29,4 +29,10 @@ public class NewsDetailsPresenter extends MvpPresenter<NewsDetailsView> {
         }).start();
 
     }
+
+    public void onDeleteOptionsItemSelected(int id) {
+        new Thread(() -> {
+            database.deleteNewsItemById(id);
+        }).start();
+    }
 }

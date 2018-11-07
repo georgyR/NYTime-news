@@ -23,4 +23,5 @@
     <string name="menu_save_changes">Сохранить изменения</string>
     <string name="news_editor_title">Редактор новостей</string>
     <string name="message_leave_without_saving">Покинуть редактор без сохранения изменений?</string>
+    <string name="menu_delete_news">Удалить новость</string>
 </resources>

@@ -80,6 +80,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyItemChanged(position);
     }
 
+    public void deleteNewsItem(int position) {
+        news.remove(position);
+        notifyItemRemoved(position);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView categoryTextView;

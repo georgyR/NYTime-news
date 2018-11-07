@@ -2,7 +2,6 @@ package com.androidacademy.msk.exerciseproject.screen.news_editor;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.db.NewsDao;
@@ -28,7 +27,7 @@ public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
     }
 
     public void onSaveOptionItemClicked() {
-        new Thread(() -> database.updateUserItem(currentNewsItem)).start();
+        new Thread(() -> database.updateNewsItem(currentNewsItem)).start();
     }
 
     public void onSetTime(int hourOfDay, int minute) {

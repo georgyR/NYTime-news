@@ -24,7 +24,9 @@ import com.bumptech.glide.Glide;
 public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDetailsView {
 
     private static final String EXTRA_ID = "EXTRA_ID";
-    private static final int EDIT_NEWS_REQUEST = 100;
+
+    public static final int RESULT_NEWS_IS_DELETED = 22;
+    private static final int CHANGE_NEWS_REQUEST = 20;
 
     @NonNull
     private TextView titleTextView;
@@ -64,7 +66,6 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
         presenter.onCreateActivity(id);
 
-
         titleTextView = findViewById(R.id.activity_news_details__title);
         imageView = findViewById(R.id.activity_news_details__image);
         abstractTextView = findViewById(R.id.activity_news_details__abstract);
@@ -84,7 +85,12 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
             case R.id.menuitem_edit_news:
                 startActivityForResult(
                         NewsEditorActivity.getStartIntent(id, this),
-                        EDIT_NEWS_REQUEST);
+                        CHANGE_NEWS_REQUEST);
+                break;
+            case R.id.menuitem_delete_news:
+                presenter.onDeleteOptionsItemSelected(id);
+                setResult(RESULT_NEWS_IS_DELETED);
+                finish();
                 break;
             default:
                 Log.d(App.UI_DEBUG_TAG, "Unknown menu item id");
@@ -94,17 +100,12 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == EDIT_NEWS_REQUEST) {
-            if (resultCode == RESULT_OK) {
+        if (requestCode == CHANGE_NEWS_REQUEST) {
+            if (resultCode == NewsEditorActivity.RESULT_NEWS_IS_CHANGED) {
                 presenter.onNewsEdited(id);
-                setResult(RESULT_OK);
+                setResult(NewsEditorActivity.RESULT_NEWS_IS_CHANGED);
             }
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     @Override

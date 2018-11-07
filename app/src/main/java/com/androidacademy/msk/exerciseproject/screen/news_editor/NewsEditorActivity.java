@@ -43,6 +43,8 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         DatePickerDialog.OnDateSetListener {
 
     private static final String EXTRA_ID = "EXTRA_ID";
+    public static final int RESULT_NEWS_IS_CHANGED = 40;
+
 
     @NonNull
     private EditText titleEditText;
@@ -84,6 +86,7 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
         int id;
         id = getIntent().getIntExtra(EXTRA_ID, 0);
+
         presenter.onCreateActivity(id);
     }
 
@@ -98,7 +101,7 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.menuitem_save_changes:
                 presenter.onSaveOptionItemClicked();
-                setResult(RESULT_OK);
+                setResult(RESULT_NEWS_IS_CHANGED);
                 finish();
                 break;
 

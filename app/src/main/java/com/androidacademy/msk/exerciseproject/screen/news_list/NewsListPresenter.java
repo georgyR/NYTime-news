@@ -84,14 +84,18 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
         }
     }
 
-    public void onActivityResult(int lastClickedItemId, int position) {
+    public void onListItemChanged(int id, int position) {
         new Thread(() -> {
-            DbNewsItem newsItem = database.getNewsById(lastClickedItemId);
-            Log.d("SAVE_DEBUG", "onActivityResult: " + newsItem);
+            DbNewsItem newsItem = database.getNewsById(id);
+            Log.d("SAVE_DEBUG", "onListItemChanged: " + newsItem);
             new Handler(Looper.getMainLooper()).post(() ->
                     getViewState().updateCertainNewsItemInList(newsItem, position)
             );
         }).start();
 
+    }
+
+    public void onListItemDeleted(int position) {
+        getViewState().deleteNewsItemInList(position);
     }
 }

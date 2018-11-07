@@ -30,6 +30,7 @@ import com.androidacademy.msk.exerciseproject.network.api.Section;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
+import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
 import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -44,7 +45,7 @@ import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
 public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
 
     private static final int MIN_WIDTH_IN_DP = 300;
-    private static final int EDIT_NEWS_REQUEST = 100;
+    private static final int EDIT_NEWS_REQUEST = 10;
     private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
     private static final String LAST_CLICKED_ITEM_POSITION_KEY = "LAST_CLICKED_ITEM_POSITION_KEY";
     private static final String LAST_CLICKED_ITEM_ID_KEY = "LAST_CLICKED_ITEM_ID_KEY";
@@ -175,12 +176,15 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == EDIT_NEWS_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                presenter.onActivityResult(lastClickedItemId, lastClickedItemPosition);
+            switch (resultCode) {
+                case NewsEditorActivity.RESULT_NEWS_IS_CHANGED:
+                    presenter.onListItemChanged(lastClickedItemId, lastClickedItemPosition);
+                    break;
+                case NewsDetailsActivity.RESULT_NEWS_IS_DELETED:
+                    presenter.onListItemDeleted(lastClickedItemPosition);
             }
         }
     }
-
 
     @Override
     public void showNews(@NonNull List<DbNewsItem> news) {
@@ -216,6 +220,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @Override
     public void updateCertainNewsItemInList(@NonNull DbNewsItem newsItem, int position) {
         adapter.updateNewsItem(position, newsItem);
+    }
+
+    @Override
+    public void deleteNewsItemInList(int position) {
+        adapter.deleteNewsItem(position);
     }
 
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {

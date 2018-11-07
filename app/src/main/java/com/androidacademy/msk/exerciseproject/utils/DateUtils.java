@@ -26,13 +26,13 @@ public class DateUtils {
 
     @NonNull
     public static String getTimestampFromDate(@NonNull Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.getDefault());
         return formatter.format(date);
     }
 
     @NonNull
     public static Date getDateFromTimestamp(@NonNull String timestamp) {
-        SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.getDefault());
         Date date;
         try {
             date = formatter.parse(timestamp);
@@ -53,14 +53,14 @@ public class DateUtils {
     public static String getFormattedDate(@NonNull String timestamp) {
         Date date = getDateFromTimestamp(timestamp);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.getDefault());
         return formatter.format(date);
 
     }
 
     @NonNull
     public static String getFormattedDate(@NonNull Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.getDefault());
         return formatter.format(date);
 
     }
@@ -81,7 +81,7 @@ public class DateUtils {
             return context.getString(R.string.date_utils_yesterday, publishTime);
         }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
 
         if (isCurrentYear(date)) {
             formatter.applyPattern("MMM d, ");
@@ -97,7 +97,7 @@ public class DateUtils {
     public static String getFormattedTime(@NonNull String timestamp, @NonNull Context context) {
         Date date = getDateFromTimestamp(timestamp);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
         if (DateFormat.is24HourFormat(context)) {
             formatter.applyPattern("HH:mm");
             return formatter.format(date);
@@ -109,7 +109,7 @@ public class DateUtils {
 
     @NonNull
     public static String getFormattedTime(@NonNull Date date, @NonNull Context context) {
-        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
         if (DateFormat.is24HourFormat(context)) {
             formatter.applyPattern("HH:mm");
             return formatter.format(date);
