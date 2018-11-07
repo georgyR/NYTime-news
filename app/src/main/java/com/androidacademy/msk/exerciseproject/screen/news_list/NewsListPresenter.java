@@ -1,10 +1,6 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.db.NewsConverter;
@@ -67,14 +63,12 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
     }
 
     public void onListItemChanged() {
-        new Thread(() -> {
-            DbNewsItem newsItem = database.getNewsById(lastClickedItemId);
-            Log.d("SAVE_DEBUG", "onListItemChanged: " + newsItem);
-            new Handler(Looper.getMainLooper()).post(() ->
-                    getViewState().updateCertainNewsItemInList(newsItem, lastClickedItemPosition)
-            );
-        }).start();
-
+        compositeDisposable.add(database.getRxNewsById(lastClickedItemId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(newsItem ->
+                        getViewState().updateCertainNewsItemInList(newsItem, lastClickedItemPosition))
+        );
     }
 
     public void onListItemDeleted() {
@@ -103,6 +97,7 @@ public class NewsListPresenter extends MvpPresenter<NewsListView> {
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
                 .subscribe(
                         news -> getViewState().showNews(NewsDataUtils.sortByDate(news)),
-                        throwable -> getViewState().showError()));
+                        throwable -> getViewState().showError())
+        );
     }
 }

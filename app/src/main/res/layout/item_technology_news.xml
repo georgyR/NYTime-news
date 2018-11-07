@@ -33,7 +33,7 @@
         <ImageView
             android:id="@+id/imageview_itemnews"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/imagesize_big"
+            android:layout_height="@dimen/imageheight_news_item_big"
             android:layout_marginBottom="@dimen/margin_small"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription"

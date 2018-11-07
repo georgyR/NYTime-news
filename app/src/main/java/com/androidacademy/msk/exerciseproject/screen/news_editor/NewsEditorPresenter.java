@@ -1,7 +1,6 @@
 package com.androidacademy.msk.exerciseproject.screen.news_editor;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.db.NewsDao;
@@ -12,21 +11,30 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.Date;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 @InjectViewState
 public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
 
+    @NonNull
     private NewsDao database = App.getDatabase().getNewsDao();
-
+    @NonNull
     private DbNewsItem currentNewsItem;
+    @NonNull
+    private Disposable disposable;
 
-    private boolean isFirstViewAttaching = true;
-
+    @Override
+    public void onDestroy() {
+        disposable.dispose();
+    }
 
     public void onCreateActivity(int id) {
         getNewsDetails(id);
     }
 
-    public void onSaveOptionItemClicked(String editedTitle, String editedAbstractx) {
+    public void onSaveOptionItemClicked(String editedTitle, @NonNull String editedAbstractx) {
         currentNewsItem.setTitle(editedTitle);
         currentNewsItem.setAbstractX(editedAbstractx);
         new Thread(() -> database.updateNewsItem(currentNewsItem)).start();
@@ -52,17 +60,15 @@ public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
         getViewState().updateDate(formattedDate);
     }
 
-
     private void getNewsDetails(int id) {
-        new Thread(() -> {
-            if (isFirstViewAttaching) {
-                currentNewsItem = database.getNewsById(id);
-                isFirstViewAttaching = false;
-            }
-            new Handler(Looper.getMainLooper()).post(() ->
-                    getViewState().showNewsDetails(currentNewsItem));
-        }).start();
-
+        disposable = database.getRxNewsById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(newsItem -> {
+                            currentNewsItem = newsItem;
+                            getViewState().showNewsDetails(newsItem);
+                        }
+                );
     }
 
 }

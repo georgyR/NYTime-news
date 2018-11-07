@@ -4,7 +4,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.screen.news_list.NewsListActivity;
 
@@ -43,7 +45,7 @@ public class IntroActivity extends AppCompatActivity {
                 startActivity(NewsListActivity.getStartIntent(this));
                 finish();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.d(App.UI_DEBUG_TAG, "Sleep in main thread", e);
             }
         }).start();
     }

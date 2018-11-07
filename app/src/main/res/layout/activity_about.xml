@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +20,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_photo"
+                android:layout_height="@dimen/imageheight_profile_photo"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/photo_details"

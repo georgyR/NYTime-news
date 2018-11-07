@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.widget.TimePicker;
-
-import java.util.Calendar;
 
 
 public class TimePickerDialogFragment extends DialogFragment {
@@ -36,7 +33,7 @@ public class TimePickerDialogFragment extends DialogFragment {
         try {
             listener = (TimePickerDialog.OnTimeSetListener) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException("activity must implement DatePickerDialog.OnDateSetListener");
+            throw new ClassCastException("activity must implement TimePickerDialog.OnTimeSetListener");
         }
     }
 

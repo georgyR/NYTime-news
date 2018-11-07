@@ -79,8 +79,8 @@
 
         <ImageView
             android:id="@+id/imageview_itemnews"
-            android:layout_width="@dimen/imagesize_common"
-            android:layout_height="@dimen/imagesize_common"
+            android:layout_width="@dimen/imagesize_news_item"
+            android:layout_height="@dimen/imagesize_news_item"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image_blank"
             app:layout_constraintBottom_toBottomOf="parent"

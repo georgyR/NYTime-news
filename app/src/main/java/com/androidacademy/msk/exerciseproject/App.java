@@ -11,12 +11,7 @@ import com.androidacademy.msk.exerciseproject.network.api.NYTimesApi;
 import com.androidacademy.msk.exerciseproject.network.api.NYTimesApiProvider;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
 
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.plugins.RxJavaPlugins;

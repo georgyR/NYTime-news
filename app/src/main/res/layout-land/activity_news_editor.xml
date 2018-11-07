@@ -23,26 +23,39 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_common"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edittext_newseditor_title"
-                style="@style/ViewWithSideMargin"
-                android:layout_marginBottom="@dimen/margin_common"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textsize_huge"
-                android:textStyle="bold"
-                tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
-
-            <ImageView
-                android:id="@+id/imageview_newseditor"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/imageheight_news"
-                android:layout_marginBottom="@dimen/margin_common"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars"
-                tools:ignore="ContentDescription" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edittext_newseditor_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_screen_side"
+                    android:layout_marginTop="@dimen/margin_common"
+
+                    android:layout_marginEnd="@dimen/margin_screen_side"
+                    android:layout_marginBottom="@dimen/margin_common"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textsize_huge"
+                    android:textStyle="bold"
+                    tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
+
+                <ImageView
+                    android:id="@+id/imageview_newseditor"
+                    android:layout_width="@dimen/imagewidth_news"
+                    android:layout_height="@dimen/imageheight_news"
+                    android:layout_marginBottom="@dimen/margin_common"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/avatars"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/edittext_newseditor_abstract"
@@ -76,8 +89,8 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
+
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

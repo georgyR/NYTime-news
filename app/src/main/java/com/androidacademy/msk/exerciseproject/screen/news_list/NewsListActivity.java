@@ -238,10 +238,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0)
+                if (dy > 0) {
                     fab.hide();
-                else if (dy < 0)
+                } else if (dy < 0) {
                     fab.show();
+                }
             }
         });
 

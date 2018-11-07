@@ -1,6 +1,5 @@
 package com.androidacademy.msk.exerciseproject.network.api;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.BuildConfig;

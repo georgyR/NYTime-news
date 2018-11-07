@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
-import com.androidacademy.msk.exerciseproject.network.api.Section;
 import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
 import com.androidacademy.msk.exerciseproject.utils.NewsDataUtils;
 
@@ -14,27 +13,8 @@ import java.util.List;
 public class NewsConverter {
 
     @NonNull
-    public static DbNewsItem toDatabase(@NonNull NetworkNewsItem item, String section) {
-
-        String uniqueString = item.getTitle() + item.getUrl();
-        int id = uniqueString.hashCode();
-        String previewImageUrl = NewsDataUtils.getPreviewImageUrl(item);
-        String fullsizeTamgeUrl = NewsDataUtils.getFullsizeImageUrl(item);
-
-        return new DbNewsItem(
-                id,
-                section,
-                item.getSection(),
-                item.getTitle(),
-                item.getAbstractX(),
-                item.getUrl(),
-                item.getPublishedDate(),
-                previewImageUrl,
-                fullsizeTamgeUrl);
-    }
-
-    @NonNull
-    public static List<DbNewsItem> toDatabase(@Nullable List<NetworkNewsItem> itemList, String section) {
+    public static List<DbNewsItem> toDatabase(@Nullable List<NetworkNewsItem> itemList,
+                                              @Nullable String section) {
         if (itemList == null) {
             return new ArrayList<>();
         }
@@ -46,18 +26,18 @@ public class NewsConverter {
             String uniqueString = item.getTitle() + item.getUrl();
             int id = uniqueString.hashCode();
             String previewImageUrl = NewsDataUtils.getPreviewImageUrl(item);
-            String fullsizeTamgeUrl = NewsDataUtils.getFullsizeImageUrl(item);
+            String fullsizeImageUrl = NewsDataUtils.getFullsizeImageUrl(item);
 
-            DbNewsItem dbItem = new DbNewsItem(
-                    id,
-                    section,
-                    item.getSection(),
-                    item.getTitle(),
-                    item.getAbstractX(),
-                    item.getUrl(),
-                    item.getPublishedDate(),
-                    previewImageUrl,
-                    fullsizeTamgeUrl);
+            DbNewsItem dbItem = new DbNewsItem.Builder(id)
+                    .mainSection(section)
+                    .section(item.getSection())
+                    .title(item.getTitle())
+                    .abstractX(item.getAbstractX())
+                    .url(item.getUrl())
+                    .publishedDate(item.getPublishedDate())
+                    .previewImageUrl(previewImageUrl)
+                    .fullsizeImageUrl(fullsizeImageUrl)
+                    .build();
 
             dbNewsItems.add(dbItem);
         }

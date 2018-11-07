@@ -97,12 +97,12 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == CHANGE_NEWS_REQUEST) {
-            if (resultCode == NewsEditorActivity.RESULT_NEWS_IS_CHANGED) {
-                presenter.onNewsEdited(id);
-                setResult(NewsEditorActivity.RESULT_NEWS_IS_CHANGED);
-            }
+        if (requestCode == CHANGE_NEWS_REQUEST &&
+                resultCode == NewsEditorActivity.RESULT_NEWS_IS_CHANGED) {
+            presenter.onNewsEdited(id);
+            setResult(NewsEditorActivity.RESULT_NEWS_IS_CHANGED);
         }
+
     }
 
     @Override

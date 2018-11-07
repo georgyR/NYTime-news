@@ -4,7 +4,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 @Entity(tableName = "news_item")
@@ -50,24 +49,16 @@ public class DbNewsItem {
     }
 
     @Ignore
-    public DbNewsItem(int id,
-                      @Nullable String mainSection,
-                      @Nullable String section,
-                      @Nullable String title,
-                      @Nullable String abstractX,
-                      @Nullable String url,
-                      @Nullable String publishedDate,
-                      @Nullable String previewImageUrl,
-                      @Nullable String fullsizeImageUrl) {
-        this.id = id;
-        this.mainSection = mainSection;
-        this.section = section;
-        this.title = title;
-        this.abstractX = abstractX;
-        this.url = url;
-        this.publishedDate = publishedDate;
-        this.previewImageUrl = previewImageUrl;
-        this.fullsizeImageUrl = fullsizeImageUrl;
+    private DbNewsItem(DbNewsItem.Builder builder) {
+        this.id = builder.id;
+        this.mainSection = builder.mainSection;
+        this.section = builder.section;
+        this.title = builder.title;
+        this.abstractX = builder.abstractX;
+        this.url = builder.url;
+        this.publishedDate = builder.publishedDate;
+        this.previewImageUrl = builder.previewImageUrl;
+        this.fullsizeImageUrl = builder.fullsizeImageUrl;
     }
 
     public int getId() {
@@ -148,5 +139,67 @@ public class DbNewsItem {
 
     public void setFullsizeImageUrl(@Nullable String fullsizeImageUrl) {
         this.fullsizeImageUrl = fullsizeImageUrl;
+    }
+
+    public static class Builder {
+
+        private final int id;
+        private String mainSection;
+        private String section;
+        private String title;
+        private String abstractX;
+        private String url;
+        private String publishedDate;
+        private String previewImageUrl;
+        private String fullsizeImageUrl;
+
+        public Builder(int id) {
+            this.id = id;
+        }
+
+        public Builder mainSection(@Nullable String mainSection) {
+            this.mainSection = mainSection;
+            return this;
+        }
+
+        public Builder section(@Nullable String section) {
+            this.section = section;
+            return this;
+        }
+
+        public Builder title(@Nullable String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder abstractX(@Nullable String abstractX) {
+            this.abstractX = abstractX;
+            return this;
+        }
+
+        public Builder url(@Nullable String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder publishedDate(@Nullable String publishedDate) {
+            this.publishedDate = publishedDate;
+            return this;
+        }
+
+        public Builder previewImageUrl(@Nullable String previewImageUrl) {
+            this.previewImageUrl = previewImageUrl;
+            return this;
+        }
+
+        public Builder fullsizeImageUrl(@Nullable String fullsizeImageUrl) {
+            this.fullsizeImageUrl = fullsizeImageUrl;
+            return this;
+        }
+
+        public DbNewsItem build() {
+            return new DbNewsItem(this);
+        }
+
     }
 }
