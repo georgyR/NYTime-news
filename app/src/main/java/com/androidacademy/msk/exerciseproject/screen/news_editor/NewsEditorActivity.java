@@ -47,9 +47,9 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
     @NonNull
     private EditText abstractEditText;
     @NonNull
-    private Button dateTextView;
+    private Button dateButton;
     @NonNull
-    private Button timeTextView;
+    private Button timeButton;
 
     @InjectPresenter
     public NewsEditorPresenter presenter;
@@ -74,8 +74,8 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         titleEditText = findViewById(R.id.edittext_newseditor_title);
         imageView = findViewById(R.id.imageview_newseditor);
         abstractEditText = findViewById(R.id.edittext_newseditor_abstract);
-        dateTextView = findViewById(R.id.textview_newseditor_date);
-        timeTextView = findViewById(R.id.textview_newseditor_time);
+        dateButton = findViewById(R.id.textview_newseditor_date);
+        timeButton = findViewById(R.id.textview_newseditor_time);
 
 
         int id = getIntent().getIntExtra(EXTRA_ID, 0);
@@ -128,13 +128,13 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         String publishedDate = newsItem.getPublishedDate();
         if (publishedDate != null) {
             String date = DateUtils.getFormattedDate(publishedDate);
-            dateTextView.setText(date);
+            dateButton.setText(date);
             String time = DateUtils.getFormattedTime(publishedDate, this);
-            timeTextView.setText(time);
+            timeButton.setText(time);
         }
 
 
-        timeTextView.setOnClickListener(v -> {
+        timeButton.setOnClickListener(v -> {
 
             Calendar calendar = DateUtils.getCalendarFromTimestamp(publishedDate);
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -145,7 +145,7 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
                     TimePickerDialogFragment.class.getSimpleName());
         });
 
-        dateTextView.setOnClickListener(v -> {
+        dateButton.setOnClickListener(v -> {
             Calendar calendar = DateUtils.getCalendarFromTimestamp(publishedDate);
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
@@ -159,12 +159,12 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
     @Override
     public void updateTime(@NonNull String formattedTime) {
-        timeTextView.setText(formattedTime);
+        timeButton.setText(formattedTime);
     }
 
     @Override
     public void updateDate(@NonNull String formattedDate) {
-        dateTextView.setText(formattedDate);
+        dateButton.setText(formattedDate);
     }
 
 
