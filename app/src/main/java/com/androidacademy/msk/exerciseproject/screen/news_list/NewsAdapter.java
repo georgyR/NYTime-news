@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.data.Section;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;

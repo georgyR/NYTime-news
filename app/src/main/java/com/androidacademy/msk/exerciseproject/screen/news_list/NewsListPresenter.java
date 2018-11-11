@@ -3,11 +3,11 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.androidacademy.msk.exerciseproject.App;
+import com.androidacademy.msk.exerciseproject.data.Section;
 import com.androidacademy.msk.exerciseproject.data.database.NewsConverter;
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
-import com.androidacademy.msk.exerciseproject.data.Section;
+import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi;
 import com.androidacademy.msk.exerciseproject.screen.base.BasePresenter;
 import com.androidacademy.msk.exerciseproject.utils.NewsDataUtils;
 import com.arellomobile.mvp.InjectViewState;
@@ -23,18 +23,29 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     private static final String DEBUG_DB_QUERY = NewsListPresenter.class.getSimpleName();
 
     @NonNull
-    private Section currentSelectedSection;
+    private final NYTimesApi api;
     @NonNull
-    private NewsDao database = App.getDatabase().getNewsDao();
+    private final NewsDao database;
+
+    @NonNull
+    private Section currentSelectedSection;
 
     private int lastClickedItemPosition;
     private int lastClickedItemId;
 
+    public NewsListPresenter(@NonNull NYTimesApi api, @NonNull NewsDao database) {
+        Log.d("DAGGER_MOXY", "NewsListPresenter: new instance");
+        this.api = api;
+        this.database = database;
+    }
+
     @Override
     protected void onFirstViewAttach() {
+        Log.d("DAGGER_MOXY", "NewsListPresenter: first attach");
         super.onFirstViewAttach();
         getViewState().showEmptyView();
     }
+
 
     public void onItemClicked(int id, int position) {
         lastClickedItemId = id;
@@ -77,7 +88,7 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     }
 
     private void getNews(@NonNull String section) {
-        compositeDisposable.add(App.getApi().getNews(section)
+        compositeDisposable.add(api.getNews(section)
                 .map(newsResponse -> NewsConverter.toDatabase(newsResponse.getResults(), section))
                 .map(dbNewsItems -> {
                     database.deleteBySection(section);
@@ -90,15 +101,14 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
                     List<DbNewsItem> news = database.getNewsBySection(section);
                     if (news.isEmpty()) {
                         return null;
-                    } else {
-                        return NewsDataUtils.sortByDate(news);
                     }
+                    return news;
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
                 .subscribe(
-                        news -> getViewState().showNews(NewsDataUtils.sortByDate(news)),
+                        news -> getViewState().showNews(news),
                         throwable -> getViewState().showError())
         );
     }

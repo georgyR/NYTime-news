@@ -9,18 +9,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
+
+import javax.inject.Inject;
 
 public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDetailsView {
 
@@ -43,13 +46,13 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     @NonNull
     private TextView timeTextView;
 
+    @Inject
     @InjectPresenter
     public NewsDetailsPresenter presenter;
 
     @ProvidePresenter
     public NewsDetailsPresenter providePresenter() {
-        int id = getIntent().getIntExtra(EXTRA_ID, 0);
-        return new NewsDetailsPresenter(id);
+        return presenter;
     }
 
     @NonNull
@@ -61,7 +64,12 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            int id = getIntent().getIntExtra(EXTRA_ID, 0);
+            Injector.getInstance(getApplicationContext()).getNewsDetailsComponent(id).inject(this);
+        }
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_news_details);
 
         Toolbar toolbar = findViewById(R.id.toolbar_all);
@@ -111,7 +119,11 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     public void showNewsDetails(@NonNull DbNewsItem newsItem) {
         setTitle(newsItem.getSection());
         titleTextView.setText(newsItem.getTitle());
-        Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
+        if (newsItem.getFullsizeImageUrl() != null) {
+            Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
         abstractTextView.setText(newsItem.getAbstractX());
         String publishedDate = newsItem.getPublishedDate();
         if (publishedDate != null) {

@@ -1,13 +1,7 @@
 package com.androidacademy.msk.exerciseproject;
 
 import android.app.Application;
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
-
-import com.androidacademy.msk.exerciseproject.data.database.AppDatabase;
-import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi;
-import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApiProvider;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -19,35 +13,9 @@ public class App extends Application {
 
     private static final String ERROR_RX = "ERROR_RX";
 
-    private static NYTimesApi api;
-    private static AppDatabase database;
-
-    private static Context applicationContext;
-
-    @NonNull
-    public static NYTimesApi getApi() {
-        return api;
-    }
-
-    @NonNull
-    public static AppDatabase getDatabase() {
-        return database;
-    }
-
-    @NonNull
-    public static Context getContext() {
-        return applicationContext;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-
-        applicationContext = this;
-
-        api = NYTimesApiProvider.createApi();
-
-        database = AppDatabase.getDatabase(this);
 
         RxJavaPlugins.setErrorHandler(e -> {
             if (e instanceof UndeliverableException) {

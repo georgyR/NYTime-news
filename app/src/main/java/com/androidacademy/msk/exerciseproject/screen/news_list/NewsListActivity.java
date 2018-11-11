@@ -26,17 +26,20 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.data.Section;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
-import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
 import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import static com.androidacademy.msk.exerciseproject.screen.UiState.EMPTY;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.ERROR;
@@ -72,9 +75,14 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @NonNull
     private ViewVisibilitySwitcher visibilitySwitcher;
 
-
+    @Inject
     @InjectPresenter
     public NewsListPresenter presenter;
+
+    @ProvidePresenter
+    NewsListPresenter providePresenter() {
+        return presenter;
+    }
 
     public static Intent getStartIntent(@NonNull Context context) {
         return new Intent(context, NewsListActivity.class);
@@ -82,6 +90,19 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        /*if (savedInstanceState == null) {
+            NewsListComponent component = DaggerNewsListComponent.builder()
+                    .appModule(new AppModule(getApplicationContext()))
+                    .databaseModule(new DatabaseModule())
+                    .networkModule(new NetworkModule())
+                    .newsListModule(new PresenterModule())
+                    .build();
+
+            component.inject(this);
+        }*/
+        if (savedInstanceState == null) {
+            Injector.getInstance(getApplicationContext()).getNewsListComponent().inject(this);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
 

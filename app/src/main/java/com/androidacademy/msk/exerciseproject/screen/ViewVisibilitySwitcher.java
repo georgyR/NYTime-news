@@ -7,7 +7,7 @@ import android.view.View;
 
 public class ViewVisibilitySwitcher {
 
-    public static final String DEBUG_UI_STATE = ViewVisibilitySwitcher.class.getSimpleName();
+    private static final String DEBUG_UI_STATE = ViewVisibilitySwitcher.class.getSimpleName();
     @Nullable
     private final View dataView;
     @Nullable

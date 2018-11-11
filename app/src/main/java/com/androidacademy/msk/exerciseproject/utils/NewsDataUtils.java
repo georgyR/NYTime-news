@@ -7,12 +7,11 @@ import android.util.Log;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.data.network.model.NetworkNewsItem;
 
-import java.util.Collections;
 import java.util.List;
 
 public class NewsDataUtils {
 
-    public static final String DEBUG_DONT_MATCH_SIZE = NewsDataUtils.class.getSimpleName();
+    private static final String DEBUG_DONT_MATCH_SIZE = NewsDataUtils.class.getSimpleName();
 
     private NewsDataUtils() {
         throw new UnsupportedOperationException("There should be no class instance");
@@ -37,30 +36,6 @@ public class NewsDataUtils {
             return item.getMultimedia().get(previewImagePosition).getUrl();
         }
         return null;
-    }
-
-    @NonNull
-    public static List<DbNewsItem> sortByDate(@NonNull List<DbNewsItem> newsItems) {
-
-        Collections.sort(newsItems, (o1, o2) -> {
-            String timestamp1 = o1.getPublishedDate();
-            String timestamp2 = o2.getPublishedDate();
-            if (timestamp1 != null && timestamp2 == null) {
-                return 1;
-            }
-            if (timestamp1 == null && timestamp2 == null) {
-                return 0;
-            }
-            if (timestamp1 == null && timestamp2 != null) {
-                return -1;
-            }
-
-            return Long.compare(
-                    DateUtils.getUnixDate(timestamp2),
-                    DateUtils.getUnixDate(timestamp1));
-        });
-
-        return newsItems;
     }
 
     @Nullable

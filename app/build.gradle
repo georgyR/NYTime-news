@@ -33,6 +33,7 @@ ext {
     ext.retrofit2_version = '2.4.0'
     ext.moxy_version = '1.5.5'
     ext.room_version = "1.1.1"
+    ext.dagger_version="2.17"
 }
 
 dependencies {
@@ -58,6 +59,11 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
 }

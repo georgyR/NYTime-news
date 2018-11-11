@@ -12,24 +12,26 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 
-import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.screen.dialog.DatePickerDialogFragment;
 import com.androidacademy.msk.exerciseproject.screen.dialog.LeaveWithoutSaveDialogFragment;
 import com.androidacademy.msk.exerciseproject.screen.dialog.TimePickerDialogFragment;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 
-import java.util.Calendar;
+import javax.inject.Inject;
 
 public class NewsEditorActivity extends MvpAppCompatActivity implements
         NewsEditorView,
@@ -52,8 +54,14 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
     @NonNull
     private Button timeButton;
 
+    @Inject
     @InjectPresenter
     public NewsEditorPresenter presenter;
+
+    @ProvidePresenter
+    public NewsEditorPresenter providePresenter() {
+        return presenter;
+    }
 
     @NonNull
     public static Intent getStartIntent(int id, @NonNull Context context) {
@@ -64,6 +72,10 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            int id = getIntent().getIntExtra(EXTRA_ID, 0);
+            Injector.getInstance(getApplicationContext()).getNewsEditorComponent(id).inject(this);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_editor);
 
@@ -77,13 +89,6 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         abstractEditText = findViewById(R.id.edittext_newseditor_abstract);
         dateButton = findViewById(R.id.textview_newseditor_date);
         timeButton = findViewById(R.id.textview_newseditor_time);
-
-
-        int id = getIntent().getIntExtra(EXTRA_ID, 0);
-
-        if (savedInstanceState == null) {
-            presenter.onCreateActivity(id);
-        }
     }
 
     @Override
@@ -122,8 +127,11 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
     @Override
     public void showNewsDetails(DbNewsItem newsItem) {
         titleEditText.setText(newsItem.getTitle());
-
-        Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
+        if (newsItem.getFullsizeImageUrl() != null) {
+            Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
         abstractEditText.setText(newsItem.getAbstractX());
 
         String publishedDate = newsItem.getPublishedDate();
