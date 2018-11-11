@@ -14,19 +14,23 @@ import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 
 public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDetailsView {
 
+    private static final String DEBUG_OPTION_ITEM = NewsDetailsActivity.class.getSimpleName();
+
     private static final String EXTRA_ID = "EXTRA_ID";
 
-    public static final int RESULT_NEWS_IS_DELETED = 22;
-    private static final int CHANGE_NEWS_REQUEST = 20;
+    public static final int RESULT_NEWS_IS_DELETED = 20;
+    private static final int CHANGE_NEWS_REQUEST = 21;
+    public static final int RESULT_NEWS_IS_CHANGED = 22;
 
     @NonNull
     private TextView titleTextView;
@@ -39,10 +43,14 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     @NonNull
     private TextView timeTextView;
 
-    private int id;
-
     @InjectPresenter
     public NewsDetailsPresenter presenter;
+
+    @ProvidePresenter
+    public NewsDetailsPresenter providePresenter() {
+        int id = getIntent().getIntExtra(EXTRA_ID, 0);
+        return new NewsDetailsPresenter(id);
+    }
 
     @NonNull
     public static Intent getStartIntent(int id, @NonNull Context context) {
@@ -58,10 +66,6 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
         Toolbar toolbar = findViewById(R.id.toolbar_all);
         setupToolbar(toolbar);
-
-        id = getIntent().getIntExtra(EXTRA_ID, 0);
-
-        presenter.onCreateActivity(id);
 
         titleTextView = findViewById(R.id.textview_newsdetails_title);
         imageView = findViewById(R.id.imageview_newsdetails);
@@ -80,17 +84,15 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuitem_edit_news:
-                startActivityForResult(
-                        NewsEditorActivity.getStartIntent(id, this),
-                        CHANGE_NEWS_REQUEST);
+                presenter.onEditNewsOptionItemSelected();
                 break;
             case R.id.menuitem_delete_news:
-                presenter.onDeleteOptionsItemSelected(id);
+                presenter.onDeleteOptionsItemSelected();
                 setResult(RESULT_NEWS_IS_DELETED);
                 finish();
                 break;
             default:
-                Log.d(App.UI_DEBUG_TAG, "Unknown menu item id");
+                Log.d(DEBUG_OPTION_ITEM, "Unknown menu item id");
         }
         return true;
     }
@@ -98,9 +100,9 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == CHANGE_NEWS_REQUEST &&
-                resultCode == NewsEditorActivity.RESULT_NEWS_IS_CHANGED) {
-            presenter.onNewsEdited(id);
-            setResult(NewsEditorActivity.RESULT_NEWS_IS_CHANGED);
+                resultCode == RESULT_OK) {
+            presenter.onNewsEdited();
+            setResult(NewsDetailsActivity.RESULT_NEWS_IS_CHANGED);
         }
 
     }
@@ -118,6 +120,13 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
             String time = DateUtils.getFormattedTime(publishedDate, this);
             timeTextView.setText(time);
         }
+    }
+
+    @Override
+    public void openEditorActivity(int itemId) {
+        startActivityForResult(
+                NewsEditorActivity.getStartIntent(itemId, this),
+                CHANGE_NEWS_REQUEST);
     }
 
     private void setupToolbar(@NonNull Toolbar toolbar) {

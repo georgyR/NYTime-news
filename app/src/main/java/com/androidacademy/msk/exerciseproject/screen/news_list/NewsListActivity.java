@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
-import com.androidacademy.msk.exerciseproject.network.api.Section;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.Section;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
@@ -117,7 +118,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == EDIT_NEWS_REQUEST) {
             switch (resultCode) {
-                case NewsEditorActivity.RESULT_NEWS_IS_CHANGED:
+                case NewsDetailsActivity.RESULT_NEWS_IS_CHANGED:
                     presenter.onListItemChanged();
                     break;
                 case NewsDetailsActivity.RESULT_NEWS_IS_DELETED:
@@ -193,6 +194,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @Override
     public void openDetailsScreen(int id) {
+        Log.d("ID_DEBUG", "openDetailsScreen: " + id);
         startActivityForResult(NewsDetailsActivity.getStartIntent(id, this), EDIT_NEWS_REQUEST);
     }
 

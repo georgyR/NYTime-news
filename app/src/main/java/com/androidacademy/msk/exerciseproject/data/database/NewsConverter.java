@@ -1,10 +1,10 @@
-package com.androidacademy.msk.exerciseproject.db;
+package com.androidacademy.msk.exerciseproject.data.database;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
-import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.network.model.NetworkNewsItem;
 import com.androidacademy.msk.exerciseproject.utils.NewsDataUtils;
 
 import java.util.ArrayList;
@@ -23,12 +23,10 @@ public class NewsConverter {
 
         for (NetworkNewsItem item : itemList) {
 
-            String uniqueString = item.getTitle() + item.getUrl();
-            int id = uniqueString.hashCode();
             String previewImageUrl = NewsDataUtils.getPreviewImageUrl(item);
             String fullsizeImageUrl = NewsDataUtils.getFullsizeImageUrl(item);
 
-            DbNewsItem dbItem = new DbNewsItem.Builder(id)
+            DbNewsItem dbItem = new DbNewsItem.Builder()
                     .mainSection(section)
                     .section(item.getSection())
                     .title(item.getTitle())

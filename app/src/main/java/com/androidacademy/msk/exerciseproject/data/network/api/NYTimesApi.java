@@ -1,6 +1,6 @@
-package com.androidacademy.msk.exerciseproject.network.api;
+package com.androidacademy.msk.exerciseproject.data.network.api;
 
-import com.androidacademy.msk.exerciseproject.network.model.NewsResponse;
+import com.androidacademy.msk.exerciseproject.data.network.model.NewsResponse;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;

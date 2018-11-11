@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;

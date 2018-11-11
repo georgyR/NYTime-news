@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import com.androidacademy.msk.exerciseproject.App;
-
 public class ViewVisibilitySwitcher {
+
+    public static final String DEBUG_UI_STATE = ViewVisibilitySwitcher.class.getSimpleName();
     @Nullable
     private final View dataView;
     @Nullable
@@ -47,13 +47,13 @@ public class ViewVisibilitySwitcher {
                 return;
 
             default:
-                Log.d(App.UI_DEBUG_TAG, "Unknown ui state");
+                Log.d(DEBUG_UI_STATE, "Unknown ui state");
         }
     }
 
     private void show(@Nullable View targetView, @NonNull View[] viewArray) {
         if (targetView == null) {
-            Log.d(App.UI_DEBUG_TAG, "targetView is null");
+            Log.d(DEBUG_UI_STATE, "targetView is null");
             return;
         }
         boolean isViewFound = false;

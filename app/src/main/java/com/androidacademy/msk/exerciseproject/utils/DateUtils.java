@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
 
 import java.text.ParseException;
@@ -17,6 +16,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
+
+    private static final String DEBUG_PARSING = DateUtils.class.getSimpleName();
 
     private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";
 
@@ -31,7 +32,7 @@ public class DateUtils {
         try {
             date = formatter.parse(timestamp);
         } catch (ParseException e) {
-            Log.d(App.UI_DEBUG_TAG, "parsing date error", e);
+            Log.d(DEBUG_PARSING, "parsing date error", e);
             date = new Date();
             date.setTime(0);
         }

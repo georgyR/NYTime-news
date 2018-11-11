@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.network.SocialNetworkApp;
+import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp;
 
 public class IntentUtils {
 

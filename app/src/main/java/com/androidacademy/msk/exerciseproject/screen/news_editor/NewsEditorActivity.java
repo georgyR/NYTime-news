@@ -20,7 +20,7 @@ import android.widget.TimePicker;
 
 import com.androidacademy.msk.exerciseproject.App;
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.screen.dialog.DatePickerDialogFragment;
 import com.androidacademy.msk.exerciseproject.screen.dialog.LeaveWithoutSaveDialogFragment;
 import com.androidacademy.msk.exerciseproject.screen.dialog.TimePickerDialogFragment;
@@ -37,8 +37,9 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
 
+    private static final String DEBUG_MENU_ITEM = NewsEditorActivity.class.getSimpleName();
+
     private static final String EXTRA_ID = "EXTRA_ID";
-    public static final int RESULT_NEWS_IS_CHANGED = 40;
 
     @NonNull
     private EditText titleEditText;
@@ -98,12 +99,12 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
                 presenter.onSaveOptionItemClicked(
                         titleEditText.getText().toString(),
                         abstractEditText.getText().toString());
-                setResult(RESULT_NEWS_IS_CHANGED);
+                setResult(RESULT_OK);
                 finish();
                 break;
 
             default:
-                Log.d(App.UI_DEBUG_TAG, "Unknown menu item id");
+                Log.d(DEBUG_MENU_ITEM, "Unknown menu item id");
         }
 
         return true;
@@ -134,27 +135,9 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         }
 
 
-        timeButton.setOnClickListener(v -> {
+        timeButton.setOnClickListener(v -> presenter.onTimeButtonClicked());
 
-            Calendar calendar = DateUtils.getCalendarFromTimestamp(publishedDate);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-
-            TimePickerDialogFragment.newInstance(hour, minute).show(
-                    getSupportFragmentManager(),
-                    TimePickerDialogFragment.class.getSimpleName());
-        });
-
-        dateButton.setOnClickListener(v -> {
-            Calendar calendar = DateUtils.getCalendarFromTimestamp(publishedDate);
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialogFragment.newInstance(year, month, day).show(
-                    getSupportFragmentManager(),
-                    DatePickerDialogFragment.class.getSimpleName());
-        });
+        dateButton.setOnClickListener(v -> presenter.onDateButtonClicked());
     }
 
     @Override
@@ -167,6 +150,19 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
         dateButton.setText(formattedDate);
     }
 
+    @Override
+    public void openTimePicker(int hour, int minute) {
+        TimePickerDialogFragment.newInstance(hour, minute).show(
+                getSupportFragmentManager(),
+                TimePickerDialogFragment.class.getSimpleName());
+    }
+
+    @Override
+    public void openDatePicker(int year, int month, int day) {
+        DatePickerDialogFragment.newInstance(year, month, day).show(
+                getSupportFragmentManager(),
+                DatePickerDialogFragment.class.getSimpleName());
+    }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

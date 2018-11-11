@@ -1,34 +1,31 @@
 package com.androidacademy.msk.exerciseproject.screen.news_editor;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.App;
-import com.androidacademy.msk.exerciseproject.db.NewsDao;
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.screen.base.BasePresenter;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.Calendar;
 import java.util.Date;
 
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
+public class NewsEditorPresenter extends BasePresenter<NewsEditorView> {
+
+    private static final String DEBUG_DB_QUERY = NewsEditorPresenter.class.getSimpleName();
 
     @NonNull
     private NewsDao database = App.getDatabase().getNewsDao();
     @NonNull
     private DbNewsItem currentNewsItem;
-    @NonNull
-    private Disposable disposable;
-
-    @Override
-    public void onDestroy() {
-        disposable.dispose();
-    }
 
     public void onCreateActivity(int id) {
         getNewsDetails(id);
@@ -37,7 +34,10 @@ public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
     public void onSaveOptionItemClicked(String editedTitle, @NonNull String editedAbstractx) {
         currentNewsItem.setTitle(editedTitle);
         currentNewsItem.setAbstractX(editedAbstractx);
-        new Thread(() -> database.updateNewsItem(currentNewsItem)).start();
+        compositeDisposable.add(Completable.complete()
+                .observeOn(Schedulers.io())
+                .subscribe(() -> database.updateNewsItem(currentNewsItem))
+        );
     }
 
     public void onSetTime(int hourOfDay, int minute) {
@@ -61,14 +61,36 @@ public class NewsEditorPresenter extends MvpPresenter<NewsEditorView> {
     }
 
     private void getNewsDetails(int id) {
-        disposable = database.getRxNewsById(id)
+        compositeDisposable.add(database.getRxNewsById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(newsItem -> {
+                .subscribe(
+                        newsItem -> {
                             currentNewsItem = newsItem;
                             getViewState().showNewsDetails(newsItem);
-                        }
-                );
+                        },
+                        throwable -> Log.d(
+                                DEBUG_DB_QUERY,
+                                "error in getRxNewsById() query",
+                                throwable))
+        );
     }
 
+    public void onTimeButtonClicked() {
+        Calendar calendar = DateUtils.getCalendarFromTimestamp(currentNewsItem.getPublishedDate());
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        getViewState().openTimePicker(hour, minute);
+    }
+
+    public void onDateButtonClicked() {
+
+        Calendar calendar = DateUtils.getCalendarFromTimestamp(currentNewsItem.getPublishedDate());
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        getViewState().openDatePicker(year, month, day);
+    }
 }

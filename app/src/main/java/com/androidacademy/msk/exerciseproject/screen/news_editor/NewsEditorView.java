@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_editor;
 
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
@@ -18,4 +18,10 @@ public interface NewsEditorView extends MvpView {
 
     @StateStrategyType(AddToEndStrategy.class)
     void updateDate(@NonNull String formattedDate);
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void openTimePicker(int hour, int minute);
+
+    @StateStrategyType(AddToEndStrategy.class)
+    void openDatePicker(int year, int month, int day);
 }

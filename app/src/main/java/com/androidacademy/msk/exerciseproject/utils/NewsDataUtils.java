@@ -2,14 +2,17 @@ package com.androidacademy.msk.exerciseproject.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
-import com.androidacademy.msk.exerciseproject.network.model.NetworkNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.network.model.NetworkNewsItem;
 
 import java.util.Collections;
 import java.util.List;
 
 public class NewsDataUtils {
+
+    public static final String DEBUG_DONT_MATCH_SIZE = NewsDataUtils.class.getSimpleName();
 
     private NewsDataUtils() {
         throw new UnsupportedOperationException("There should be no class instance");
@@ -60,5 +63,15 @@ public class NewsDataUtils {
         return newsItems;
     }
 
-
+    @Nullable
+    public static List<DbNewsItem> setIds(@NonNull List<DbNewsItem> news, @NonNull int[] ids) {
+        if (news.size() != ids.length) {
+            Log.d(DEBUG_DONT_MATCH_SIZE, "news and ids don't match");
+            return null;
+        }
+            for (int i = 0; i < news.size(); i++) {
+                news.get(i).setId(ids[i]);
+            }
+        return news;
+    }
 }

@@ -1,14 +1,13 @@
 package com.androidacademy.msk.exerciseproject;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.androidacademy.msk.exerciseproject.db.AppDatabase;
-import com.androidacademy.msk.exerciseproject.network.api.NYTimesApi;
-import com.androidacademy.msk.exerciseproject.network.api.NYTimesApiProvider;
+import com.androidacademy.msk.exerciseproject.data.database.AppDatabase;
+import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi;
+import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApiProvider;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -18,8 +17,8 @@ import io.reactivex.plugins.RxJavaPlugins;
 
 public class App extends Application {
 
-    public static final String UI_DEBUG_TAG = "UI_DEBUG_TAG";
-    private static final String RX_DEBUG_TAG = "RX_DEBUG_TAG";
+    private static final String ERROR_RX = "ERROR_RX";
+
     private static NYTimesApi api;
     private static AppDatabase database;
 
@@ -48,30 +47,29 @@ public class App extends Application {
 
         api = NYTimesApiProvider.createApi();
 
-        database = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DATABASE_NAME)
-                .build();
+        database = AppDatabase.getDatabase(this);
 
         RxJavaPlugins.setErrorHandler(e -> {
             if (e instanceof UndeliverableException) {
                 e.getCause();
             }
             if ((e instanceof SocketException) || (e instanceof IOException)) {
-                Log.d(RX_DEBUG_TAG, "Irrelevant network problem or API that throws on cancellation", e);
+                Log.d(ERROR_RX, "Irrelevant network problem or API that throws on cancellation", e);
                 return;
             }
             if (e instanceof InterruptedException) {
-                Log.d(RX_DEBUG_TAG, "Some blocking code was interrupted by a dispose call", e);
+                Log.d(ERROR_RX, "Some blocking code was interrupted by a dispose call", e);
                 return;
             }
             if ((e instanceof NullPointerException) || (e instanceof IllegalArgumentException)) {
-                Log.d(RX_DEBUG_TAG, "That's likely a bug in the application", e);
+                Log.d(ERROR_RX, "That's likely a bug in the application", e);
                 return;
             }
             if (e instanceof IllegalStateException) {
-                Log.d(RX_DEBUG_TAG, "That's a bug in RxJava or in a custom operator", e);
+                Log.d(ERROR_RX, "That's a bug in RxJava or in a custom operator", e);
                 return;
             }
-            Log.d(RX_DEBUG_TAG, "Undeliverable exception received, not sure what to do", e);
+            Log.d(ERROR_RX, "Undeliverable exception received, not sure what to do", e);
         });
     }
 

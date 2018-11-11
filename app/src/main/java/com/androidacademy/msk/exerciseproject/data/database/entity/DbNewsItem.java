@@ -1,16 +1,17 @@
-package com.androidacademy.msk.exerciseproject.db.model;
+package com.androidacademy.msk.exerciseproject.data.database.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.Nullable;
 
-@Entity(tableName = "news_item")
+@Entity(tableName = "news_item", indices = {@Index(value = "url", unique = true)})
 public class DbNewsItem {
 
     @ColumnInfo(name = "id")
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "main_section")
@@ -50,15 +51,15 @@ public class DbNewsItem {
 
     @Ignore
     private DbNewsItem(DbNewsItem.Builder builder) {
-        this.id = builder.id;
-        this.mainSection = builder.mainSection;
-        this.section = builder.section;
-        this.title = builder.title;
-        this.abstractX = builder.abstractX;
-        this.url = builder.url;
-        this.publishedDate = builder.publishedDate;
-        this.previewImageUrl = builder.previewImageUrl;
-        this.fullsizeImageUrl = builder.fullsizeImageUrl;
+        id = builder.id;
+        mainSection = builder.mainSection;
+        section = builder.section;
+        title = builder.title;
+        abstractX = builder.abstractX;
+        url = builder.url;
+        publishedDate = builder.publishedDate;
+        previewImageUrl = builder.previewImageUrl;
+        fullsizeImageUrl = builder.fullsizeImageUrl;
     }
 
     public int getId() {
@@ -143,7 +144,7 @@ public class DbNewsItem {
 
     public static class Builder {
 
-        private final int id;
+        private int id;
         private String mainSection;
         private String section;
         private String title;
@@ -153,8 +154,9 @@ public class DbNewsItem {
         private String previewImageUrl;
         private String fullsizeImageUrl;
 
-        public Builder(int id) {
+        public Builder id(int id) {
             this.id = id;
+            return this;
         }
 
         public Builder mainSection(@Nullable String mainSection) {

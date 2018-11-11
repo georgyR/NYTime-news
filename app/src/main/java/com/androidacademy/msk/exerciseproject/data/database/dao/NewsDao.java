@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.db;
+package com.androidacademy.msk.exerciseproject.data.database.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.androidacademy.msk.exerciseproject.db.model.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 
 import java.util.List;
 
@@ -20,6 +20,9 @@ public interface NewsDao {
 
     @Query("SELECT * FROM news_item WHERE main_section = :section")
     List<DbNewsItem> getNewsBySection(String section);
+
+    @Query("SELECT id FROM news_item WHERE main_section = :section")
+    int[] getNewsIdBySection(String section);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<DbNewsItem> news);

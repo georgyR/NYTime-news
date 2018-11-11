@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.network.api;
+package com.androidacademy.msk.exerciseproject.data;
 
 public enum Section {
 

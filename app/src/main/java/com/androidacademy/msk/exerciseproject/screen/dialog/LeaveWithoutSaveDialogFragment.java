@@ -12,7 +12,7 @@ import com.androidacademy.msk.exerciseproject.R;
 
 public class LeaveWithoutSaveDialogFragment extends DialogFragment {
 
-    DialogListener listener;
+    private DialogListener listener;
 
     @Override
     public void onAttach(Context context) {
