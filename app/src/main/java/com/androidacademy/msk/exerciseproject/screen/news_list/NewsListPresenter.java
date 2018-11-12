@@ -3,11 +3,11 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.androidacademy.msk.exerciseproject.data.Section;
 import com.androidacademy.msk.exerciseproject.data.database.NewsConverter;
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi;
+import com.androidacademy.msk.exerciseproject.model.Section;
 import com.androidacademy.msk.exerciseproject.screen.base.BasePresenter;
 import com.androidacademy.msk.exerciseproject.utils.NewsDataUtils;
 import com.arellomobile.mvp.InjectViewState;

@@ -18,7 +18,7 @@
         android:drawableStart="@drawable/ic_school_28dp"
         android:drawablePadding="@dimen/padding_drawable"
         android:textColor="@android:color/black"
-        android:text="@string/textview_graduated" />
+        android:text="@string/profile_graduated" />
 
     <TextView
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:drawableStart="@drawable/ic_android_28dp"
         android:textColor="@android:color/black"
         android:drawablePadding="@dimen/padding_drawable"
-        android:text="@string/textview_developer" />
+        android:text="@string/profile_developer" />
 
     <View
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:textColor="@android:color/black"
 
         android:layout_marginBottom="@dimen/margin_common"
-        android:text="@string/textview_profile_description" />
+        android:text="@string/profile_description" />
 
     <View
         android:layout_width="match_parent"
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_common"
-        android:hint="@string/edittext_message_hint"
+        android:hint="@string/profile_message_hint"
         android:inputType="text"
         tools:ignore="Autofill" />
 
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_common"
             android:layout_weight="1"
-            android:text="@string/button_send_email"
+            android:text="@string/profile_send_email"
             android:textColor="@color/colorPrimaryDark" />
 
         <Button
@@ -81,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_send_message"
+            android:text="@string/profile_send_message"
             android:textColor="@color/colorPrimaryDark" />
 
     </LinearLayout>

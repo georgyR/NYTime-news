@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name" translatable="false">News</string>
-    <string name="button_send_message">Send message</string>
-    <string name="textview_graduated">Graduated from Bauman Moscow State University</string>
-    <string name="textview_developer">Beginning android developer</string>
-    <string name="textview_profile_description">Georgy completed a master’s degree in Mechanical Engineering at Bauman Moscow State University in summer 2018. Now he is developing in IT and wants to be a professional Android developer.</string>
-    <string name="edittext_message_hint">Enter a message…</string>
+    <string name="profile_send_message">Send message</string>
+    <string name="profile_graduated">Graduated from Bauman Moscow State University</string>
+    <string name="profile_developer">Beginning android developer</string>
+    <string name="profile_description">Georgy completed a master’s degree in Mechanical Engineering at Bauman Moscow State University in summer 2018. Now he is developing in IT and wants to be a professional Android developer.</string>
+    <string name="profile_message_hint">Enter a message…</string>
     <string name="email_subject">Hello, Georgy.</string>
-    <string name="snackbar_no_email_app">Email app didn\\\'t find</string>
-    <string name="snackbar_no_browser">Browser app didn\\\\\\\'t find</string>
-    <string name="snackbar_no_sms_app">SMS app didn\\\\\\\'t find</string>
+    <string name="snackbar_no_email_app">Email app didn\'t find</string>
+    <string name="snackbar_no_browser">Browser app didn\'t find</string>
+    <string name="snackbar_no_sms_app">SMS app didn\'t find</string>
     <string name="disclaimer">© 2018 Georgy Ryabykh</string>
     <string name="profile_name">Georgy Ryabykh</string>
-    <string name="button_send_email">Send email</string>
+    <string name="profile_send_email">Send email</string>
     <string name="menu_open_about_author">About author</string>
     <string name="menu_edit_news">Edit news</string>
     <string name="date_utils_min_ago">%1$d min. ago</string>
@@ -27,4 +27,5 @@
     <string name="menu_delete_news">Delete news</string>
     <string name="newseditor_title">Title</string>
     <string name="newseditor_description">Description</string>
+    <string name="intro_welcome">Welcome!</string>
 </resources>

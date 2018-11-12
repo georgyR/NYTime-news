@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp;
-import com.androidacademy.msk.exerciseproject.utils.IntentUtils;
+import com.androidacademy.msk.exerciseproject.model.AppError;
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 
+public class AboutActivity extends MvpAppCompatActivity implements AboutView {
 
-public class AboutActivity extends AppCompatActivity {
-
-    private static final String EMAIL = "georgy.ryabykh@gmail.com";
-    private static final String PHONE_NUMBER = "+79165766299";
+    private static final String DEBUG_SNACKBAR_ERROR_MESSAGE = AboutActivity.class.getSimpleName();
 
     @NonNull
     private View rootView;
@@ -40,6 +39,9 @@ public class AboutActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     @NonNull
     private EditText messageEditText;
+
+    @InjectPresenter
+    AboutPresenter presenter;
 
     @NonNull
     public static Intent getStartIntent(@NonNull Context context) {
@@ -68,26 +70,18 @@ public class AboutActivity extends AppCompatActivity {
 
         sendMessageButton.setOnClickListener(v -> {
             String message = messageEditText.getText().toString();
-            openSmsApp(PHONE_NUMBER, message);
+            presenter.onSendMessageButtonClicked(message);
         });
 
         sendEmailButton.setOnClickListener(v -> {
             String emailSubject = getString(R.string.email_subject);
             String message = messageEditText.getText().toString();
-            openEmailApp(EMAIL, emailSubject, message);
+            presenter.onEmailButtonClicked(emailSubject, message);
         });
 
-        telegramImageButton.setOnClickListener(v -> {
-            if (!openSpecificApp(SocialNetworkApp.TELEGRAM) &&
-                    !openSpecificApp(SocialNetworkApp.TELEGRAM_X)) {
-                openUriInBrowser(SocialNetworkApp.TELEGRAM.getAccountUrl());
-            }
-        });
-        instagramImageButton.setOnClickListener(v -> {
-            if (!openSpecificApp(SocialNetworkApp.INSTAGRAM)) {
-                openUriInBrowser(SocialNetworkApp.INSTAGRAM.getAccountUrl());
-            }
-        });
+        telegramImageButton.setOnClickListener(v -> presenter.onTelegramButtonClicked());
+
+        instagramImageButton.setOnClickListener(v -> presenter.onInstagramButtonClicked());
 
         addDisclaimerTextView(linearLayout);
     }
@@ -98,43 +92,34 @@ public class AboutActivity extends AppCompatActivity {
         return true;
     }
 
-    private void openSmsApp(@NonNull String phoneNumber, @NonNull String message) {
-        Intent intent = IntentUtils.getSmsAppIntent(phoneNumber, message);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            showSnackbar(getResources().getString(R.string.snackbar_no_sms_app));
-        }
+    @Override
+    public void openApp(@NonNull Intent intent) {
+        startActivity(intent);
     }
 
-    private void openEmailApp(@NonNull String email,
-                              @NonNull String subject,
-                              @NonNull String message) {
-        Intent intent = IntentUtils.getEmailIntent(email, subject, message);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            showSnackbar(getResources().getString(R.string.snackbar_no_email_app));
+    @Override
+    public void showErrorSnackbar(AppError appError) {
+        String message;
+        switch (appError) {
+            case SMS:
+                message = getResources().getString(R.string.snackbar_no_sms_app);
+                break;
+            case EMAIL:
+                message = getResources().getString(R.string.snackbar_no_email_app);
+                break;
+            case BROWSER:
+                message = getResources().getString(R.string.snackbar_no_browser);
+                break;
+            default:
+                Log.d(DEBUG_SNACKBAR_ERROR_MESSAGE, "showErrorSnackbar: Unchecked appError type");
+                return;
         }
+        showSnackbar(message);
     }
 
-    private boolean openSpecificApp(@NonNull SocialNetworkApp app) {
-        Intent intent = IntentUtils.getSpecificIntent(app);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void openUriInBrowser(@NonNull String stringUri) {
-        Intent intent = IntentUtils.getBrowserIntent(stringUri);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            showSnackbar(getResources().getString(R.string.snackbar_no_browser));
-        }
+    private void showSnackbar(@NonNull String message) {
+        Snackbar snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     private void addDisclaimerTextView(LinearLayout linearLayout) {
@@ -147,10 +132,5 @@ public class AboutActivity extends AppCompatActivity {
         disclaimerTv.setGravity(Gravity.CENTER);
 
         linearLayout.addView(disclaimerTv);
-    }
-
-    private void showSnackbar(@NonNull String message) {
-        Snackbar snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT);
-        snackbar.show();
     }
 }
