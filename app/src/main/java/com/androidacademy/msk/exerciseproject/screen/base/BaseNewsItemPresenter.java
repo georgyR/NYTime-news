@@ -8,14 +8,16 @@ import com.arellomobile.mvp.MvpView;
 
 public abstract class BaseNewsItemPresenter<T extends MvpView> extends BasePresenter<T>{
 
+    private static final String DEBUG_INJECT = "DEBUG_INJECT";
+
     @NonNull
-    protected final NewsDao database;
+    protected final NewsDao dao;
 
     protected final int itemId;
 
     public BaseNewsItemPresenter(@NonNull NewsDao dao, int id) {
-        database = dao;
-        Log.d("INJECT_DEBUG", "NewsDetailsPresenter: " + dao);
+        this.dao = dao;
+        Log.d(DEBUG_INJECT, "NewsDetailsPresenter: " + dao);
         itemId = id;
     }
 }

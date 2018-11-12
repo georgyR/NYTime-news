@@ -20,24 +20,11 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
         super(dao, id);
     }
 
-    /*@NonNull
-    private final NewsDao database;
-
-    private final int itemId;
-
-    *//*public NewsDetailsPresenter(@NonNull NewsDao dao, int id) {
-        database = dao;
-        Log.d("INJECT_DEBUG", "NewsDetailsPresenter: " + dao);
-        itemId = id;
-    }*/
-
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getNewsDetails();
     }
-
-
 
     @Override
     public void onDestroy() {
@@ -49,14 +36,16 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
     }
 
     public void onDeleteOptionsItemSelected() {
-        compositeDisposable.add(Completable.complete()
+        compositeDisposable.add(
+                Completable.complete()
                 .observeOn(Schedulers.io())
-                .subscribe(() -> database.deleteNewsItemById(itemId))
+                .subscribe(() -> dao.deleteNewsItemById(itemId))
         );
     }
 
     private void getNewsDetails() {
-        compositeDisposable.add(database.getRxNewsById(itemId)
+        compositeDisposable.add(
+                dao.getRxNewsById(itemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

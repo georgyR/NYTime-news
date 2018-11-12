@@ -52,6 +52,8 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
     @ProvidePresenter
     public NewsDetailsPresenter providePresenter() {
+        int id = getIntent().getIntExtra(EXTRA_ID, 0);
+        Injector.getInstance(getApplicationContext()).getNewsDetailsComponent(id).inject(this);
         return presenter;
     }
 
@@ -64,10 +66,6 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            int id = getIntent().getIntExtra(EXTRA_ID, 0);
-            Injector.getInstance(getApplicationContext()).getNewsDetailsComponent(id).inject(this);
-        }
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_news_details);

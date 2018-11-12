@@ -71,11 +71,6 @@ public class DateUtils {
     }
 
     @NonNull
-    public static long getUnixDate(@NonNull String timestamp) {
-        return getDate(timestamp).getTime();
-    }
-
-    @NonNull
     public static String getFormattedDate(@NonNull String timestamp) {
         Date date = getDate(timestamp);
 

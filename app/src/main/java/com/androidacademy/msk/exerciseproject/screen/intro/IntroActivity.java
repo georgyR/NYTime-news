@@ -15,11 +15,12 @@ public class IntroActivity extends AppCompatActivity {
 
 
     private static final String DEBUG_THREAD_SLEEP = IntroActivity.class.getSimpleName();
+    private static final int TIMEOUT = 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean isIntroVisible = Storage.needToShowIntro(this);
+        boolean isIntroVisible = new Storage(getApplicationContext()).needToShowIntro();
         if (isIntroVisible) {
             setContentView(R.layout.activity_intro);
         } else {
@@ -33,7 +34,7 @@ public class IntroActivity extends AppCompatActivity {
         super.onResume();
         new Thread(() -> {
             try {
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(TIMEOUT);
                 startActivity(NewsListActivity.getStartIntent(this));
                 finish();
             } catch (InterruptedException e) {

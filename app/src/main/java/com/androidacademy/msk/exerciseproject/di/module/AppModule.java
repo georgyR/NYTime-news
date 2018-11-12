@@ -3,7 +3,7 @@ package com.androidacademy.msk.exerciseproject.di.module;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.di.scope.DbScope;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,7 +18,7 @@ public class AppModule {
     }
 
     @Provides
-    @DbScope
+    @Singleton
     @NonNull
     public Context provideContext() {
         return appContext;

@@ -40,9 +40,10 @@ public class NewsEditorPresenter extends BaseNewsItemPresenter<NewsEditorView> {
     public void onSaveOptionItemClicked(String editedTitle, @NonNull String editedAbstractx) {
         currentNewsItem.setTitle(editedTitle);
         currentNewsItem.setAbstractX(editedAbstractx);
-        compositeDisposable.add(Completable.complete()
+        compositeDisposable.add(
+                Completable.complete()
                 .observeOn(Schedulers.io())
-                .subscribe(() -> database.updateNewsItem(currentNewsItem))
+                .subscribe(() -> dao.updateNewsItem(currentNewsItem))
         );
     }
 
@@ -67,7 +68,8 @@ public class NewsEditorPresenter extends BaseNewsItemPresenter<NewsEditorView> {
     }
 
     private void getNewsDetails(int id) {
-        compositeDisposable.add(database.getRxNewsById(id)
+        compositeDisposable.add(
+                dao.getRxNewsById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

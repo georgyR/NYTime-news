@@ -68,7 +68,8 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     }
 
     public void onListItemChanged() {
-        compositeDisposable.add(database.getRxNewsById(lastClickedItemId)
+        compositeDisposable.add(
+                database.getRxNewsById(lastClickedItemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -88,7 +89,8 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     }
 
     private void getNews(@NonNull String section) {
-        compositeDisposable.add(api.getNews(section)
+        compositeDisposable.add(
+                api.getNews(section)
                 .map(newsResponse -> NewsConverter.toDatabase(newsResponse.getResults(), section))
                 .map(dbNewsItems -> {
                     database.deleteBySection(section);

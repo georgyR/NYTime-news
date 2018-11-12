@@ -60,6 +60,8 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
     @ProvidePresenter
     public NewsEditorPresenter providePresenter() {
+        int id = getIntent().getIntExtra(EXTRA_ID, 0);
+        Injector.getInstance(getApplicationContext()).getNewsEditorComponent(id).inject(this);
         return presenter;
     }
 
@@ -72,10 +74,6 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            int id = getIntent().getIntExtra(EXTRA_ID, 0);
-            Injector.getInstance(getApplicationContext()).getNewsEditorComponent(id).inject(this);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_editor);
 

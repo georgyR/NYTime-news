@@ -81,6 +81,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @ProvidePresenter
     NewsListPresenter providePresenter() {
+        Injector.getInstance(getApplicationContext()).getNewsListComponent().inject(this);
         return presenter;
     }
 
@@ -90,19 +91,6 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        /*if (savedInstanceState == null) {
-            NewsListComponent component = DaggerNewsListComponent.builder()
-                    .appModule(new AppModule(getApplicationContext()))
-                    .databaseModule(new DatabaseModule())
-                    .networkModule(new NetworkModule())
-                    .newsListModule(new PresenterModule())
-                    .build();
-
-            component.inject(this);
-        }*/
-        if (savedInstanceState == null) {
-            Injector.getInstance(getApplicationContext()).getNewsListComponent().inject(this);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
 

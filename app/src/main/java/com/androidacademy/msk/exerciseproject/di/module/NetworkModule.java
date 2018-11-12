@@ -6,6 +6,8 @@ import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi;
 import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApiProvider;
 import com.androidacademy.msk.exerciseproject.di.scope.NetworkScope;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
