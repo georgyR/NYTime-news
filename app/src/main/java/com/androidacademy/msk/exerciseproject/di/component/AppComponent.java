@@ -1,8 +1,9 @@
 package com.androidacademy.msk.exerciseproject.di.component;
 
+import com.androidacademy.msk.exerciseproject.di.module.AboutModule;
 import com.androidacademy.msk.exerciseproject.di.module.AppModule;
 import com.androidacademy.msk.exerciseproject.di.module.DbModule;
-import com.androidacademy.msk.exerciseproject.di.module.AboutModule;
+import com.androidacademy.msk.exerciseproject.di.module.IntroModule;
 
 import javax.inject.Singleton;
 
@@ -15,4 +16,6 @@ public interface AppComponent {
     DbComponent plusDbComponent(DbModule module);
 
     AboutComponent plusAboutComponent(AboutModule module);
+
+    IntroComponent plusIntroComponent(IntroModule module);
 }

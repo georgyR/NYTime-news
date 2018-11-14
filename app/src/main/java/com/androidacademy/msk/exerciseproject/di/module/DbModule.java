@@ -7,8 +7,6 @@ import com.androidacademy.msk.exerciseproject.data.database.AppDatabase;
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
 import com.androidacademy.msk.exerciseproject.di.scope.DbScope;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 

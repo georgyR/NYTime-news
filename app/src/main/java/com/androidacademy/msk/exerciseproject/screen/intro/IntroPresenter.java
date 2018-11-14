@@ -13,10 +13,16 @@ public class IntroPresenter extends BasePresenter<IntroView> {
 
     private static final int TIMEOUT = 3;
 
+    private final Storage storage;
+
+    public IntroPresenter(Storage storage) {
+        this.storage = storage;
+    }
+
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        boolean isIntroVisible = new Storage().needToShowIntro();
+        boolean isIntroVisible = storage.needToShowIntro();
         if (isIntroVisible) {
             getViewState().setLayout();
             compositeDisposable.add(Completable.complete()

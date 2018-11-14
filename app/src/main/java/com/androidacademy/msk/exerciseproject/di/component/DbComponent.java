@@ -1,15 +1,11 @@
 package com.androidacademy.msk.exerciseproject.di.component;
 
-import com.androidacademy.msk.exerciseproject.di.module.AppModule;
 import com.androidacademy.msk.exerciseproject.di.module.DbModule;
 import com.androidacademy.msk.exerciseproject.di.module.NetworkModule;
 import com.androidacademy.msk.exerciseproject.di.module.NewsDetailsModule;
 import com.androidacademy.msk.exerciseproject.di.module.NewsEditorModule;
 import com.androidacademy.msk.exerciseproject.di.scope.DbScope;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
 import dagger.Subcomponent;
 
 @Subcomponent(modules = {DbModule.class})

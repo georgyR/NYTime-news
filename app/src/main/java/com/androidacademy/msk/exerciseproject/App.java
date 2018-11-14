@@ -14,17 +14,9 @@ public class App extends Application {
 
     private static final String ERROR_RX = "ERROR_RX";
 
-    private static Context appContext;
-
-    public static Context getAppContext() {
-        return appContext;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-
-        appContext = this;
 
         RxJavaPlugins.setErrorHandler(e -> {
             if (e instanceof UndeliverableException) {
