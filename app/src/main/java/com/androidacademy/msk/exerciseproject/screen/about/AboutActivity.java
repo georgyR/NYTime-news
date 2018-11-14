@@ -17,9 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.model.AppError;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
+import javax.inject.Inject;
 
 public class AboutActivity extends MvpAppCompatActivity implements AboutView {
 
@@ -40,8 +44,15 @@ public class AboutActivity extends MvpAppCompatActivity implements AboutView {
     @NonNull
     private EditText messageEditText;
 
+    @Inject
     @InjectPresenter
     AboutPresenter presenter;
+
+    @ProvidePresenter
+    AboutPresenter providePresenter() {
+        Injector.getInstance(getApplicationContext()).getAboutComponent().inject(this);
+        return presenter;
+    }
 
     @NonNull
     public static Intent getStartIntent(@NonNull Context context) {

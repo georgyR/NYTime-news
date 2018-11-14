@@ -5,17 +5,20 @@ import com.androidacademy.msk.exerciseproject.di.module.DbModule;
 import com.androidacademy.msk.exerciseproject.di.module.NetworkModule;
 import com.androidacademy.msk.exerciseproject.di.module.NewsDetailsModule;
 import com.androidacademy.msk.exerciseproject.di.module.NewsEditorModule;
+import com.androidacademy.msk.exerciseproject.di.scope.DbScope;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dagger.Subcomponent;
 
-@Component(modules = {AppModule.class, DbModule.class})
-@Singleton
+@Subcomponent(modules = {DbModule.class})
+@DbScope
 public interface DbComponent {
+
     NewsDetailsComponent plusNewsDetailsComponent(NewsDetailsModule module);
 
     NewsEditorComponent plusNewsEditorComponent(NewsEditorModule module);
 
-    DbAndNetworkComponent plusDbAndNetworkComponent(NetworkModule module);
+    DbAndNetworkComponent plusNetworkComponent(NetworkModule module);
 }

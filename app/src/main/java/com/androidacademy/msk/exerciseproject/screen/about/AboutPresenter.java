@@ -17,7 +17,11 @@ public class AboutPresenter extends BasePresenter<AboutView> {
     private static final String EMAIL = "georgy.ryabykh@gmail.com";
     private static final String PHONE_NUMBER = "+79165766299";
 
-    private IntentUtils intentUtils = new IntentUtils(App.getAppContext());
+    private final IntentUtils intentUtils;
+
+    public AboutPresenter(@NonNull IntentUtils intentUtils) {
+        this.intentUtils = intentUtils;
+    }
 
     public void onSendMessageButtonClicked(@NonNull String message) {
         Intent smsAppIntent = intentUtils.getSmsAppIntent(PHONE_NUMBER, message);
