@@ -19,7 +19,7 @@ public class IntroPresenter extends BasePresenter<IntroView> {
         this.storage = storage;
     }
 
-    @Override
+    /*@Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         boolean isIntroVisible = storage.needToShowIntro();
@@ -31,5 +31,5 @@ public class IntroPresenter extends BasePresenter<IntroView> {
         } else {
             getViewState().startNewsListActivity();
         }
-    }
+    }*/
 }
