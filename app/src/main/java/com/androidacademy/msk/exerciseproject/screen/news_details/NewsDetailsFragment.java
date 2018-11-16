@@ -1,15 +1,18 @@
 package com.androidacademy.msk.exerciseproject.screen.news_details;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,18 +21,18 @@ import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
-import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
 
-public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDetailsView {
+public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDetailsView {
 
-    private static final String DEBUG_OPTION_ITEM = NewsDetailsActivity.class.getSimpleName();
+    private static final String DEBUG_OPTION_ITEM = NewsDetailsFragment.class.getSimpleName();
 
-    private static final String EXTRA_ID = "EXTRA_ID";
+    private static final String KEY_ID = "KEY_ID";
 
     public static final int RESULT_NEWS_IS_DELETED = 20;
     private static final int CHANGE_NEWS_REQUEST = 21;
@@ -52,35 +55,45 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
 
     @ProvidePresenter
     public NewsDetailsPresenter providePresenter() {
-        int id = getIntent().getIntExtra(EXTRA_ID, 0);
-        Injector.getInstance(getApplicationContext()).getNewsDetailsComponent(id).inject(this);
+        int id = getArguments().getInt(KEY_ID);
+        Injector.getInstance(getActivity().getApplicationContext()).getNewsDetailsComponent(id).inject(this);
         return presenter;
     }
 
-    @NonNull
-    public static Intent getStartIntent(int id, @NonNull Context context) {
-        Intent intent = new Intent(context, NewsDetailsActivity.class);
-        intent.putExtra(EXTRA_ID, id);
-        return intent;
+    public static NewsDetailsFragment newInstance(int id) {
+        Bundle args = new Bundle();
+        args.putInt(KEY_ID, id);
+
+        NewsDetailsFragment fragment = new NewsDetailsFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
-        setContentView(R.layout.activity_news_details);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_news_details, container, false);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_all);
+        Toolbar toolbar = view.findViewById(R.id.toolbar_all);
         setupToolbar(toolbar);
 
-        titleTextView = findViewById(R.id.textview_newsdetails_title);
-        imageView = findViewById(R.id.imageview_newsdetails);
-        abstractTextView = findViewById(R.id.textview_newsdetails_abstract);
-        dateTextView = findViewById(R.id.textview_newsdetails_date);
-        timeTextView = findViewById(R.id.textview_newsdetails_time);
+        titleTextView = view.findViewById(R.id.textview_newsdetails_title);
+        imageView = view.findViewById(R.id.imageview_newsdetails);
+        abstractTextView = view.findViewById(R.id.textview_newsdetails_abstract);
+        dateTextView = view.findViewById(R.id.textview_newsdetails_date);
+        timeTextView = view.findViewById(R.id.textview_newsdetails_time);
+
+        return view;
     }
 
-    @Override
+
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_news_details, menu);
         return true;
@@ -108,14 +121,14 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
         if (requestCode == CHANGE_NEWS_REQUEST &&
                 resultCode == RESULT_OK) {
             presenter.onNewsEdited();
-            setResult(NewsDetailsActivity.RESULT_NEWS_IS_CHANGED);
+            setResult(NewsDetailsFragment.RESULT_NEWS_IS_CHANGED);
         }
 
-    }
+    }*/
 
     @Override
     public void showNewsDetails(@NonNull DbNewsItem newsItem) {
-        setTitle(newsItem.getSection());
+        getActivity().setTitle(newsItem.getSection());
         titleTextView.setText(newsItem.getTitle());
         if (newsItem.getFullsizeImageUrl() != null) {
             Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
@@ -127,7 +140,7 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
         if (publishedDate != null) {
             String date = DateUtils.getFormattedDate(publishedDate);
             dateTextView.setText(date);
-            String time = DateUtils.getFormattedTime(publishedDate, this);
+            String time = DateUtils.getFormattedTime(publishedDate, getContext());
             timeTextView.setText(time);
         }
     }
@@ -135,15 +148,15 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     @Override
     public void openEditorActivity(int itemId) {
         startActivityForResult(
-                NewsEditorActivity.getStartIntent(itemId, this),
+                NewsEditorActivity.getStartIntent(itemId, getContext()),
                 CHANGE_NEWS_REQUEST);
     }
 
     private void setupToolbar(@NonNull Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 }

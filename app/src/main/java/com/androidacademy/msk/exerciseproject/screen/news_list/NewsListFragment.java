@@ -1,7 +1,6 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -9,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +16,12 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,9 +34,9 @@ import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.model.Section;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
-import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
+import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsFragment;
 import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
-import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 
@@ -46,7 +49,7 @@ import static com.androidacademy.msk.exerciseproject.screen.UiState.ERROR;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.HAS_DATA;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
 
-public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
+public class NewsListFragment extends MvpAppCompatFragment implements NewsListView {
 
     private static final int MIN_WIDTH_IN_DP = 300;
     private static final int EDIT_NEWS_REQUEST = 10;
@@ -74,6 +77,8 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     private NewsAdapter adapter;
     @NonNull
     private ViewVisibilitySwitcher visibilitySwitcher;
+    @NonNull
+    private ItemClickListener listener;
 
     @Inject
     @InjectPresenter
@@ -81,31 +86,44 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @ProvidePresenter
     NewsListPresenter providePresenter() {
-        Injector.getInstance(getApplicationContext()).getNewsListComponent().inject(this);
+        Injector.getInstance(getActivity().getApplicationContext()).getNewsListComponent().inject(this);
         return presenter;
     }
 
-    public static Intent getStartIntent(@NonNull Context context) {
-        return new Intent(context, NewsListActivity.class);
+    public static NewsListFragment newInstance() {
+        return new NewsListFragment();
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ItemClickListener) {
+            listener = (ItemClickListener) context;
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_list);
+        setHasOptionsMenu(true);
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar_newslist);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_news_list, container, false);
 
-        progressBar = findViewById(R.id.progressbar_newslist);
+        Toolbar toolbar = view.findViewById(R.id.toolbar_newslist);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        recyclerView = findViewById(R.id.recyclerview__newslist);
-        setupRecyclerView(recyclerView);
+        progressBar = view.findViewById(R.id.progressbar_newslist);
 
-        errorView = findViewById(R.id.errorview_newslist);
+        recyclerView = view.findViewById(R.id.recyclerview__newslist);
 
-        emptyListView = findViewById(R.id.viewempty_newslist);
+        errorView = view.findViewById(R.id.errorview_newslist);
+
+        emptyListView = view.findViewById(R.id.viewempty_newslist);
 
         visibilitySwitcher = new ViewVisibilitySwitcher(
                 recyclerView,
@@ -113,17 +131,45 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
                 errorView,
                 emptyListView);
 
-        tryAgainButton = findViewById(R.id.button_viewerror_try_again);
+        tryAgainButton = view.findViewById(R.id.button_viewerror_try_again);
         tryAgainButton.setOnClickListener(v -> presenter.onTryAgainButtonClicked());
 
-        fab = findViewById(R.id.fab_newslist);
+        fab = view.findViewById(R.id.fab_newslist);
         fab.setOnClickListener(v -> presenter.onFabClicked());
 
-        spinner = findViewById(R.id.spinner_newslist);
+        spinner = view.findViewById(R.id.spinner_newslist);
         setupSpinner(spinner);
+
+        return view;
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        setupRecyclerView(recyclerView);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
+    }
+
+    /* @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            layoutManager.onRestoreInstanceState(listState);
+        }
+    }*/
+
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == EDIT_NEWS_REQUEST) {
             switch (resultCode) {
@@ -134,36 +180,19 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
                     presenter.onListItemDeleted();
             }
         }
-    }
+    }*/
 
     @Override
-    protected void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-        }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (listState != null) {
-            layoutManager.onRestoreInstanceState(listState);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_news_list, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.activity_news_list, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuitem_open_about:
-                startActivity(AboutActivity.getStartIntent(this));
+                startActivity(AboutActivity.getStartIntent(getContext()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -171,12 +200,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         listState = layoutManager.onSaveInstanceState();
         outState.putParcelable(LIST_STATE_KEY, listState);
     }
-
 
     @Override
     public void showNews(@NonNull List<DbNewsItem> news) {
@@ -203,8 +231,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @Override
     public void openDetailsScreen(int id) {
-        Log.d("ID_DEBUG", "openDetailsScreen: " + id);
-        startActivityForResult(NewsDetailsActivity.getStartIntent(id, this), EDIT_NEWS_REQUEST);
+        listener.onNewItemClicked(id);
     }
 
     @Override
@@ -218,26 +245,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
 
-    private void setLayoutManager(@NonNull RecyclerView recyclerView) {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
-
-        if (screenWidthInDp < MIN_WIDTH_IN_DP) {
-            layoutManager = new LinearLayoutManager(this);
-        } else {
-            int snapCount = (int) (screenWidthInDp / MIN_WIDTH_IN_DP);
-            layoutManager = new StaggeredGridLayoutManager(
-                    snapCount,
-                    StaggeredGridLayoutManager.VERTICAL);
-        }
-        recyclerView.setLayoutManager(layoutManager);
-    }
-
     private void setItemDecoration(@NonNull RecyclerView recyclerView) {
         DividerItemDecoration decoration
-                = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+                = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
+        Drawable dividerDrawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
         if (dividerDrawable != null) {
             decoration.setDrawable(dividerDrawable);
         }
@@ -260,13 +272,28 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
         NewsAdapter.OnItemClickListener clickListener = (id, position) -> presenter.onItemClicked(id, position);
-        adapter = new NewsAdapter(clickListener, this);
+        adapter = new NewsAdapter(clickListener, getContext());
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setLayoutManager(@NonNull RecyclerView recyclerView) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float screenWidthInDp = displayMetrics.widthPixels / displayMetrics.density;
+
+        if (screenWidthInDp < MIN_WIDTH_IN_DP) {
+            layoutManager = new LinearLayoutManager(getContext());
+        } else {
+            int snapCount = (int) (screenWidthInDp / MIN_WIDTH_IN_DP);
+            layoutManager = new StaggeredGridLayoutManager(
+                    snapCount,
+                    StaggeredGridLayoutManager.VERTICAL);
+        }
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private void setupSpinner(@NonNull Spinner spinner) {
         List<String> spinnerList = EnumUtils.convertEnumValuesToList(Section.values());
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, spinnerList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.item_spinner, spinnerList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -279,5 +306,9 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    public interface ItemClickListener {
+        void onNewItemClicked(int id);
     }
 }

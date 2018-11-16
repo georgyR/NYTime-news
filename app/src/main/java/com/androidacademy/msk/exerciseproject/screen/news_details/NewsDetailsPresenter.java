@@ -60,4 +60,5 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
     public void onEditNewsOptionItemSelected() {
         getViewState().openEditorActivity(itemId);
     }
+
 }
