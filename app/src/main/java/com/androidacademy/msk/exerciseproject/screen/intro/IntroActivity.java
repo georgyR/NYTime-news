@@ -1,6 +1,5 @@
 package com.androidacademy.msk.exerciseproject.screen.intro;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,8 +8,7 @@ import android.widget.Button;
 
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.di.Injector;
-import com.androidacademy.msk.exerciseproject.screen.MainActivity;
-import com.androidacademy.msk.exerciseproject.screen.news_list.NewsListFragment;
+import com.androidacademy.msk.exerciseproject.screen.main_container.MainActivity;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -31,20 +29,8 @@ public class IntroActivity extends MvpAppCompatActivity implements IntroView {
         return presenter;
     }
 
-    /*@Override
-    public void setLayout() {
-        setContentView(R.layout.activity_intro);
-    }*/
-
-    /*@Override
-    public void startNewsListActivity() {
-        startActivity(NewsListActivity.getStartIntent(this));
-        finish();
-    }*/
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setLayout() {
         setContentView(R.layout.activity_intro);
         ViewPager viewPager = findViewById(R.id.viewpager_intro);
         IntroPagerAdapter adapter = new IntroPagerAdapter(getSupportFragmentManager());
@@ -53,10 +39,13 @@ public class IntroActivity extends MvpAppCompatActivity implements IntroView {
         circleIndicator.setViewPager(viewPager);
 
         Button getStartedButton = findViewById(R.id.button_intro_get_started);
-        getStartedButton.setOnClickListener(v -> {
-            startActivity(MainActivity.getStartIntent(this));
-            finish();
-        });
+        getStartedButton.setOnClickListener(v -> startNewsListActivity());
+    }
+
+    @Override
+    public void startNewsListActivity() {
+        startActivity(MainActivity.getStartIntent(this));
+        finish();
     }
 
     private static class IntroPagerAdapter extends FragmentPagerAdapter {

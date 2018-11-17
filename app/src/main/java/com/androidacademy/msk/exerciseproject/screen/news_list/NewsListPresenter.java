@@ -9,7 +9,9 @@ import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi;
 import com.androidacademy.msk.exerciseproject.model.Section;
 import com.androidacademy.msk.exerciseproject.screen.base.BasePresenter;
+import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
 import com.androidacademy.msk.exerciseproject.utils.NewsDataUtils;
+import com.androidacademy.msk.exerciseproject.utils.StringUtils;
 import com.arellomobile.mvp.InjectViewState;
 
 import java.util.List;
@@ -20,36 +22,27 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class NewsListPresenter extends BasePresenter<NewsListView> {
 
-    private static final String DEBUG_DB_QUERY = NewsListPresenter.class.getSimpleName();
-
     @NonNull
     private final NYTimesApi api;
     @NonNull
     private final NewsDao database;
 
     @NonNull
-    private Section currentSelectedSection;
-
-    private int lastClickedItemPosition;
-    private int lastClickedItemId;
+    private Section currentSelectedSection = Section.HOME;
 
     public NewsListPresenter(@NonNull NYTimesApi api, @NonNull NewsDao database) {
-        Log.d("DAGGER_MOXY", "NewsListPresenter: new instance");
+        Log.d("presenter_debug", "NewsListPresenter: ");
         this.api = api;
         this.database = database;
     }
 
     @Override
     protected void onFirstViewAttach() {
-        Log.d("DAGGER_MOXY", "NewsListPresenter: first attach");
         super.onFirstViewAttach();
         getViewState().showEmptyView();
     }
 
-
-    public void onItemClicked(int id, int position) {
-        lastClickedItemId = id;
-        lastClickedItemPosition = position;
+    public void onItemClicked(int id) {
         getViewState().openDetailsScreen(id);
     }
 
@@ -64,28 +57,14 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     public void onSpinnerItemClicked(@NonNull Section section) {
         if (!section.equals(currentSelectedSection)) {
             currentSelectedSection = section;
+            getNews(section.name().toLowerCase());
         }
     }
 
-    public void onListItemChanged() {
-        compositeDisposable.add(
-                database.getRxNewsById(lastClickedItemId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        newsItem -> getViewState().updateCertainNewsItemInList(
-                                newsItem,
-                                lastClickedItemPosition),
-                        throwable -> Log.d(
-                                DEBUG_DB_QUERY,
-                                "error in getRxNewsById() query",
-                                throwable)
-                )
-        );
-    }
-
-    public void onListItemDeleted() {
-        getViewState().deleteNewsItemInList(lastClickedItemPosition);
+    public void onSetupSpinnerPosition() {
+        List<String> categoryList = EnumUtils.convertEnumValuesToCapitalizedList(Section.values());
+        int position = categoryList.indexOf(StringUtils.capitalize(currentSelectedSection.name()));
+        getViewState().setCurrentSectionInSpinner(position);
     }
 
     private void getNews(@NonNull String section) {
@@ -97,9 +76,11 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
                     database.insertAll(dbNewsItems);
 
                     int[] ids = database.getNewsIdBySection(section);
+                    Log.d("debug_tablet", "getNews: " + dbNewsItems.isEmpty());
                     return NewsDataUtils.setIds(dbNewsItems, ids);
                 })
                 .onErrorReturn(throwable -> {
+                    Log.d("debug_tablet", "getNews: onErrorReturn");
                     List<DbNewsItem> news = database.getNewsBySection(section);
                     if (news.isEmpty()) {
                         return null;
@@ -110,8 +91,15 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showProgressBar())
                 .subscribe(
-                        news -> getViewState().showNews(news),
-                        throwable -> getViewState().showError())
+                        news -> {
+                            getViewState().showNews(news);
+                            Log.d("debug_tablet", "getNews: success");
+
+                        },
+                        throwable -> {
+                            getViewState().showError();
+                            Log.d("debug_tablet", "getNews: error");
+                        })
         );
     }
 }

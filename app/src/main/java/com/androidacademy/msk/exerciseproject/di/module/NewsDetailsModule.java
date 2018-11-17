@@ -3,7 +3,7 @@ package com.androidacademy.msk.exerciseproject.di.module;
 import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
-import com.androidacademy.msk.exerciseproject.di.scope.ActivityScope;
+import com.androidacademy.msk.exerciseproject.di.scope.FragmentScope;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsPresenter;
 
 import dagger.Module;
@@ -19,7 +19,7 @@ public class NewsDetailsModule {
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     @NonNull
     public NewsDetailsPresenter providePresenter(NewsDao dao) {
         return new NewsDetailsPresenter(dao, currentItemId);

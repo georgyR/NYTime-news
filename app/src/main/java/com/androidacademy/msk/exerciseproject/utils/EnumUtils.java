@@ -12,7 +12,7 @@ public class EnumUtils {
     }
 
     @NonNull
-    public static <T extends Enum<T>> List<String> convertEnumValuesToList(@NonNull T[] enumArray) {
+    public static <T extends Enum<T>> List<String> convertEnumValuesToCapitalizedList(@NonNull T[] enumArray) {
         List<String> list = new ArrayList<>(enumArray.length);
         for (T enumItem : enumArray) {
             String result = StringUtils.capitalize(enumItem.toString());

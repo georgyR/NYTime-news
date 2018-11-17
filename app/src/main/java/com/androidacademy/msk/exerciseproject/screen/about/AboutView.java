@@ -14,5 +14,5 @@ public interface AboutView extends MvpView {
     void openApp(@NonNull Intent smsAppIntent);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showErrorSnackbar(AppError appError);
+    void showErrorSnackbar(@NonNull AppError appError);
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.data.Storage;
 import com.androidacademy.msk.exerciseproject.di.scope.ActivityScope;
+import com.androidacademy.msk.exerciseproject.di.scope.FragmentScope;
 import com.androidacademy.msk.exerciseproject.screen.intro.IntroPresenter;
 
 import dagger.Module;

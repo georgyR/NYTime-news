@@ -9,7 +9,6 @@ import com.androidacademy.msk.exerciseproject.di.component.DbAndNetworkComponent
 import com.androidacademy.msk.exerciseproject.di.component.DbComponent;
 import com.androidacademy.msk.exerciseproject.di.component.IntroComponent;
 import com.androidacademy.msk.exerciseproject.di.component.NewsDetailsComponent;
-import com.androidacademy.msk.exerciseproject.di.component.NewsEditorComponent;
 import com.androidacademy.msk.exerciseproject.di.component.NewsListComponent;
 import com.androidacademy.msk.exerciseproject.di.module.AboutModule;
 import com.androidacademy.msk.exerciseproject.di.module.AppModule;
@@ -17,7 +16,6 @@ import com.androidacademy.msk.exerciseproject.di.module.DbModule;
 import com.androidacademy.msk.exerciseproject.di.module.IntroModule;
 import com.androidacademy.msk.exerciseproject.di.module.NetworkModule;
 import com.androidacademy.msk.exerciseproject.di.module.NewsDetailsModule;
-import com.androidacademy.msk.exerciseproject.di.module.NewsEditorModule;
 import com.androidacademy.msk.exerciseproject.di.module.NewsListModule;
 
 
@@ -58,10 +56,6 @@ public class Injector {
 
     public NewsDetailsComponent getNewsDetailsComponent(int currentItemId) {
        return dbComponent.plusNewsDetailsComponent(new NewsDetailsModule(currentItemId));
-    }
-
-    public NewsEditorComponent getNewsEditorComponent(int currentItemId) {
-        return dbComponent.plusNewsEditorComponent(new NewsEditorModule(currentItemId));
     }
 
 }

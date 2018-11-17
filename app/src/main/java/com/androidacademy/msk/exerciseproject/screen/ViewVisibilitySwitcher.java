@@ -27,7 +27,7 @@ public class ViewVisibilitySwitcher {
         this.emptyListView = emptyListView;
     }
 
-    public void setUiState(@NonNull UiState state) {
+    public void setUiState(@NonNull ScreenState state) {
         View[] views = {dataView, loadingIndicatorView, errorView, emptyListView};
         switch (state) {
             case HAS_DATA:

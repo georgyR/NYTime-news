@@ -1,15 +1,12 @@
 package com.androidacademy.msk.exerciseproject.screen.news_details;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,7 @@ import android.widget.TextView;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.di.Injector;
-import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
+import com.androidacademy.msk.exerciseproject.screen.main_container.FragmentContainer;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -30,13 +27,7 @@ import javax.inject.Inject;
 
 public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDetailsView {
 
-    private static final String DEBUG_OPTION_ITEM = NewsDetailsFragment.class.getSimpleName();
-
     private static final String KEY_ID = "KEY_ID";
-
-    public static final int RESULT_NEWS_IS_DELETED = 20;
-    private static final int CHANGE_NEWS_REQUEST = 21;
-    public static final int RESULT_NEWS_IS_CHANGED = 22;
 
     @NonNull
     private TextView titleTextView;
@@ -48,6 +39,8 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
     private TextView dateTextView;
     @NonNull
     private TextView timeTextView;
+    @NonNull
+    private FragmentContainer fragmentContainer;
 
     @Inject
     @InjectPresenter
@@ -56,7 +49,8 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
     @ProvidePresenter
     public NewsDetailsPresenter providePresenter() {
         int id = getArguments().getInt(KEY_ID);
-        Injector.getInstance(getActivity().getApplicationContext()).getNewsDetailsComponent(id).inject(this);
+        Injector.getInstance(getActivity().getApplicationContext()).getNewsDetailsComponent(id)
+                .inject(this);
         return presenter;
     }
 
@@ -70,6 +64,14 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentContainer) {
+            fragmentContainer = (FragmentContainer) context;
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -77,11 +79,20 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_details, container, false);
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar_all);
-        setupToolbar(toolbar);
+        if (!fragmentContainer.isTwoPanel()) {
+
+            fragmentContainer.setSpinnerVisibility(View.GONE);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            getActivity().setTitle(fragmentContainer.getCurrentSelectedSection());
+        }
+
 
         titleTextView = view.findViewById(R.id.textview_newsdetails_title);
         imageView = view.findViewById(R.id.imageview_newsdetails);
@@ -93,38 +104,13 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
     }
 
 
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_news_details, menu);
-        return true;
-    }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menuitem_edit_news:
-                presenter.onEditNewsOptionItemSelected();
-                break;
-            case R.id.menuitem_delete_news:
-                presenter.onDeleteOptionsItemSelected();
-                setResult(RESULT_NEWS_IS_DELETED);
-                finish();
-                break;
-            default:
-                Log.d(DEBUG_OPTION_ITEM, "Unknown menu item id");
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            getActivity().onBackPressed();
         }
-        return true;
+        return super.onOptionsItemSelected(menuItem);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == CHANGE_NEWS_REQUEST &&
-                resultCode == RESULT_OK) {
-            presenter.onNewsEdited();
-            setResult(NewsDetailsFragment.RESULT_NEWS_IS_CHANGED);
-        }
-
-    }*/
 
     @Override
     public void showNewsDetails(@NonNull DbNewsItem newsItem) {
@@ -143,20 +129,5 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
             String time = DateUtils.getFormattedTime(publishedDate, getContext());
             timeTextView.setText(time);
         }
-    }
-
-    @Override
-    public void openEditorActivity(int itemId) {
-        startActivityForResult(
-                NewsEditorActivity.getStartIntent(itemId, getContext()),
-                CHANGE_NEWS_REQUEST);
-    }
-
-    private void setupToolbar(@NonNull Toolbar toolbar) {
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 }

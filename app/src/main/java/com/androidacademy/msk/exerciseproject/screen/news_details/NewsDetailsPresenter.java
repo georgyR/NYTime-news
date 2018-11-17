@@ -7,7 +7,6 @@ import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
 import com.androidacademy.msk.exerciseproject.screen.base.BaseNewsItemPresenter;
 import com.arellomobile.mvp.InjectViewState;
 
-import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -31,18 +30,6 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
         super.onDestroy();
     }
 
-    public void onNewsEdited() {
-        getNewsDetails();
-    }
-
-    public void onDeleteOptionsItemSelected() {
-        compositeDisposable.add(
-                Completable.complete()
-                .observeOn(Schedulers.io())
-                .subscribe(() -> dao.deleteNewsItemById(itemId))
-        );
-    }
-
     private void getNewsDetails() {
         compositeDisposable.add(
                 dao.getRxNewsById(itemId)
@@ -56,9 +43,4 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
                                 throwable))
         );
     }
-
-    public void onEditNewsOptionItemSelected() {
-        getViewState().openEditorActivity(itemId);
-    }
-
 }

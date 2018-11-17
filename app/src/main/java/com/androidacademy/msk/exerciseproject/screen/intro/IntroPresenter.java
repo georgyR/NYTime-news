@@ -11,25 +11,20 @@ import io.reactivex.Completable;
 @InjectViewState
 public class IntroPresenter extends BasePresenter<IntroView> {
 
-    private static final int TIMEOUT = 3;
-
     private final Storage storage;
 
     public IntroPresenter(Storage storage) {
         this.storage = storage;
     }
 
-    /*@Override
+    @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        boolean isIntroVisible = storage.needToShowIntro();
+        boolean isIntroVisible = storage.isFirstAppLaunch();
         if (isIntroVisible) {
             getViewState().setLayout();
-            compositeDisposable.add(Completable.complete()
-                    .delay(TIMEOUT, TimeUnit.SECONDS)
-                    .subscribe(() -> getViewState().startNewsListActivity()));
         } else {
             getViewState().startNewsListActivity();
         }
-    }*/
+    }
 }

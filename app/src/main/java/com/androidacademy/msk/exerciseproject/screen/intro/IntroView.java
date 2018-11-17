@@ -7,9 +7,9 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 public interface IntroView extends MvpView {
 
-   /* @StateStrategyType(AddToEndStrategy.class)
+    @StateStrategyType(AddToEndStrategy.class)
     void setLayout();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void startNewsListActivity();*/
+    void startNewsListActivity();
 }

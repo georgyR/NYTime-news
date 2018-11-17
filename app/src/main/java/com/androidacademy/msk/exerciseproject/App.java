@@ -1,7 +1,6 @@
 package com.androidacademy.msk.exerciseproject;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
