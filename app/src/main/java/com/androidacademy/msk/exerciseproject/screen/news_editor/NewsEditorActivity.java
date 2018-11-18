@@ -31,8 +31,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 
-import java.util.Date;
-
 import javax.inject.Inject;
 
 public class NewsEditorActivity extends MvpAppCompatActivity implements

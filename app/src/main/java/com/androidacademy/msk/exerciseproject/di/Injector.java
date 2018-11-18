@@ -9,8 +9,8 @@ import com.androidacademy.msk.exerciseproject.di.component.DbComponent;
 import com.androidacademy.msk.exerciseproject.di.component.NewsItemComponent;
 import com.androidacademy.msk.exerciseproject.di.module.AppModule;
 import com.androidacademy.msk.exerciseproject.di.module.DbModule;
-import com.androidacademy.msk.exerciseproject.di.module.NewsItemIdModule;
 import com.androidacademy.msk.exerciseproject.di.module.NetworkModule;
+import com.androidacademy.msk.exerciseproject.di.module.NewsItemIdModule;
 
 
 public class Injector {

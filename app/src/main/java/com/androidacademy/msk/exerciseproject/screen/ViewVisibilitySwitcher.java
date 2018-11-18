@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ViewVisibilitySwitcher {
 
     private static final String DEBUG_UI_STATE = ViewVisibilitySwitcher.class.getSimpleName();

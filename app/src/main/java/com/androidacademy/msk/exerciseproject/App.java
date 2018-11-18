@@ -8,8 +8,6 @@ import com.androidacademy.msk.exerciseproject.di.Injector;
 import java.io.IOException;
 import java.net.SocketException;
 
-import javax.inject.Inject;
-
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.plugins.RxJavaPlugins;
 
