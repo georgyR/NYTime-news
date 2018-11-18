@@ -81,7 +81,7 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
 
     @ProvidePresenter
     NewsListPresenter providePresenter() {
-        Injector.getInstance(getApplicationContext()).getNewsListComponent().inject(this);
+        Injector.getInstance().getDbAndNetworkComponent().inject(this);
         return presenter;
     }
 

@@ -53,7 +53,7 @@ public class NewsDetailsActivity extends MvpAppCompatActivity implements NewsDet
     @ProvidePresenter
     public NewsDetailsPresenter providePresenter() {
         int id = getIntent().getIntExtra(EXTRA_ID, 0);
-        Injector.getInstance(getApplicationContext()).getNewsDetailsComponent(id).inject(this);
+        Injector.getInstance().getNewsItemComponent(id).inject(this);
         return presenter;
     }
 

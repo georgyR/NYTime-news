@@ -17,7 +17,7 @@ public class IntroActivity extends MvpAppCompatActivity implements IntroView {
 
     @ProvidePresenter
     IntroPresenter providePresenter() {
-        Injector.getInstance(getApplicationContext()).getIntroComponent().inject(this);
+        Injector.getInstance().getAppComponent().inject(this);
         return presenter;
     }
 

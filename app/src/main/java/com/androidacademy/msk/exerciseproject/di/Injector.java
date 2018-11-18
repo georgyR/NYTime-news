@@ -2,66 +2,58 @@ package com.androidacademy.msk.exerciseproject.di;
 
 import android.content.Context;
 
-import com.androidacademy.msk.exerciseproject.di.component.AboutComponent;
 import com.androidacademy.msk.exerciseproject.di.component.AppComponent;
 import com.androidacademy.msk.exerciseproject.di.component.DaggerAppComponent;
 import com.androidacademy.msk.exerciseproject.di.component.DbAndNetworkComponent;
 import com.androidacademy.msk.exerciseproject.di.component.DbComponent;
-import com.androidacademy.msk.exerciseproject.di.component.IntroComponent;
-import com.androidacademy.msk.exerciseproject.di.component.NewsDetailsComponent;
-import com.androidacademy.msk.exerciseproject.di.component.NewsEditorComponent;
-import com.androidacademy.msk.exerciseproject.di.component.NewsListComponent;
-import com.androidacademy.msk.exerciseproject.di.module.AboutModule;
+import com.androidacademy.msk.exerciseproject.di.component.NewsItemComponent;
 import com.androidacademy.msk.exerciseproject.di.module.AppModule;
 import com.androidacademy.msk.exerciseproject.di.module.DbModule;
-import com.androidacademy.msk.exerciseproject.di.module.IntroModule;
+import com.androidacademy.msk.exerciseproject.di.module.NewsItemIdModule;
 import com.androidacademy.msk.exerciseproject.di.module.NetworkModule;
-import com.androidacademy.msk.exerciseproject.di.module.NewsDetailsModule;
-import com.androidacademy.msk.exerciseproject.di.module.NewsEditorModule;
-import com.androidacademy.msk.exerciseproject.di.module.NewsListModule;
 
 
 public class Injector {
 
     private static Injector instance;
+    private static Context context;
     private final AppComponent appComponent;
     private final DbComponent dbComponent;
     private final DbAndNetworkComponent dbAndNetworkComponent;
 
-    private Injector(Context appContext) {
+    public static void init(Context appContext) {
+        context = appContext;
+    }
+    private Injector() {
         appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(appContext))
+                .appModule(new AppModule(context))
                 .build();
         dbComponent = appComponent.plusDbComponent(new DbModule());
 
         dbAndNetworkComponent = dbComponent.plusNetworkComponent(new NetworkModule());
     }
 
-    public static Injector getInstance(Context context) {
+    public static Injector getInstance() {
+        if (context == null) {
+            throw new RuntimeException("Injector isn't initialed. You mast call " +
+                    "Injector.init() method before getInstance().");
+        }
         if (instance == null) {
-            instance = new Injector(context);
+            instance = new Injector();
         }
         return  instance;
     }
 
-    public NewsListComponent getNewsListComponent() {
-        return dbAndNetworkComponent.plusNewsListComponent(new NewsListModule());
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 
-    public AboutComponent getAboutComponent() {
-        return appComponent.plusAboutComponent(new AboutModule());
+    public DbAndNetworkComponent getDbAndNetworkComponent() {
+        return dbAndNetworkComponent;
     }
 
-    public IntroComponent getIntroComponent() {
-        return appComponent.plusIntroComponent(new IntroModule());
-    }
-
-    public NewsDetailsComponent getNewsDetailsComponent(int currentItemId) {
-       return dbComponent.plusNewsDetailsComponent(new NewsDetailsModule(currentItemId));
-    }
-
-    public NewsEditorComponent getNewsEditorComponent(int currentItemId) {
-        return dbComponent.plusNewsEditorComponent(new NewsEditorModule(currentItemId));
+    public NewsItemComponent getNewsItemComponent(int currentItemId) {
+       return dbComponent.plusNewsItemComponent(new NewsItemIdModule(currentItemId));
     }
 
 }

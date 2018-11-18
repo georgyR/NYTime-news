@@ -10,6 +10,8 @@ import com.androidacademy.msk.exerciseproject.screen.base.BasePresenter;
 import com.androidacademy.msk.exerciseproject.utils.IntentUtils;
 import com.arellomobile.mvp.InjectViewState;
 
+import javax.inject.Inject;
+
 @InjectViewState
 public class AboutPresenter extends BasePresenter<AboutView> {
 
@@ -18,6 +20,7 @@ public class AboutPresenter extends BasePresenter<AboutView> {
 
     private final IntentUtils intentUtils;
 
+    @Inject
     public AboutPresenter(@NonNull IntentUtils intentUtils) {
         this.intentUtils = intentUtils;
     }

@@ -27,16 +27,15 @@ public class LeaveWithoutSaveDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.message_leave_without_saving)
+        return new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.message_leave_without_saving)
                 .setPositiveButton(android.R.string.ok, (dialog, id) -> {
                     listener.onDialogPositiveClick();
                 })
                 .setNegativeButton(android.R.string.cancel, (dialog, id) -> {
                     listener.onDialogNegativeClick();
-                });
-
-        return builder.create();
+                })
+                .create();
     }
 
     @Override
@@ -48,6 +47,7 @@ public class LeaveWithoutSaveDialogFragment extends DialogFragment {
     public interface DialogListener {
 
         void onDialogPositiveClick();
+
         void onDialogNegativeClick();
     }
 }

@@ -1,6 +1,5 @@
 package com.androidacademy.msk.exerciseproject.screen.news_editor;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -13,6 +12,8 @@ import com.arellomobile.mvp.InjectViewState;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -24,12 +25,14 @@ public class NewsEditorPresenter extends BaseNewsItemPresenter<NewsEditorView> {
 
     @NonNull
     private DbNewsItem currentNewsItem;
-    @NonNull
-    private final Context appContext;
 
-    public NewsEditorPresenter(@NonNull NewsDao dao, int id, @NonNull Context context) {
+    @NonNull
+    private final DateUtils dateUtils;
+
+    @Inject
+    public NewsEditorPresenter(@NonNull NewsDao dao, int id, @NonNull DateUtils dateUtils) {
         super(dao, id);
-        appContext = context;
+        this.dateUtils = dateUtils;
     }
 
     @Override
@@ -52,8 +55,7 @@ public class NewsEditorPresenter extends BaseNewsItemPresenter<NewsEditorView> {
         Date date = DateUtils.getDate(publishedDate, hourOfDay, minute);
         String timestamp = DateUtils.getTimestampFromDate(date);
         currentNewsItem.setPublishedDate(timestamp);
-
-        String formattedTime = DateUtils.getFormattedTime(date, appContext);
+        String formattedTime = dateUtils.getFormattedTime(date);
         getViewState().updateTime(formattedTime);
     }
 

@@ -31,6 +31,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 public class NewsEditorActivity extends MvpAppCompatActivity implements
@@ -61,7 +63,7 @@ public class NewsEditorActivity extends MvpAppCompatActivity implements
     @ProvidePresenter
     public NewsEditorPresenter providePresenter() {
         int id = getIntent().getIntExtra(EXTRA_ID, 0);
-        Injector.getInstance(getApplicationContext()).getNewsEditorComponent(id).inject(this);
+        Injector.getInstance().getNewsItemComponent(id).inject(this);
         return presenter;
     }
 

@@ -8,10 +8,13 @@ import android.support.annotation.Nullable;
 
 import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp;
 
+import javax.inject.Inject;
+
 public class IntentUtils {
 
     private final Context appContext;
 
+    @Inject
     public IntentUtils(Context appContext) {
        this.appContext = appContext;
     }

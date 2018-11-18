@@ -50,7 +50,7 @@ public class AboutActivity extends MvpAppCompatActivity implements AboutView {
 
     @ProvidePresenter
     AboutPresenter providePresenter() {
-        Injector.getInstance(getApplicationContext()).getAboutComponent().inject(this);
+        Injector.getInstance().getAppComponent().inject(this);
         return presenter;
     }
 

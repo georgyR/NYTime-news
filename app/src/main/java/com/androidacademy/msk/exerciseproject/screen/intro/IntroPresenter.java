@@ -6,6 +6,8 @@ import com.arellomobile.mvp.InjectViewState;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 
 @InjectViewState
@@ -15,6 +17,7 @@ public class IntroPresenter extends BasePresenter<IntroView> {
 
     private final Storage storage;
 
+    @Inject
     public IntroPresenter(Storage storage) {
         this.storage = storage;
     }

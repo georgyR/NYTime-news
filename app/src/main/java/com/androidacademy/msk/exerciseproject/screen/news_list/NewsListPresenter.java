@@ -14,6 +14,8 @@ import com.arellomobile.mvp.InjectViewState;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -33,15 +35,14 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     private int lastClickedItemPosition;
     private int lastClickedItemId;
 
+    @Inject
     public NewsListPresenter(@NonNull NYTimesApi api, @NonNull NewsDao database) {
-        Log.d("DAGGER_MOXY", "NewsListPresenter: new instance");
         this.api = api;
         this.database = database;
     }
 
     @Override
     protected void onFirstViewAttach() {
-        Log.d("DAGGER_MOXY", "NewsListPresenter: first attach");
         super.onFirstViewAttach();
         getViewState().showEmptyView();
     }
@@ -70,17 +71,17 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     public void onListItemChanged() {
         compositeDisposable.add(
                 database.getRxNewsById(lastClickedItemId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        newsItem -> getViewState().updateCertainNewsItemInList(
-                                newsItem,
-                                lastClickedItemPosition),
-                        throwable -> Log.d(
-                                DEBUG_DB_QUERY,
-                                "error in getRxNewsById() query",
-                                throwable)
-                )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                newsItem -> getViewState().updateCertainNewsItemInList(
+                                        newsItem,
+                                        lastClickedItemPosition),
+                                throwable -> Log.d(
+                                        DEBUG_DB_QUERY,
+                                        "error in getRxNewsById() query",
+                                        throwable)
+                        )
         );
     }
 
@@ -91,27 +92,28 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
     private void getNews(@NonNull String section) {
         compositeDisposable.add(
                 api.getNews(section)
-                .map(newsResponse -> NewsConverter.toDatabase(newsResponse.getResults(), section))
-                .map(dbNewsItems -> {
-                    database.deleteBySection(section);
-                    database.insertAll(dbNewsItems);
-
-                    int[] ids = database.getNewsIdBySection(section);
-                    return NewsDataUtils.setIds(dbNewsItems, ids);
-                })
-                .onErrorReturn(throwable -> {
-                    List<DbNewsItem> news = database.getNewsBySection(section);
-                    if (news.isEmpty()) {
-                        return null;
-                    }
-                    return news;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showProgressBar())
-                .subscribe(
-                        news -> getViewState().showNews(news),
-                        throwable -> getViewState().showError())
+                        .map(newsResponse -> {
+                            List<DbNewsItem> dbNewsItems = NewsConverter.toDatabase(
+                                    newsResponse.getResults(),
+                                    section);
+                            database.deleteBySection(section);
+                            database.insertAll(dbNewsItems);
+                            int[] ids = database.getNewsIdBySection(section);
+                            return NewsDataUtils.setIds(dbNewsItems, ids);
+                        })
+                        .onErrorReturn(throwable -> {
+                            List<DbNewsItem> news = database.getNewsBySection(section);
+                            if (news.isEmpty()) {
+                                return null;
+                            }
+                            return news;
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(disposable -> getViewState().showProgressBar())
+                        .subscribe(
+                                news -> getViewState().showNews(news),
+                                throwable -> getViewState().showError())
         );
     }
 }

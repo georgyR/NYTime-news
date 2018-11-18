@@ -8,6 +8,8 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+import java.util.Date;
+
 public interface NewsEditorView extends MvpView {
 
     @StateStrategyType(SingleStateStrategy.class)
