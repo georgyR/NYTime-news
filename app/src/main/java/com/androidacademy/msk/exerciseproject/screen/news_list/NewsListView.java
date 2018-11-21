@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.arellomobile.mvp.MvpView;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;

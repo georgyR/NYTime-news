@@ -15,14 +15,19 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 public class DateUtils {
 
     private static final String DEBUG_PARSING = DateUtils.class.getSimpleName();
 
     private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";
 
-    private DateUtils() {
-        throw new UnsupportedOperationException("There should be no class instance");
+    private final Context appContext;
+
+    @Inject
+    public DateUtils(Context appContext) {
+        this.appContext = appContext;
     }
 
     @NonNull
@@ -168,5 +173,17 @@ public class DateUtils {
         int dateYear = calendar.get(Calendar.YEAR);
 
         return (currentYear == dateYear);
+    }
+
+    @NonNull
+    public String getFormattedTime(@NonNull Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
+        if (DateFormat.is24HourFormat(appContext)) {
+            formatter.applyPattern("HH:mm");
+            return formatter.format(date);
+        } else {
+            formatter.applyPattern("hh:mm a");
+            return formatter.format(date);
+        }
     }
 }

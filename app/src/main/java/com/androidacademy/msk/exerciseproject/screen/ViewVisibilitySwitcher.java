@@ -28,22 +28,21 @@ public class ViewVisibilitySwitcher {
     }
 
     public void setUiState(@NonNull ScreenState state) {
-        View[] views = {dataView, loadingIndicatorView, errorView, emptyListView};
         switch (state) {
             case HAS_DATA:
-                show(dataView, views);
+                show(dataView);
                 return;
 
             case LOADING:
-                show(loadingIndicatorView, views);
+                show(loadingIndicatorView);
                 return;
 
             case ERROR:
-                show(errorView, views);
+                show(errorView);
                 return;
 
             case EMPTY:
-                show(emptyListView, views);
+                show(emptyListView);
                 return;
 
             default:
@@ -51,11 +50,12 @@ public class ViewVisibilitySwitcher {
         }
     }
 
-    private void show(@Nullable View targetView, @NonNull View[] viewArray) {
+    private void show(@Nullable View targetView) {
         if (targetView == null) {
             Log.d(DEBUG_UI_STATE, "targetView is null");
             return;
         }
+        View[] viewArray = {dataView, loadingIndicatorView, errorView, emptyListView};
         boolean isViewFound = false;
         for (@Nullable View view: viewArray) {
             if (view == null) {

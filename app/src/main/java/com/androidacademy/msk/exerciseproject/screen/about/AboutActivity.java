@@ -17,17 +17,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
+import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp;
 import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.model.AppError;
+import com.androidacademy.msk.exerciseproject.utils.IntentUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import javax.inject.Inject;
 
 public class AboutActivity extends MvpAppCompatActivity implements AboutView {
 
     private static final String DEBUG_SNACKBAR_ERROR_MESSAGE = AboutActivity.class.getSimpleName();
+
+    private static final String EMAIL = "georgy.ryabykh@gmail.com";
+    private static final String PHONE_NUMBER = "+79165766299";
 
     @NonNull
     private View rootView;
@@ -45,14 +49,10 @@ public class AboutActivity extends MvpAppCompatActivity implements AboutView {
     private EditText messageEditText;
 
     @Inject
+    IntentUtils intentUtils;
+
     @InjectPresenter
     AboutPresenter presenter;
-
-    @ProvidePresenter
-    AboutPresenter providePresenter() {
-        Injector.getInstance(getApplicationContext()).getAboutComponent().inject(this);
-        return presenter;
-    }
 
     @NonNull
     public static Intent getStartIntent(@NonNull Context context) {
@@ -62,6 +62,9 @@ public class AboutActivity extends MvpAppCompatActivity implements AboutView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Injector.getInstance().getAppComponent().inject(this);
+
         setContentView(R.layout.activity_about);
 
         Toolbar toolbar = findViewById(R.id.toolbar_all);
@@ -79,16 +82,9 @@ public class AboutActivity extends MvpAppCompatActivity implements AboutView {
         instagramImageButton = findViewById(R.id.imagebutton_viewprofile_instagram);
         messageEditText = findViewById(R.id.edittext_viewprofile_message);
 
-        sendMessageButton.setOnClickListener(v -> {
-            String message = messageEditText.getText().toString();
-            presenter.onSendMessageButtonClicked(message);
-        });
+        sendMessageButton.setOnClickListener(v -> presenter.onSendMessageButtonClicked());
 
-        sendEmailButton.setOnClickListener(v -> {
-            String emailSubject = getString(R.string.email_subject);
-            String message = messageEditText.getText().toString();
-            presenter.onEmailButtonClicked(emailSubject, message);
-        });
+        sendEmailButton.setOnClickListener(v -> presenter.onEmailButtonClicked());
 
         telegramImageButton.setOnClickListener(v -> presenter.onTelegramButtonClicked());
 
@@ -104,12 +100,62 @@ public class AboutActivity extends MvpAppCompatActivity implements AboutView {
     }
 
     @Override
-    public void openApp(@NonNull Intent intent) {
-        startActivity(intent);
+    public void openSmsApp() {
+        String message = messageEditText.getText().toString();
+        Intent smsAppIntent = intentUtils.getSmsAppIntent(PHONE_NUMBER, message);
+        if (!openApp(smsAppIntent)) {
+            showErrorSnackbar(AppError.SMS);
+        }
     }
 
     @Override
-    public void showErrorSnackbar(AppError appError) {
+    public void openEmailApp() {
+        String emailSubject = getString(R.string.email_subject);
+        String message = messageEditText.getText().toString();
+        Intent emailIntent = intentUtils.getEmailIntent(EMAIL, emailSubject, message);
+        if (!openApp(emailIntent)) {
+            showErrorSnackbar(AppError.EMAIL);
+        }
+    }
+
+    @Override
+    public void openTelegramApp() {
+        Intent telegramIntent = intentUtils.getSpecificIntent(SocialNetworkApp.TELEGRAM);
+        Intent telegramxIntent = intentUtils.getSpecificIntent(SocialNetworkApp.TELEGRAM_X);
+        if (openApp(telegramIntent) || openApp(telegramxIntent)) {
+            return;
+        }
+        Intent browserIntent = intentUtils.getBrowserIntent(SocialNetworkApp.TELEGRAM.getAccountUrl());
+        if (!openApp(browserIntent)) {
+            showErrorSnackbar(AppError.BROWSER);
+        }
+    }
+
+    @Override
+    public void openIstagramApp() {
+        Intent instagramIntent = intentUtils.getSpecificIntent(SocialNetworkApp.INSTAGRAM);
+        if (openApp(instagramIntent)) {
+            return;
+        }
+        Intent browserIntent = intentUtils.getBrowserIntent(SocialNetworkApp.INSTAGRAM.getAccountUrl());
+        if (!openApp(browserIntent)) {
+            showErrorSnackbar(AppError.BROWSER);
+        }
+    }
+
+    private void addDisclaimerTextView(LinearLayout linearLayout) {
+        TextView disclaimerTv = new TextView(this);
+
+        disclaimerTv.setText(R.string.disclaimer);
+        disclaimerTv.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        disclaimerTv.setGravity(Gravity.CENTER);
+
+        linearLayout.addView(disclaimerTv);
+    }
+
+    private void showErrorSnackbar(@NonNull AppError appError) {
         String message;
         switch (appError) {
             case SMS:
@@ -133,15 +179,11 @@ public class AboutActivity extends MvpAppCompatActivity implements AboutView {
         snackbar.show();
     }
 
-    private void addDisclaimerTextView(LinearLayout linearLayout) {
-        TextView disclaimerTv = new TextView(this);
-
-        disclaimerTv.setText(R.string.disclaimer);
-        disclaimerTv.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        disclaimerTv.setGravity(Gravity.CENTER);
-
-        linearLayout.addView(disclaimerTv);
+    private boolean openApp(@Nullable Intent intent) {
+        if (intent != null) {
+            startActivity(intent);
+            return true;
+        }
+        return false;
     }
 }

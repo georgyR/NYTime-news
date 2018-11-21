@@ -49,8 +49,7 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
     @ProvidePresenter
     public NewsDetailsPresenter providePresenter() {
         int id = getArguments().getInt(KEY_ID);
-        Injector.getInstance(getActivity().getApplicationContext()).getNewsDetailsComponent(id)
-                .inject(this);
+        Injector.getInstance().getNewsItemComponent(id).inject(this);
         return presenter;
     }
 

@@ -7,6 +7,8 @@ import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
 import com.androidacademy.msk.exerciseproject.screen.base.BaseNewsItemPresenter;
 import com.arellomobile.mvp.InjectViewState;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -15,6 +17,7 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
 
     private static final String DEBUG_DB_QUERY = NewsDetailsPresenter.class.getSimpleName();
 
+    @Inject
     public NewsDetailsPresenter(@NonNull NewsDao dao, int id) {
         super(dao, id);
     }

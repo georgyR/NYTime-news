@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject.di.component;
 
 import com.androidacademy.msk.exerciseproject.di.module.DbModule;
 import com.androidacademy.msk.exerciseproject.di.module.NetworkModule;
-import com.androidacademy.msk.exerciseproject.di.module.NewsDetailsModule;
+import com.androidacademy.msk.exerciseproject.di.module.NewsItemIdModule;
 import com.androidacademy.msk.exerciseproject.di.scope.DbScope;
 
 import dagger.Subcomponent;
@@ -11,7 +11,7 @@ import dagger.Subcomponent;
 @DbScope
 public interface DbComponent {
 
-    NewsDetailsComponent plusNewsDetailsComponent(NewsDetailsModule module);
-
     DbAndNetworkComponent plusNetworkComponent(NetworkModule module);
+
+    NewsItemComponent plusNewsItemComponent(NewsItemIdModule module);
 }

@@ -31,9 +31,9 @@ import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.model.Section;
-import com.androidacademy.msk.exerciseproject.screen.main_container.FragmentContainer;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
+import com.androidacademy.msk.exerciseproject.screen.main_container.FragmentContainer;
 import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -84,8 +84,7 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
 
     @ProvidePresenter
     NewsListPresenter providePresenter() {
-        Injector.getInstance(getActivity().getApplicationContext()).getNewsListComponent()
-                .inject(this);
+        Injector.getInstance().getDbAndNetworkComponent().inject(this);
         return presenter;
     }
 

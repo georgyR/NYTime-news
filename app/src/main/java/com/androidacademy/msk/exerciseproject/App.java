@@ -3,6 +3,8 @@ package com.androidacademy.msk.exerciseproject;
 import android.app.Application;
 import android.util.Log;
 
+import com.androidacademy.msk.exerciseproject.di.Injector;
+
 import java.io.IOException;
 import java.net.SocketException;
 
@@ -17,9 +19,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Injector.init(this);
+
         RxJavaPlugins.setErrorHandler(e -> {
             if (e instanceof UndeliverableException) {
-                e.getCause();
+                e = e.getCause();
             }
             if ((e instanceof SocketException) || (e instanceof IOException)) {
                 Log.e(ERROR_RX, "Irrelevant network problem or API that throws on cancellation", e);
