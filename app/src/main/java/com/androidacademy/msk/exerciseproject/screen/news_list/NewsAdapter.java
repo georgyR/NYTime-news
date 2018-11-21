@@ -10,10 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.network.api.Section;
-import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.model.Section;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @NonNull
-    private final List<NewsItem> news = new ArrayList<>();
+    private final List<DbNewsItem> news = new ArrayList<>();
     @NonNull
     private final OnItemClickListener clickListener;
     @NonNull
@@ -68,10 +69,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    public void addListData(List<NewsItem> newsItems) {
+    public void addListData(List<DbNewsItem> newsItems) {
         news.clear();
         news.addAll(newsItems);
         notifyDataSetChanged();
+    }
+
+    public void updateNewsItem(int position, DbNewsItem newsItem) {
+        news.set(position, newsItem);
+        notifyItemChanged(position);
+    }
+
+    public void deleteNewsItem(int position) {
+        news.remove(position);
+        notifyItemRemoved(position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,21 +95,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         ViewHolder(@NonNull View itemView, @NonNull OnItemClickListener listener) {
             super(itemView);
-            categoryTextView = itemView.findViewById(R.id.item_news__textview_category);
-            titleTextView = itemView.findViewById(R.id.item_news__textview_title);
-            previewTextView = itemView.findViewById(R.id.item_news__textview_preview);
-            publishDateTextView = itemView.findViewById(R.id.item_news__textview_publish_date);
-            imageView = itemView.findViewById(R.id.item_news__imageview_news);
+            categoryTextView = itemView.findViewById(R.id.textview_itemnews_category);
+            titleTextView = itemView.findViewById(R.id.textview_itemnews_title);
+            previewTextView = itemView.findViewById(R.id.textview_itemnews_preview);
+            publishDateTextView = itemView.findViewById(R.id.textview_itemnews_date);
+            imageView = itemView.findViewById(R.id.imageview_itemnews);
 
             itemView.setOnClickListener(v -> {
                 int position = ViewHolder.this.getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(news.get(position).getUrl());
+                    listener.onItemClick(news.get(position).getId(), position);
                 }
             });
         }
 
-        private void bind(@NonNull NewsItem newsItem) {
+        private void bind(@NonNull DbNewsItem newsItem) {
             String section = newsItem.getSection();
             categoryTextView.setText(section);
             titleTextView.setText(newsItem.getTitle());
@@ -106,19 +117,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             String publishDate = null;
             if (newsItem.getPublishedDate() != null) {
-                publishDate = DateUtils.convertTimestampToString(
+                publishDate = DateUtils.getSpecialFormattedDate(
                         newsItem.getPublishedDate(),
                         inflater.getContext());
             }
             publishDateTextView.setText(publishDate);
 
-            if (newsItem.getMultimedia() != null && newsItem.getMultimedia().size() > 1) {
-                imageView.setVisibility(View.VISIBLE);
-                // Get the position of the best quality preview image.
-                // It is the second position from the end of a list.
-                int previewImagePosition = newsItem.getMultimedia().size() - 2;
-                String previewImageUrl = newsItem.getMultimedia().get(previewImagePosition).getUrl();
-                Glide.with(imageView.getRootView().getContext()).load(previewImageUrl).into(imageView);
+            String previewImageUrl = newsItem.getPreviewImageUrl();
+            if (previewImageUrl != null) {
+                Context context = imageView.getRootView().getContext();
+                RequestOptions requestOptions = new RequestOptions().error(R.drawable.ic_image_blank);
+                Glide.with(context).load(previewImageUrl).apply(requestOptions).into(imageView);
             } else {
                 imageView.setVisibility(View.GONE);
             }
@@ -126,6 +135,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String url);
+        void onItemClick(int id, int position);
     }
 }

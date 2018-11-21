@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:gravity="center"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_small"
-        android:src="@drawable/ic_info" />
+        android:src="@drawable/ic_info"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
         android:textColor="@android:color/black" />
 
     <Button
-        android:id="@+id/view_error__button_try_again"
+        android:id="@+id/button_viewerror_try_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_try_again" />

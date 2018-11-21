@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="width_photo">600dp</dimen>
+    <dimen name="imagewidth_profile_photo">600dp</dimen>
+    <dimen name="imageheight_news">500dp</dimen>
+    <dimen name="imagewidth_news">900dp</dimen>
 </resources>

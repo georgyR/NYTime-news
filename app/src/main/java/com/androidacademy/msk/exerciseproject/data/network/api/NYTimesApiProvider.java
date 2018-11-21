@@ -1,6 +1,5 @@
-package com.androidacademy.msk.exerciseproject.network.api;
+package com.androidacademy.msk.exerciseproject.data.network.api;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.androidacademy.msk.exerciseproject.BuildConfig;
@@ -21,6 +20,13 @@ public class NYTimesApiProvider {
 
     private NYTimesApiProvider() {
         throw new UnsupportedOperationException("There should be no class instance");
+    }
+
+    @NonNull
+    public static NYTimesApi createApi() {
+        OkHttpClient client = buildOkHttpClient();
+        Retrofit retrofit = buildRetrofit(client);
+        return retrofit.create(NYTimesApi.class);
     }
 
     @NonNull
@@ -51,13 +57,6 @@ public class NYTimesApiProvider {
                 .writeTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                 .build();
-    }
-
-    @NonNull
-    public static NYTimesApi createApi() {
-        OkHttpClient client = buildOkHttpClient();
-        Retrofit retrofit = buildRetrofit(client);
-        return retrofit.create(NYTimesApi.class);
     }
 
 

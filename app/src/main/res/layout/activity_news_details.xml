@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,25 +17,65 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <WebView
-            android:id="@+id/activity_news_details__webview"
+        <LinearLayout
+            android:id="@+id/linearlayout_newsdetails"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_common"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textview_newsdetails_title"
+                style="@style/ViewWithSideMargin"
+                android:layout_marginBottom="@dimen/margin_common"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textsize_huge"
+                android:textStyle="bold"
+                tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
+
+            <ImageView
+                android:id="@+id/imageview_newsdetails"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/imageheight_news"
+                android:layout_marginBottom="@dimen/margin_common"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textview_newsdetails_abstract"
+                style="@style/ViewWithSideMargin"
+                android:layout_marginBottom="@dimen/margin_common"
+                android:textColor="@android:color/black"
+                tools:text="U.S. Law Enforcement Failed to See the Threat of White Nationalism. Now They Don’t Know How to Stop It." />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textview_newsdetails_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_screen_side"
+                    android:layout_marginEnd="@dimen/margin_common"
+                    android:textColor="@android:color/black"
+                    tools:text="06:34 AM" />
+
+                <TextView
+                    android:id="@+id/textview_newsdetails_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    tools:text="Nov. 4, 2018" />
+            </LinearLayout>
+
+
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <include
-        android:id="@+id/activity_news_details__progressbar"
-        layout="@layout/progressbar"
-        android:visibility="gone"/>
-
-    <include
-        android:id="@+id/activity_news_details__view_error"
-        layout="@layout/view_error"
-        android:visibility="gone"/>
-
-</android.support.design.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>
 

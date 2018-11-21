@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.network.model;
+package com.androidacademy.msk.exerciseproject.data.network.model;
 
 import android.support.annotation.Nullable;
 
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class NewsItem {
+public class NetworkNewsItem {
 
     /**
      * section : New York
@@ -17,6 +17,8 @@ public class NewsItem {
      * published_date : 2018-10-24T09:10:56-04:00
      * multimedia : [{"url":"https://static01.nyt.com/images/2018/10/24/nyregion/25CLINTON3-promo/25CLINTON3-promo-thumbStandard.jpg","format":"Standard Thumbnail","height":75,"width":75,"type":"image","subtype":"photo","caption":"CNN\u2019s offices in Manhattan were evacuated after an explosive device was sent there, a law enforcement official said.","copyright":"Jeenah Moon for The New York Times"},{"url":"https://static01.nyt.com/images/2018/10/24/nyregion/25CLINTON3-promo/25CLINTON3-promo-thumbLarge.jpg","format":"thumbLarge","height":150,"width":150,"type":"image","subtype":"photo","caption":"CNN\u2019s offices in Manhattan were evacuated after an explosive device was sent there, a law enforcement official said.","copyright":"Jeenah Moon for The New York Times"},{"url":"https://static01.nyt.com/images/2018/10/24/nyregion/25CLINTON3-promo/25CLINTON3-promo-articleInline.jpg","format":"Normal","height":127,"width":190,"type":"image","subtype":"photo","caption":"CNN\u2019s offices in Manhattan were evacuated after an explosive device was sent there, a law enforcement official said.","copyright":"Jeenah Moon for The New York Times"},{"url":"https://static01.nyt.com/images/2018/10/24/nyregion/25CLINTON3-promo/25CLINTON3-promo-mediumThreeByTwo210.jpg","format":"mediumThreeByTwo210","height":140,"width":210,"type":"image","subtype":"photo","caption":"CNN\u2019s offices in Manhattan were evacuated after an explosive device was sent there, a law enforcement official said.","copyright":"Jeenah Moon for The New York Times"},{"url":"https://static01.nyt.com/images/2018/10/24/nyregion/25CLINTON3-promo/25CLINTON3-promo-superJumbo.jpg","format":"superJumbo","height":1366,"width":2048,"type":"image","subtype":"photo","caption":"CNN\u2019s offices in Manhattan were evacuated after an explosive device was sent there, a law enforcement official said.","copyright":"Jeenah Moon for The New York Times"}]
      */
+
+
 
     @SerializedName("section")
     @Nullable
@@ -44,7 +46,7 @@ public class NewsItem {
 
     @SerializedName("multimedia")
     @Nullable
-    private List<Image> multimedia;
+    private List<NetworkImage> multimedia;
 
 
     @Nullable
@@ -102,11 +104,11 @@ public class NewsItem {
     }
 
     @Nullable
-    public List<Image> getMultimedia() {
+    public List<NetworkImage> getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia(@Nullable List<Image> multimedia) {
+    public void setMultimedia(@Nullable List<NetworkImage> multimedia) {
         this.multimedia = multimedia;
     }
 

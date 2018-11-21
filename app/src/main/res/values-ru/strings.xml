@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="button_send_message">Отправить сообщение</string>
-    <string name="textview_graduated">МГТУ им. Н. Э. Баумана</string>
-    <string name="textview_developer">Начинающий Android разработчик</string>
-    <string name="textview_profile_description">Георгий закончил МГТУ им. Н. Э. Баумана и имеет квалификацию инженер. Сейчас он развивается в области ИТ и хочет стать профессиональным Android разработчиком</string>
-    <string name="edittext_message_hint">Введите сообщение…</string>
+    <string name="profile_send_message">Отправить сообщение</string>
+    <string name="profile_graduated">МГТУ им. Н. Э. Баумана</string>
+    <string name="profile_developer">Начинающий Android разработчик</string>
+    <string name="profile_description">Георгий закончил МГТУ им. Н. Э. Баумана и имеет квалификацию инженер. Сейчас он развивается в области ИТ и хочет стать профессиональным Android разработчиком</string>
+    <string name="profile_message_hint">Введите сообщение…</string>
     <string name="email_subject">Здравствуйте, Георгий</string>
     <string name="snackbar_no_email_app">Приложение почта не найдено</string>
     <string name="snackbar_no_browser">Приложение браузер не найдено</string>
     <string name="snackbar_no_sms_app">Приложение SMS не найдено</string>
     <string name="disclaimer">© 2018 Георгий Рябых</string>
     <string name="profile_name">Георгий Рябых</string>
-    <string name="button_send_email">Отправить email</string>
+    <string name="profile_send_email">Отправить email</string>
     <string name="menu_open_about_author">О авторе</string>
-    <string name="date_utils_hr_ago" translatable="false">%1$d ч. назад</string>
+    <string name="date_utils_hr_ago">%1$d ч. назад</string>
     <string name="date_utils_yesterday">Вчера, %1$s</string>
     <string name="message_error">Что-то пошло не так</string>
     <string name="button_try_again">Попробовать снова</string>
+    <string name="message_empty_list">Список новостей пуст. Для загрузки новостей, пожалуйста, нажмите на кнопку обновления.</string>
+    <string name="menu_edit_news">Редактировать новость</string>
+    <string name="news_editor_set_date">Установить дату</string>
+    <string name="menu_save_changes">Сохранить изменения</string>
+    <string name="news_editor_title">Редактор новостей</string>
+    <string name="message_leave_without_saving">Покинуть редактор без сохранения изменений?</string>
+    <string name="menu_delete_news">Удалить новость</string>
+    <string name="date_utils_min_ago">%1$d мин. назад</string>
+    <string name="newseditor_title">Заголовок</string>
+    <string name="newseditor_description">Описание</string>
+    <string name="intro_welcome">Добро пожаловать!</string>
 </resources>

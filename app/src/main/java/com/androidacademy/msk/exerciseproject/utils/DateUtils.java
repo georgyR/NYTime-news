@@ -2,7 +2,9 @@ package com.androidacademy.msk.exerciseproject.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.androidacademy.msk.exerciseproject.R;
 
@@ -13,26 +15,94 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 public class DateUtils {
 
-    private DateUtils() {
-        throw new UnsupportedOperationException("There should be no class instance");
+    private static final String DEBUG_PARSING = DateUtils.class.getSimpleName();
+
+    private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";
+
+    private final Context appContext;
+
+    @Inject
+    public DateUtils(Context appContext) {
+        this.appContext = appContext;
     }
 
     @NonNull
-    public static String convertTimestampToString(@NonNull String timestamp, @NonNull Context context) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+    public static Date getDate(@NonNull String timestamp) {
+        SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.getDefault());
         Date date;
         try {
-             date = formatter.parse(timestamp);
+            date = formatter.parse(timestamp);
         } catch (ParseException e) {
-            e.printStackTrace();
-            return "parsing time error";
+            Log.d(DEBUG_PARSING, "parsing date error", e);
+            date = new Date();
+            date.setTime(0);
         }
+        return date;
+    }
+
+    @NonNull
+    public static Date getDate(@Nullable String timestamp, int hour, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        if (timestamp != null) {
+            Date date = DateUtils.getDate(timestamp);
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minute);
+        }
+        return calendar.getTime();
+    }
+
+    @NonNull
+    public static Date getDate(@Nullable String timestamp, int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        if (timestamp != null) {
+            Date date = DateUtils.getDate(timestamp);
+            calendar.setTime(date);
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+        }
+        return calendar.getTime();
+    }
+
+    @NonNull
+    public static String getTimestampFromDate(@NonNull Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.getDefault());
+        return formatter.format(date);
+    }
+
+    @NonNull
+    public static String getFormattedDate(@NonNull String timestamp) {
+        Date date = getDate(timestamp);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.getDefault());
+        return formatter.format(date);
+
+    }
+
+    @NonNull
+    public static String getFormattedDate(@NonNull Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.getDefault());
+        return formatter.format(date);
+
+    }
+
+    @NonNull
+    public static String getSpecialFormattedDate(@NonNull String timestamp, @NonNull Context context) {
+        Date date = getDate(timestamp);
 
         if (android.text.format.DateUtils.isToday(date.getTime())) {
             Date currentDate = new Date();
-            long hourAgo = TimeUnit.MILLISECONDS.toHours(currentDate.getTime() - date.getTime());
+            long timeDiff = currentDate.getTime() - date.getTime();
+            long hourAgo = TimeUnit.MILLISECONDS.toHours(timeDiff);
+            if (hourAgo == 0) {
+                long minute = TimeUnit.MILLISECONDS.toMinutes(timeDiff);
+                return context.getString(R.string.date_utils_min_ago, minute);
+            }
             return context.getString(R.string.date_utils_hr_ago, hourAgo);
         }
 
@@ -42,7 +112,7 @@ public class DateUtils {
             return context.getString(R.string.date_utils_yesterday, publishTime);
         }
 
-        formatter = new SimpleDateFormat("", Locale.US);
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
 
         if (isCurrentYear(date)) {
             formatter.applyPattern("MMM d, ");
@@ -53,9 +123,12 @@ public class DateUtils {
         return formatter.format(date) + publishTime;
     }
 
+
     @NonNull
-    private static String getFormattedTime(@NonNull Date date, @NonNull Context context) {
-        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.US);
+    public static String getFormattedTime(@NonNull String timestamp, @NonNull Context context) {
+        Date date = getDate(timestamp);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
         if (DateFormat.is24HourFormat(context)) {
             formatter.applyPattern("HH:mm");
             return formatter.format(date);
@@ -65,8 +138,31 @@ public class DateUtils {
         }
     }
 
+    @NonNull
+    public static String getFormattedTime(@NonNull Date date, @NonNull Context context) {
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
+        if (DateFormat.is24HourFormat(context)) {
+            formatter.applyPattern("HH:mm");
+            return formatter.format(date);
+        } else {
+            formatter.applyPattern("hh:mm a");
+            return formatter.format(date);
+        }
+    }
+
+    @NonNull
+    public static Calendar getCalendarFromTimestamp(@Nullable String timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        if (timestamp != null) {
+            Date date = DateUtils.getDate(timestamp);
+            calendar.setTime(date);
+        }
+        return calendar;
+    }
+
     private static boolean isYesterday(@NonNull Date date) {
-        return android.text.format.DateUtils.isToday(date.getTime() + android.text.format.DateUtils.DAY_IN_MILLIS);
+        return android.text.format.DateUtils.isToday(date.getTime() +
+                android.text.format.DateUtils.DAY_IN_MILLIS);
     }
 
     private static boolean isCurrentYear(@NonNull Date date) {
@@ -77,5 +173,17 @@ public class DateUtils {
         int dateYear = calendar.get(Calendar.YEAR);
 
         return (currentYear == dateYear);
+    }
+
+    @NonNull
+    public String getFormattedTime(@NonNull Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
+        if (DateFormat.is24HourFormat(appContext)) {
+            formatter.applyPattern("HH:mm");
+            return formatter.format(date);
+        } else {
+            formatter.applyPattern("hh:mm a");
+            return formatter.format(date);
+        }
     }
 }

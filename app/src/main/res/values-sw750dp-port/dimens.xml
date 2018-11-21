@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="height_photo">520dp</dimen>
+    <dimen name="imageheight_profile_photo">520dp</dimen>
+    <dimen name="imageheight_news">600dp</dimen>
 </resources>

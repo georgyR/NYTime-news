@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profile_information__linear_layout"
+    android:id="@+id/linearlayout_viewprofile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
@@ -18,7 +18,7 @@
         android:drawableStart="@drawable/ic_school_28dp"
         android:drawablePadding="@dimen/padding_drawable"
         android:textColor="@android:color/black"
-        android:text="@string/textview_graduated" />
+        android:text="@string/profile_graduated" />
 
     <TextView
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:drawableStart="@drawable/ic_android_28dp"
         android:textColor="@android:color/black"
         android:drawablePadding="@dimen/padding_drawable"
-        android:text="@string/textview_developer" />
+        android:text="@string/profile_developer" />
 
     <View
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:textColor="@android:color/black"
 
         android:layout_marginBottom="@dimen/margin_common"
-        android:text="@string/textview_profile_description" />
+        android:text="@string/profile_description" />
 
     <View
         android:layout_width="match_parent"
@@ -51,11 +51,11 @@
 
 
     <EditText
-        android:id="@+id/profile_information__edittext_message_text"
+        android:id="@+id/edittext_viewprofile_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_common"
-        android:hint="@string/edittext_message_hint"
+        android:hint="@string/profile_message_hint"
         android:inputType="text"
         tools:ignore="Autofill" />
 
@@ -66,22 +66,22 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/profile_information__button_send_email"
+            android:id="@+id/button_viewprofile_send_email"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_common"
             android:layout_weight="1"
-            android:text="@string/button_send_email"
+            android:text="@string/profile_send_email"
             android:textColor="@color/colorPrimaryDark" />
 
         <Button
-            android:id="@+id/profile_information__button_send_message"
+            android:id="@+id/button_viewprofile_send_message"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button_send_message"
+            android:text="@string/profile_send_message"
             android:textColor="@color/colorPrimaryDark" />
 
     </LinearLayout>
@@ -94,7 +94,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/profile_information__imagebutton_telegram"
+            android:id="@+id/imagebutton_viewprofile_telegram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -103,7 +103,7 @@
             tools:ignore="ContentDescription" />
 
         <ImageButton
-            android:id="@+id/profile_information__imagebutton_instagram"
+            android:id="@+id/imagebutton_viewprofile_instagram"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"

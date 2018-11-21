@@ -13,11 +13,11 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="@dimen/width_photo"
+            android:layout_width="@dimen/imagewidth_profile_photo"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_photo"
+            android:src="@drawable/photo_details"
             tools:ignore="ContentDescription" />
 
         <ScrollView
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-            <include layout="@layout/view_profile_information" />
+            <include layout="@layout/view_profile" />
 
         </ScrollView>
 

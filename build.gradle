@@ -20,6 +20,20 @@ allprojects {
         google()
         jcenter()
     }
+
+    afterEvaluate { project ->
+        def propsFile = rootProject.file('keystore.properties')
+        def configName = 'release'
+
+        if (propsFile.exists() && project.hasProperty("android") && android.signingConfigs.hasProperty(configName)) {
+            def props = new Properties()
+            props.load(new FileInputStream(propsFile))
+            android.signingConfigs[configName].storeFile = file(props['store.file'])
+            android.signingConfigs[configName].storePassword = props['store.password']
+            android.signingConfigs[configName].keyAlias = props['key.alias']
+            android.signingConfigs[configName].keyPassword = props['key.password']
+        }
+    }
 }
 
 task clean(type: Delete) {

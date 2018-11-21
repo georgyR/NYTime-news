@@ -1,19 +1,26 @@
 package com.androidacademy.msk.exerciseproject.utils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.androidacademy.msk.exerciseproject.network.SocialNetworkApp;
+import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp;
+
+import javax.inject.Inject;
 
 public class IntentUtils {
 
-    private IntentUtils() {
-        throw new UnsupportedOperationException("There should be no class instance");
+    private final Context appContext;
+
+    @Inject
+    public IntentUtils(Context appContext) {
+       this.appContext = appContext;
     }
 
-    @NonNull
-    public static Intent getEmailIntent(@NonNull String email,
+    @Nullable
+    public Intent getEmailIntent(@NonNull String email,
                                         @NonNull String subject,
                                         @NonNull String message) {
 
@@ -24,29 +31,44 @@ public class IntentUtils {
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse(mailto));
-        return  emailIntent;
+
+        return getIntentForExistingApp(emailIntent);
     }
 
-    @NonNull
-    public static Intent getSpecificIntent(@NonNull SocialNetworkApp app) {
-
+    @Nullable
+    public Intent getSpecificIntent(@NonNull SocialNetworkApp app) {
         Uri uri = Uri.parse(app.getAccountUrl());
-        return new Intent(Intent.ACTION_VIEW, uri)
-                .setPackage(app.getAppPackage());
+        Intent specificIntent = new Intent(Intent.ACTION_VIEW, uri).setPackage(app.getAppPackage());
+        return getIntentForExistingApp(specificIntent);
     }
 
-    @NonNull
-    public static Intent getBrowserIntent(@NonNull String stringUri) {
+    @Nullable
+    public Intent getBrowserIntent(@NonNull String stringUri) {
         Uri uri = Uri.parse(stringUri);
-        return new Intent(Intent.ACTION_VIEW, uri);
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+        return getIntentForExistingApp(browserIntent);
     }
 
-    @NonNull
-    public static Intent getSmsAppIntent(@NonNull String phoneNumber, @NonNull String message) {
+    @Nullable
+    public Intent getSmsAppIntent(@NonNull String phoneNumber, @NonNull String message) {
         Uri uri = Uri.parse("smsto:" + phoneNumber);
-        return new Intent(Intent.ACTION_SENDTO, uri)
-                .putExtra("sms_body", message);
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO, uri).putExtra("sms_body", message);
+
+        return getIntentForExistingApp(smsIntent);
     }
+
+    @Nullable
+    private Intent getIntentForExistingApp(@NonNull Intent intent) {
+        if (intent.resolveActivity(appContext.getPackageManager()) == null) {
+            return null;
+        } else {
+            return intent;
+        }
+    }
+
+
+
 
 
 }

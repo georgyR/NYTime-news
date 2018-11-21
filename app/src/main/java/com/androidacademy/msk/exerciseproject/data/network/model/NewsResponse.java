@@ -1,6 +1,5 @@
-package com.androidacademy.msk.exerciseproject.network.model;
+package com.androidacademy.msk.exerciseproject.data.network.model;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
@@ -28,7 +27,7 @@ public class NewsResponse {
 
     @SerializedName("results")
     @Nullable
-    private List<NewsItem> results;
+    private List<NetworkNewsItem> results;
 
     @Nullable
     public String getStatus() {
@@ -57,11 +56,11 @@ public class NewsResponse {
     }
 
     @Nullable
-    public List<NewsItem> getResults() {
+    public List<NetworkNewsItem> getResults() {
         return results;
     }
 
-    public void setResults(@Nullable List<NewsItem> results) {
+    public void setResults(@Nullable List<NetworkNewsItem> results) {
         this.results = results;
     }
 }

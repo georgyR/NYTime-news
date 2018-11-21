@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.network;
+package com.androidacademy.msk.exerciseproject.data.network;
 
 import android.support.annotation.NonNull;
 

@@ -1,10 +1,13 @@
 package com.androidacademy.msk.exerciseproject.screen.news_list;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,17 +26,22 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
-import com.androidacademy.msk.exerciseproject.network.api.Section;
-import com.androidacademy.msk.exerciseproject.network.model.NewsItem;
+import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
+import com.androidacademy.msk.exerciseproject.di.Injector;
+import com.androidacademy.msk.exerciseproject.model.Section;
 import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
 import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import static com.androidacademy.msk.exerciseproject.screen.UiState.EMPTY;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.ERROR;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.HAS_DATA;
 import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
@@ -40,6 +49,7 @@ import static com.androidacademy.msk.exerciseproject.screen.UiState.LOADING;
 public class NewsListActivity extends MvpAppCompatActivity implements NewsListView {
 
     private static final int MIN_WIDTH_IN_DP = 300;
+    private static final int EDIT_NEWS_REQUEST = 10;
     private static final String LIST_STATE_KEY = "LIST_STATE_KEY";
 
     @NonNull
@@ -49,7 +59,11 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @NonNull
     private View errorView;
     @NonNull
+    private View emptyListView;
+    @NonNull
     private Button tryAgainButton;
+    @NonNull
+    private FloatingActionButton fab;
     @NonNull
     private Spinner spinner;
     @NonNull
@@ -61,32 +75,65 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     @NonNull
     private ViewVisibilitySwitcher visibilitySwitcher;
 
+    @Inject
     @InjectPresenter
     public NewsListPresenter presenter;
+
+    @ProvidePresenter
+    NewsListPresenter providePresenter() {
+        Injector.getInstance().getDbAndNetworkComponent().inject(this);
+        return presenter;
+    }
+
+    public static Intent getStartIntent(@NonNull Context context) {
+        return new Intent(context, NewsListActivity.class);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
 
-        Toolbar toolbar = findViewById(R.id.all_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_newslist);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        progressBar = findViewById(R.id.activity_news_list__progressbar);
+        progressBar = findViewById(R.id.progressbar_newslist);
 
-        recyclerView = findViewById(R.id.activity_news_list__recycler_view);
+        recyclerView = findViewById(R.id.recyclerview__newslist);
         setupRecyclerView(recyclerView);
 
-        errorView = findViewById(R.id.activity_news_list__view_error);
+        errorView = findViewById(R.id.errorview_newslist);
 
-        visibilitySwitcher = new ViewVisibilitySwitcher(recyclerView, progressBar, errorView);
+        emptyListView = findViewById(R.id.viewempty_newslist);
 
-        tryAgainButton = findViewById(R.id.view_error__button_try_again);
+        visibilitySwitcher = new ViewVisibilitySwitcher(
+                recyclerView,
+                progressBar,
+                errorView,
+                emptyListView);
+
+        tryAgainButton = findViewById(R.id.button_viewerror_try_again);
         tryAgainButton.setOnClickListener(v -> presenter.onTryAgainButtonClicked());
 
-        spinner = findViewById(R.id.activity_news_list__spinner);
+        fab = findViewById(R.id.fab_newslist);
+        fab.setOnClickListener(v -> presenter.onFabClicked());
+
+        spinner = findViewById(R.id.spinner_newslist);
         setupSpinner(spinner);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == EDIT_NEWS_REQUEST) {
+            switch (resultCode) {
+                case NewsDetailsActivity.RESULT_NEWS_IS_CHANGED:
+                    presenter.onListItemChanged();
+                    break;
+                case NewsDetailsActivity.RESULT_NEWS_IS_DELETED:
+                    presenter.onListItemDeleted();
+            }
+        }
     }
 
     @Override
@@ -130,19 +177,9 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
         outState.putParcelable(LIST_STATE_KEY, listState);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public void showNews(@NonNull List<NewsItem> news) {
+    public void showNews(@NonNull List<DbNewsItem> news) {
         visibilitySwitcher.setUiState(HAS_DATA);
 
         adapter.addListData(news);
@@ -155,14 +192,31 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     @Override
+    public void showEmptyView() {
+        visibilitySwitcher.setUiState(EMPTY);
+    }
+
+    @Override
     public void showProgressBar() {
         visibilitySwitcher.setUiState(LOADING);
     }
 
     @Override
-    public void openDetailsScreen(String url) {
-        startActivity(NewsDetailsActivity.getStartIntent(url, this));
+    public void openDetailsScreen(int id) {
+        Log.d("ID_DEBUG", "openDetailsScreen: " + id);
+        startActivityForResult(NewsDetailsActivity.getStartIntent(id, this), EDIT_NEWS_REQUEST);
     }
+
+    @Override
+    public void updateCertainNewsItemInList(@NonNull DbNewsItem newsItem, int position) {
+        adapter.updateNewsItem(position, newsItem);
+    }
+
+    @Override
+    public void deleteNewsItemInList(int position) {
+        adapter.deleteNewsItem(position);
+    }
+
 
     private void setLayoutManager(@NonNull RecyclerView recyclerView) {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -191,10 +245,21 @@ public class NewsListActivity extends MvpAppCompatActivity implements NewsListVi
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setHasFixedSize(true);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    fab.hide();
+                } else if (dy < 0) {
+                    fab.show();
+                }
+            }
+        });
+
         setLayoutManager(recyclerView);
         setItemDecoration(recyclerView);
-        NewsAdapter.OnItemClickListener clickListener = url -> presenter.onItemClicked(url);
+        NewsAdapter.OnItemClickListener clickListener = (id, position) -> presenter.onItemClicked(id, position);
         adapter = new NewsAdapter(clickListener, this);
         recyclerView.setAdapter(adapter);
     }
