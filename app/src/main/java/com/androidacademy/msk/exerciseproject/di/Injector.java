@@ -20,7 +20,6 @@ public class Injector {
     private final AppComponent appComponent;
     private final DbComponent dbComponent;
     private final DbAndNetworkComponent dbAndNetworkComponent;
-    private NewsItemComponent newsItemComponent;
 
     public static void init(Context appContext) {
         context = appContext;

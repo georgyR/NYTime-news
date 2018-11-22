@@ -43,6 +43,7 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
         getViewState().showEmptyView();
     }
 
+
     public void onItemClicked(int id) {
         getViewState().openDetailsScreen(id);
     }

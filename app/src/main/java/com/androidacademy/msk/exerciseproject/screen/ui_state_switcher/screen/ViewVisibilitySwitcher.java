@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.screen;
+package com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.view.View;
 
 public class ViewVisibilitySwitcher {
 
-    private static final String DEBUG_UI_STATE = ViewVisibilitySwitcher.class.getSimpleName();
+    private static final String DEBUG_SCREEN_STATE = ViewVisibilitySwitcher.class.getSimpleName();
     @Nullable
     private final View dataView;
     @Nullable
@@ -46,13 +46,13 @@ public class ViewVisibilitySwitcher {
                 return;
 
             default:
-                Log.d(DEBUG_UI_STATE, "Unknown ui state");
+                Log.d(DEBUG_SCREEN_STATE, "Unknown screen state");
         }
     }
 
     private void show(@Nullable View targetView) {
         if (targetView == null) {
-            Log.d(DEBUG_UI_STATE, "targetView is null");
+            Log.d(DEBUG_SCREEN_STATE, "targetView is null");
             return;
         }
         View[] viewArray = {dataView, loadingIndicatorView, errorView, emptyListView};

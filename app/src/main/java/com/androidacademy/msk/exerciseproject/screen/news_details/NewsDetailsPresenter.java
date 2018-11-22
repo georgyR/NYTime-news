@@ -33,6 +33,7 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
         super.onDestroy();
     }
 
+
     private void getNewsDetails() {
         compositeDisposable.add(
                 dao.getRxNewsById(itemId)

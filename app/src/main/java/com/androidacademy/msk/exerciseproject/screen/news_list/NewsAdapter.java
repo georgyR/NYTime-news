@@ -69,11 +69,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
+
     public void addListData(List<DbNewsItem> newsItems) {
         news.clear();
         news.addAll(newsItems);
         notifyDataSetChanged();
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

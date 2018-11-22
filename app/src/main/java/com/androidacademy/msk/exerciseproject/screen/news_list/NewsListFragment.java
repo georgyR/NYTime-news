@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -31,10 +28,8 @@ import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.model.Section;
-import com.androidacademy.msk.exerciseproject.screen.ViewVisibilitySwitcher;
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity;
-import com.androidacademy.msk.exerciseproject.screen.main_container.FragmentContainer;
-import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
+import com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen.ViewVisibilitySwitcher;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -43,10 +38,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.androidacademy.msk.exerciseproject.screen.ScreenState.EMPTY;
-import static com.androidacademy.msk.exerciseproject.screen.ScreenState.ERROR;
-import static com.androidacademy.msk.exerciseproject.screen.ScreenState.HAS_DATA;
-import static com.androidacademy.msk.exerciseproject.screen.ScreenState.LOADING;
+import static com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen.ScreenState.EMPTY;
+import static com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen.ScreenState.ERROR;
+import static com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen.ScreenState.HAS_DATA;
+import static com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen.ScreenState.LOADING;
 
 public class NewsListFragment extends MvpAppCompatFragment implements NewsListView {
 
@@ -74,8 +69,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
     private ViewVisibilitySwitcher visibilitySwitcher;
     @NonNull
     private ItemClickListener listener;
-    @NonNull
-    private FragmentContainer twoPanelActivity;
     private int position;
 
     @Inject
@@ -98,10 +91,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
         if (context instanceof ItemClickListener) {
             listener = (ItemClickListener) context;
         }
-
-        if (context instanceof FragmentContainer) {
-            twoPanelActivity = (FragmentContainer) context;
-        }
     }
 
     @Override
@@ -119,8 +108,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         progressBar = view.findViewById(R.id.progressbar_newslist);
 
@@ -156,12 +143,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
     @Override
     public void onResume() {
         super.onResume();
-        if (!twoPanelActivity.isTwoPanel()) {
-            spinner.setVisibility(View.VISIBLE);
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(false);
-        }
         if (position != 0) {
             recyclerView.getLayoutManager().scrollToPosition(position);
         }
@@ -202,12 +183,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
         outState.putInt(KEY_LIST_POSITION, position);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-        twoPanelActivity = null;
-    }
 
     @Override
     public void showNews(@NonNull List<DbNewsItem> news) {
@@ -216,7 +191,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
         adapter.addListData(news);
         recyclerView.scrollToPosition(0);
     }
-
 
     @Override
     public void showError() {
@@ -241,20 +215,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
     @Override
     public void setCurrentSectionInSpinner(int position) {
         spinner.setSelection(position);
-    }
-
-    public String getCurrentSelectedSection() {
-        int position = spinner.getSelectedItemPosition();
-        return Section.values()[position].name();
-    }
-
-
-    public void setSpinnerVisibility(int visibility) {
-        spinner.setVisibility(visibility);
-    }
-
-    public interface ItemClickListener {
-        void onNewItemClicked(int id);
     }
 
 
@@ -308,10 +268,6 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
     }
 
     private void setupSpinner(@NonNull Spinner spinner) {
-        List<String> spinnerList = EnumUtils.convertEnumValuesToCapitalizedList(Section.values());
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.item_spinner, spinnerList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
         presenter.onSetupSpinnerPosition();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -324,4 +280,19 @@ public class NewsListFragment extends MvpAppCompatFragment implements NewsListVi
             }
         });
     }
+
+
+    public interface ItemClickListener {
+        void onNewItemClicked(int id);
+    }
+
 }
+
+
+
+
+
+
+
+
+

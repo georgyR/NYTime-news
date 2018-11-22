@@ -1,11 +1,8 @@
 package com.androidacademy.msk.exerciseproject.screen.news_details;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +13,6 @@ import android.widget.TextView;
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.di.Injector;
-import com.androidacademy.msk.exerciseproject.screen.main_container.FragmentContainer;
 import com.androidacademy.msk.exerciseproject.utils.DateUtils;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -39,8 +35,6 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
     private TextView dateTextView;
     @NonNull
     private TextView timeTextView;
-    @NonNull
-    private FragmentContainer fragmentContainer;
 
     @Inject
     @InjectPresenter
@@ -63,14 +57,6 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof FragmentContainer) {
-            fragmentContainer = (FragmentContainer) context;
-        }
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -82,16 +68,6 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_details, container, false);
-
-        if (!fragmentContainer.isTwoPanel()) {
-
-            fragmentContainer.setSpinnerVisibility(View.GONE);
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            getActivity().setTitle(fragmentContainer.getCurrentSelectedSection());
-        }
-
 
         titleTextView = view.findViewById(R.id.textview_newsdetails_title);
         imageView = view.findViewById(R.id.imageview_newsdetails);
@@ -113,7 +89,6 @@ public class NewsDetailsFragment extends MvpAppCompatFragment implements NewsDet
 
     @Override
     public void showNewsDetails(@NonNull DbNewsItem newsItem) {
-        getActivity().setTitle(newsItem.getSection());
         titleTextView.setText(newsItem.getTitle());
         if (newsItem.getFullsizeImageUrl() != null) {
             Glide.with(this).load(newsItem.getFullsizeImageUrl()).into(imageView);
