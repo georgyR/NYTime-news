@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject.screen.news_list;
 
 import android.support.annotation.NonNull;
 
-import com.androidacademy.msk.exerciseproject.data.database.NewsConverter;
+import com.androidacademy.msk.exerciseproject.data.database.NewsConverterKt;
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao;
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem;
 import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi;
@@ -74,7 +74,7 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
         compositeDisposable.add(
                 api.getNews(section)
                         .map(newsResponse -> {
-                            List<DbNewsItem> dbNewsItems = NewsConverter.toDatabase(
+                            List<DbNewsItem> dbNewsItems = NewsConverterKt.toDatabase(
                                     newsResponse.getResults(),
                                     section);
                             database.deleteBySection(section);

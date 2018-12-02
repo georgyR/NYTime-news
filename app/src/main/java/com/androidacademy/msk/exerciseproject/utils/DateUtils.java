@@ -23,13 +23,6 @@ public class DateUtils {
 
     private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ";
 
-    private final Context appContext;
-
-    @Inject
-    public DateUtils(Context appContext) {
-        this.appContext = appContext;
-    }
-
     @NonNull
     public static Date getDate(@NonNull String timestamp) {
         SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.getDefault());
@@ -45,47 +38,9 @@ public class DateUtils {
     }
 
     @NonNull
-    public static Date getDate(@Nullable String timestamp, int hour, int minute) {
-        Calendar calendar = Calendar.getInstance();
-        if (timestamp != null) {
-            Date date = DateUtils.getDate(timestamp);
-            calendar.setTime(date);
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, minute);
-        }
-        return calendar.getTime();
-    }
-
-    @NonNull
-    public static Date getDate(@Nullable String timestamp, int year, int month, int day) {
-        Calendar calendar = Calendar.getInstance();
-        if (timestamp != null) {
-            Date date = DateUtils.getDate(timestamp);
-            calendar.setTime(date);
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-        }
-        return calendar.getTime();
-    }
-
-    @NonNull
-    public static String getTimestampFromDate(@NonNull Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_PATTERN, Locale.getDefault());
-        return formatter.format(date);
-    }
-
-    @NonNull
     public static String getFormattedDate(@NonNull String timestamp) {
         Date date = getDate(timestamp);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.getDefault());
-        return formatter.format(date);
-
-    }
-
-    @NonNull
-    public static String getFormattedDate(@NonNull Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy ", Locale.getDefault());
         return formatter.format(date);
 
@@ -150,15 +105,6 @@ public class DateUtils {
         }
     }
 
-    @NonNull
-    public static Calendar getCalendarFromTimestamp(@Nullable String timestamp) {
-        Calendar calendar = Calendar.getInstance();
-        if (timestamp != null) {
-            Date date = DateUtils.getDate(timestamp);
-            calendar.setTime(date);
-        }
-        return calendar;
-    }
 
     private static boolean isYesterday(@NonNull Date date) {
         return android.text.format.DateUtils.isToday(date.getTime() +
@@ -175,15 +121,4 @@ public class DateUtils {
         return (currentYear == dateYear);
     }
 
-    @NonNull
-    public String getFormattedTime(@NonNull Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("", Locale.getDefault());
-        if (DateFormat.is24HourFormat(appContext)) {
-            formatter.applyPattern("HH:mm");
-            return formatter.format(date);
-        } else {
-            formatter.applyPattern("hh:mm a");
-            return formatter.format(date);
-        }
-    }
 }

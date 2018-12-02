@@ -17,6 +17,7 @@ import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.model.Section;
 import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsFragment;
 import com.androidacademy.msk.exerciseproject.screen.news_list.NewsListFragment;
+import com.androidacademy.msk.exerciseproject.screen.news_list.NewsListFragmentKt;
 import com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.toolbar.ToolbarState;
 import com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.toolbar.ToolbarStateSwitcher;
 import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             toolbarStateSwitcher.setToolbarState(ToolbarState.SPINNER);
             fragmentManager.beginTransaction()
-                    .replace(R.id.framelayout_main_list, NewsListFragment.newInstance(), TAG_LIST)
+                    .replace(R.id.framelayout_main_list, NewsListFragmentKt.newInstance(), TAG_LIST)
                     .addToBackStack(null)
                     .commit();
             return;
