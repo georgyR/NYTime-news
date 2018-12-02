@@ -1,19 +1,15 @@
-package com.androidacademy.msk.exerciseproject.screen.news_list
+package com.androidacademy.msk.exerciseproject.screen.newslist
 
+import kotlinx.android.synthetic.main.fragment_news_list.*
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.*
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.Spinner
 import com.androidacademy.msk.exerciseproject.R
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
 import com.androidacademy.msk.exerciseproject.di.Injector
@@ -24,23 +20,12 @@ import com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen.Vi
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.view_error.*
 import javax.inject.Inject
 
-private const val MIN_WIDTH_IN_DP = 300
-private const val KEY_LIST_POSITION = "KEY_LIST_POSITION"
-private const val TABLET_WIDTH = 720
+class NewsListFragment : MvpAppCompatFragment(), NewsListView {
 
-fun newInstance() = NewsListFragment()
-
-class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var errorView: View
-    private lateinit var emptyListView: View
-    private lateinit var tryAgainButton: Button
-    private lateinit var fab: FloatingActionButton
-    private lateinit var spinner: Spinner
     private lateinit var adapter: NewsAdapter
     private lateinit var visibilitySwitcher: ViewVisibilitySwitcher
     private lateinit var listener: ItemClickListener
@@ -48,13 +33,22 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
 
     @Inject
     @InjectPresenter
-    var presenter: NewsListPresenter? = null
+    lateinit var presenter: NewsListPresenter
 
     @ProvidePresenter
     internal fun providePresenter(): NewsListPresenter? {
         Injector.getInstance().dbAndNetworkComponent.inject(this)
         return presenter
     }
+
+    companion object {
+        private const val MIN_WIDTH_IN_DP = 300
+        private const val KEY_LIST_POSITION = "KEY_LIST_POSITION"
+        private const val TABLET_WIDTH = 720
+
+        fun newInstance() = NewsListFragment()
+    }
+
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -72,47 +66,38 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_news_list, container, false)
+        return inflater.inflate(R.layout.fragment_news_list, container, false)
+    }
 
-        progressBar = view.findViewById(R.id.progressbar_newslist)
-        recyclerView = view.findViewById(R.id.recyclerview__newslist)
-        errorView = view.findViewById(R.id.errorview_newslist)
-        emptyListView = view.findViewById(R.id.viewempty_newslist)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         visibilitySwitcher = ViewVisibilitySwitcher(
-                recyclerView,
-                progressBar,
-                errorView,
-                emptyListView)
+                recyclerview_newslist,
+                progressbar_newslist,
+                errorview_newslist,
+                emptyview_newslist)
 
-        tryAgainButton = view.findViewById(R.id.button_viewerror_try_again)
-        tryAgainButton.setOnClickListener { presenter?.onFabClicked() }
+        button_viewerror_try_again?.setOnClickListener { presenter.onFabClicked() }
 
-        fab = view.findViewById(R.id.fab_newslist)
-        fab.setOnClickListener { presenter?.onFabClicked() }
-
-        spinner = activity!!.findViewById(R.id.spinner_newslist)
-        setupSpinner(spinner)
-
-        return view
+        fab_newslist.setOnClickListener { presenter.onFabClicked() }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        setupRecyclerView(recyclerView)
+        setupRecyclerView(recyclerview_newslist)
     }
 
     override fun onResume() {
         super.onResume()
         if (position != 0) {
-            recyclerView.layoutManager!!.scrollToPosition(position)
+            recyclerview_newslist.layoutManager?.scrollToPosition(position)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuitem_open_about -> {
-                startActivity(AboutActivity.getStartIntent(context!!))
+                startActivity(AboutActivity.getStartIntent(activity!!))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -121,12 +106,11 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
 
     override fun onPause() {
         super.onPause()
-        val layoutManager = recyclerView.layoutManager
+        val layoutManager = recyclerview_newslist.layoutManager
         position = if (layoutManager is LinearLayoutManager) {
             layoutManager.findFirstCompletelyVisibleItemPosition()
         } else {
-            (layoutManager as StaggeredGridLayoutManager)
-                    .findFirstCompletelyVisibleItemPositions(null)[0]
+            (layoutManager as StaggeredGridLayoutManager).findFirstCompletelyVisibleItemPositions(null)[0]
         }
     }
 
@@ -135,10 +119,10 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
         outState.putInt(KEY_LIST_POSITION, position)
     }
 
-    override fun showNews(news: MutableList<DbNewsItem>) {
+    override fun showNews(news: List<DbNewsItem>) {
         visibilitySwitcher.setUiState(HAS_DATA)
         adapter.addListData(news)
-        recyclerView.scrollToPosition(0)
+        recyclerview_newslist.scrollToPosition(0)
     }
 
     override fun showError() {
@@ -158,7 +142,11 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
     }
 
     override fun setCurrentSectionInSpinner(position: Int) {
-        spinner.setSelection(position)
+        spinner_newslist.setSelection(position)
+    }
+
+    fun spinnerItemClicked(id: Int) {
+        presenter.onSpinnerItemClicked(Section.values()[id])
     }
 
     private fun setItemDecoration(recyclerView: RecyclerView) {
@@ -175,18 +163,20 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) {
-                    fab.hide()
-                } else if (dy < 0) {
-                    fab.show()
+                when {
+                    dy > 0 -> fab_newslist.hide()
+                    dy < 0 -> fab_newslist.show()
                 }
             }
         })
 
         setLayoutManager(recyclerView)
         setItemDecoration(recyclerView)
-        val clickListener =
-                NewsAdapter.OnItemClickListener { id, position -> presenter?.onItemClicked(id) }
+        val clickListener = object : NewsAdapter.OnItemClickListener {
+            override fun onItemClick(id: Int) {
+                presenter.onItemClicked(id)
+            }
+        }
         adapter = NewsAdapter(clickListener, context!!)
         recyclerView.adapter = adapter
     }
@@ -201,24 +191,22 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView  {
             LinearLayoutManager(context)
         } else {
             val snapCount = screenWidthInDp.toInt() / MIN_WIDTH_IN_DP
-            StaggeredGridLayoutManager(
-                    snapCount,
-                    StaggeredGridLayoutManager.VERTICAL)
+            StaggeredGridLayoutManager(snapCount, StaggeredGridLayoutManager.VERTICAL)
         }
 
         recyclerView.layoutManager = layoutManager
     }
 
-    private fun setupSpinner(spinner: Spinner) {
-        presenter?.onSetupSpinnerPosition()
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                presenter?.onSpinnerItemClicked(Section.values()[position])
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-    }
+//    private fun setupSpinner(spinner: Spinner) {
+//        presenter.onSetupSpinnerPosition()
+//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+//                presenter.onSpinnerItemClicked(Section.values()[position])
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>) {}
+//        }
+//    }
 
 
     interface ItemClickListener {

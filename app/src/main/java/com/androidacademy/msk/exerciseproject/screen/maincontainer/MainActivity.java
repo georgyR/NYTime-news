@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.screen.main_container;
+package com.androidacademy.msk.exerciseproject.screen.maincontainer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +10,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.model.Section;
-import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsFragment;
-import com.androidacademy.msk.exerciseproject.screen.news_list.NewsListFragment;
-import com.androidacademy.msk.exerciseproject.screen.news_list.NewsListFragmentKt;
+import com.androidacademy.msk.exerciseproject.screen.newsdetails.NewsDetailsFragment;
+import com.androidacademy.msk.exerciseproject.screen.newslist.NewsListFragment;
 import com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.toolbar.ToolbarState;
 import com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.toolbar.ToolbarStateSwitcher;
 import com.androidacademy.msk.exerciseproject.utils.EnumUtils;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     @NonNull
     private ToolbarStateSwitcher toolbarStateSwitcher;
+    private Spinner spinner;
 
     public static Intent getStartIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
-        Spinner spinner = setupToolbar(toolbar);
+        spinner = getSpinner(toolbar);
 
         toolbarStateSwitcher = new ToolbarStateSwitcher(getSupportActionBar(), spinner);
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             toolbarStateSwitcher.setToolbarState(ToolbarState.SPINNER);
             fragmentManager.beginTransaction()
-                    .replace(R.id.framelayout_main_list, NewsListFragmentKt.newInstance(), TAG_LIST)
+                    .replace(R.id.framelayout_main_list, NewsListFragment.Companion.newInstance(), TAG_LIST)
                     .addToBackStack(null)
                     .commit();
             return;
@@ -116,13 +118,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     @NonNull
-    private Spinner setupToolbar(@NonNull Toolbar toolbar) {
+    private Spinner getSpinner(@NonNull Toolbar toolbar) {
         setSupportActionBar(toolbar);
         Spinner spinner = findViewById(R.id.spinner_newslist);
         List<String> spinnerList = EnumUtils.convertEnumValuesToCapitalizedList(Section.values());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, spinnerList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                NewsListFragment fragment = (NewsListFragment) fragmentManager.findFragmentByTag(TAG_LIST);
+                if (fragment != null) {
+                    fragment.spinnerItemClicked((int) id);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return spinner;
     }
 }

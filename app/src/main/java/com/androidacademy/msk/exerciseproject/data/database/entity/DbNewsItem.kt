@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey
 data class DbNewsItem(
         @ColumnInfo(name = "id")
         @PrimaryKey(autoGenerate = true)
-        var id: Int? = null,
+        var id: Int?,
 
         @ColumnInfo(name = "main_section")
         var mainSection: String?,

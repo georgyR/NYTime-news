@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.di.Injector;
-import com.androidacademy.msk.exerciseproject.screen.main_container.MainActivity;
+import com.androidacademy.msk.exerciseproject.screen.maincontainer.MainActivity;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;

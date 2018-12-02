@@ -13,6 +13,7 @@ fun toDatabase(itemList: List<NetworkNewsItem>?, section: String): List<DbNewsIt
 
     for (item in itemList) {
         val dbItem = DbNewsItem(
+                id = null,
                 mainSection = section,
                 section = item.section,
                 title = item.title,

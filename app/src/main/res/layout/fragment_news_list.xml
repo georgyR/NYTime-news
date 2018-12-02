@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview__newslist"
+        android:id="@+id/recyclerview_newslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -26,7 +26,7 @@
         android:visibility="gone" />
 
     <include
-        android:id="@+id/viewempty_newslist"
+        android:id="@+id/emptyview_newslist"
         layout="@layout/view_empty_list"
         android:visibility="gone" />
 

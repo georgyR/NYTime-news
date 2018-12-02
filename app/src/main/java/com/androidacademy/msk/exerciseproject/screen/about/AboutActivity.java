@@ -20,6 +20,7 @@ import com.androidacademy.msk.exerciseproject.R;
 import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp;
 import com.androidacademy.msk.exerciseproject.di.Injector;
 import com.androidacademy.msk.exerciseproject.model.AppError;
+import com.androidacademy.msk.exerciseproject.screen.newslist.NewsAdapter;
 import com.androidacademy.msk.exerciseproject.utils.IntentUtils;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;

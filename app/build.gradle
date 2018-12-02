@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     signingConfigs {
@@ -58,16 +59,16 @@ dependencies {
 
     implementation "com.arello-mobile:moxy:$moxy_version"
     implementation "com.arello-mobile:moxy-app-compat:$moxy_version"
-    annotationProcessor "com.arello-mobile:moxy-compiler:$moxy_version"
+    kapt "com.arello-mobile:moxy-compiler:$moxy_version"
 
     implementation "android.arch.persistence.room:runtime:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
 
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

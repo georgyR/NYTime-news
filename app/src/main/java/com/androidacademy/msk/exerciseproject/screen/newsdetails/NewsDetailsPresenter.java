@@ -1,4 +1,4 @@
-package com.androidacademy.msk.exerciseproject.screen.news_details;
+package com.androidacademy.msk.exerciseproject.screen.newsdetails;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
