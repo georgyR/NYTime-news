@@ -22,9 +22,7 @@ class NewsAdapter(private val clickListener: OnItemClickListener,
 
     override fun getItemCount() = news.size
 
-    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        holder.bind(news[position])
-    }
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) = holder.bind(news[position])
 
     override fun getItemViewType(position: Int): Int {
         return try {

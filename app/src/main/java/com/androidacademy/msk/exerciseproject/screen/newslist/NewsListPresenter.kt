@@ -1,5 +1,6 @@
 package com.androidacademy.msk.exerciseproject.screen.newslist
 
+import android.util.Log
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
 import com.androidacademy.msk.exerciseproject.data.database.toDatabase
@@ -17,6 +18,10 @@ import javax.inject.Inject
 class NewsListPresenter @Inject constructor(
         private val api: NYTimesApi,
         private val newsDao: NewsDao) : BasePresenter<NewsListView>() {
+
+    companion object {
+        private const val LOG_TAG = "NewsListPresenter"
+    }
 
     private var currentSelectedSection = Section.HOME
 
@@ -48,9 +53,7 @@ class NewsListPresenter @Inject constructor(
         compositeDisposable.add(
                 api.getNews(section)
                         .map<List<DbNewsItem>> { newsResponse ->
-                            val dbNewsItems = toDatabase(
-                                    newsResponse.results,
-                                    section)
+                            val dbNewsItems = toDatabase(newsResponse.results, section)
                             newsDao.deleteBySection(section)
                             newsDao.insertAll(dbNewsItems)
                             val ids = newsDao.getNewsIdBySection(section)
@@ -58,8 +61,7 @@ class NewsListPresenter @Inject constructor(
                         }
                         .onErrorReturn {
                             val news = newsDao.getNewsBySection(section)
-                            if (news.isEmpty()) null
-                            news
+                            if (news.isNotEmpty()) news else null
                         }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

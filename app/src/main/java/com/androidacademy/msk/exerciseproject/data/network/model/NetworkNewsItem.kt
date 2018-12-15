@@ -1,12 +1,8 @@
-package com.androidacademy.msk.exerciseproject.data.network.model;
+package com.androidacademy.msk.exerciseproject.data.network.model
 
-import android.support.annotation.Nullable;
+import com.google.gson.annotations.SerializedName
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
-public class NetworkNewsItem {
+class NetworkNewsItem {
 
     /**
      * section : New York
@@ -19,97 +15,25 @@ public class NetworkNewsItem {
      */
 
 
-
     @SerializedName("section")
-    @Nullable
-    private String section;
+    val section: String? = null
 
     @SerializedName("subsection")
-    @Nullable
-    private String subsection;
+    val subsection: String? = null
 
     @SerializedName("title")
-    @Nullable
-    private String title;
+    val title: String? = null
 
     @SerializedName("abstract")
-    @Nullable
-    private String abstractX;
+    val abstractX: String? = null
 
     @SerializedName("url")
-    @Nullable
-    private String url;
+    val url: String? = null
 
     @SerializedName("published_date")
-    @Nullable
-    private String publishedDate;
+    val publishedDate: String? = null
 
     @SerializedName("multimedia")
-    @Nullable
-    private List<NetworkImage> multimedia;
-
-
-    @Nullable
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(@Nullable String section) {
-        this.section = section;
-    }
-
-    @Nullable
-    public String getSubsection() {
-        return subsection;
-    }
-
-    public void setSubsection(@Nullable String subsection) {
-        this.subsection = subsection;
-    }
-
-    @Nullable
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(@Nullable String title) {
-        this.title = title;
-    }
-
-    @Nullable
-    public String getAbstractX() {
-        return abstractX;
-    }
-
-    @Nullable
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(@Nullable String url) {
-        this.url = url;
-    }
-
-    public void setAbstractX(@Nullable String abstractX) {
-        this.abstractX = abstractX;
-    }
-
-    @Nullable
-    public String getPublishedDate() {
-        return publishedDate;
-    }
-
-    public void setPublishedDate(@Nullable String publishedDate) {
-        this.publishedDate = publishedDate;
-    }
-
-    @Nullable
-    public List<NetworkImage> getMultimedia() {
-        return multimedia;
-    }
-
-    public void setMultimedia(@Nullable List<NetworkImage> multimedia) {
-        this.multimedia = multimedia;
-    }
+    val multimedia: List<NetworkImage> = emptyList()
 
 }

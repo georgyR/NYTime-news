@@ -77,7 +77,7 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
                 errorview_newslist,
                 emptyview_newslist)
 
-        button_viewerror_try_again?.setOnClickListener { presenter.onFabClicked() }
+        button_viewerror_try_again.setOnClickListener { presenter.onFabClicked() }
 
         fab_newslist.setOnClickListener { presenter.onFabClicked() }
     }

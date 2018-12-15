@@ -5,20 +5,20 @@ import com.androidacademy.msk.exerciseproject.data.network.model.NetworkNewsItem
 private const val DEBUG_DONT_MATCH_SIZE = "NewsDataUtils"
 
 fun getPreviewImageUrl(item: NetworkNewsItem): String? {
-    if (item.multimedia != null && item.multimedia!!.size > 1) {
+    if (item.multimedia.size > 1) {
         // Get the position of the best quality preview image.
         // It is the second position from the end of a list.
-        val previewImagePosition = item.multimedia!!.size - 2
-        return item.multimedia!![previewImagePosition].url
+        val previewImagePosition = item.multimedia.size - 2
+        return item.multimedia[previewImagePosition].url
     }
     return null
 }
 
 fun getFullsizeImageUrl(item: NetworkNewsItem): String? {
-    if (item.multimedia != null && item.multimedia!!.size > 1) {
+    if (item.multimedia.size > 1) {
         // Get the position of the fullsize image. It is the latest position a list.
-        val previewImagePosition = item.multimedia!!.size - 1
-        return item.multimedia!![previewImagePosition].url
+        val previewImagePosition = item.multimedia.size - 1
+        return item.multimedia[previewImagePosition].url
     }
     return null
 }
