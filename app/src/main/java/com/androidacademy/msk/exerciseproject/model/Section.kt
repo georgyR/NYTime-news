@@ -1,6 +1,6 @@
-package com.androidacademy.msk.exerciseproject.model;
+package com.androidacademy.msk.exerciseproject.model
 
-public enum Section {
+enum class Section {
 
     HOME,
     OPINION,

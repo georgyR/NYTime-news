@@ -33,10 +33,9 @@ public class NewsDetailsPresenter extends BaseNewsItemPresenter<NewsDetailsView>
         super.onDestroy();
     }
 
-
     private void getNewsDetails() {
-        compositeDisposable.add(
-                dao.getRxNewsById(itemId)
+        getCompositeDisposable().add(
+                getDao().getRxNewsById(getItemId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
