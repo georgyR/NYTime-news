@@ -27,5 +27,6 @@
     <string name="date_utils_min_ago">%1$d мин. назад</string>
     <string name="newseditor_title">Заголовок</string>
     <string name="newseditor_description">Описание</string>
-    <string name="intro_welcome">Добро пожаловать!</string>
+    <string name="intro_welcome">Привет!</string>
+    <string name="intro_get_started">Начать</string>
 </resources>

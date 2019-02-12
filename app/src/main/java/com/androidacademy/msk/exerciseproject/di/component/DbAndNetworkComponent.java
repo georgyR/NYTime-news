@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject.di.component;
 
 import com.androidacademy.msk.exerciseproject.di.module.NetworkModule;
 import com.androidacademy.msk.exerciseproject.di.scope.NetworkScope;
-import com.androidacademy.msk.exerciseproject.screen.news_list.NewsListActivity;
+import com.androidacademy.msk.exerciseproject.screen.newslist.NewsListFragment;
 
 import dagger.Subcomponent;
 
@@ -10,5 +10,5 @@ import dagger.Subcomponent;
 @NetworkScope
 public interface DbAndNetworkComponent {
 
-    void inject(NewsListActivity newsListActivity);
+    void inject(NewsListFragment newsListFragment);
 }

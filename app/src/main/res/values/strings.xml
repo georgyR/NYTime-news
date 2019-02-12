@@ -28,4 +28,5 @@
     <string name="newseditor_title">Title</string>
     <string name="newseditor_description">Description</string>
     <string name="intro_welcome">Welcome!</string>
+    <string name="intro_get_started">Get\nstarted</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.androidacademy.msk.exerciseproject.di.module;
 
-import com.androidacademy.msk.exerciseproject.di.scope.ActivityScope;
+import com.androidacademy.msk.exerciseproject.di.scope.FragmentScope;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,7 +15,7 @@ public class NewsItemIdModule {
     }
 
     @Provides
-    @ActivityScope
+    @FragmentScope
     public int provideNewsItemId() {
         return currentItemId;
     }

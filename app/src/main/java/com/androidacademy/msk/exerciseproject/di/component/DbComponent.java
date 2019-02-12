@@ -11,7 +11,7 @@ import dagger.Subcomponent;
 @DbScope
 public interface DbComponent {
 
-    NewsItemComponent plusNewsItemComponent(NewsItemIdModule module);
-
     DbAndNetworkComponent plusNetworkComponent(NetworkModule module);
+
+    NewsItemComponent plusNewsItemComponent(NewsItemIdModule module);
 }

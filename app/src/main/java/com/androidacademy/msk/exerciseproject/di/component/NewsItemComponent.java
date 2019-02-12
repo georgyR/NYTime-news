@@ -1,17 +1,15 @@
 package com.androidacademy.msk.exerciseproject.di.component;
 
 import com.androidacademy.msk.exerciseproject.di.module.NewsItemIdModule;
-import com.androidacademy.msk.exerciseproject.di.scope.ActivityScope;
-import com.androidacademy.msk.exerciseproject.screen.news_details.NewsDetailsActivity;
-import com.androidacademy.msk.exerciseproject.screen.news_editor.NewsEditorActivity;
+import com.androidacademy.msk.exerciseproject.di.scope.FragmentScope;
+import com.androidacademy.msk.exerciseproject.screen.newsdetails.NewsDetailsFragment;
 
 import dagger.Subcomponent;
 
 @Subcomponent(modules = NewsItemIdModule.class)
-@ActivityScope
+@FragmentScope
 public interface NewsItemComponent {
 
-    void inject(NewsDetailsActivity newsDetailsActivity);
+    void inject(NewsDetailsFragment newsDetailsFragment);
 
-    void inject(NewsEditorActivity newsEditorActivity);
 }

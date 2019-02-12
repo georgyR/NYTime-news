@@ -22,15 +22,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".screen.news_list.NewsListActivity" />
+        <activity android:name=".screen.MainActivity" />
 
         <activity
             android:name=".screen.about.AboutActivity"
             android:label="@string/profile_name" />
-
-        <activity android:name=".screen.news_details.NewsDetailsActivity" />
-
-        <activity android:name=".screen.news_editor.NewsEditorActivity" />
 
     </application>
 
