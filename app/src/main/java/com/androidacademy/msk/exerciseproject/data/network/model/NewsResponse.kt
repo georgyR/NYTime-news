@@ -2,6 +2,7 @@ package com.androidacademy.msk.exerciseproject.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
+@Suppress("unused")
 class NewsResponse {
 
     /**

@@ -1,5 +1,6 @@
 package com.androidacademy.msk.exerciseproject.screen.newslist
 
+import NewsDataUtils
 import com.androidacademy.msk.exerciseproject.data.database.NewsConverter.toDatabase
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
@@ -17,10 +18,6 @@ class NewsListPresenter @Inject constructor(
         private val api: NYTimesApi,
         private val newsDao: NewsDao) : BasePresenter<NewsListView>() {
 
-    companion object {
-        private const val LOG_TAG = "NewsListPresenter"
-    }
-
     private var currentSelectedSection = Section.HOME
 
     override fun onFirstViewAttach() {
@@ -33,11 +30,11 @@ class NewsListPresenter @Inject constructor(
     }
 
     fun onTryAgainButtonClicked() {
-        getNews(currentSelectedSection.toString().toLowerCase())
+        getCurrentNews()
     }
 
     fun onFabClicked() {
-        getNews(currentSelectedSection.toString().toLowerCase())
+        getCurrentNews()
     }
 
     fun onSpinnerItemClicked(section: Section) {
@@ -45,6 +42,10 @@ class NewsListPresenter @Inject constructor(
             currentSelectedSection = section
             getNews(section.name.toLowerCase())
         }
+    }
+
+    private fun getCurrentNews() {
+        getNews(currentSelectedSection.toString().toLowerCase())
     }
 
     private fun getNews(section: String) {

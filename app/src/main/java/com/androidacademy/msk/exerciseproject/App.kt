@@ -2,19 +2,17 @@ package com.androidacademy.msk.exerciseproject
 
 import android.app.Application
 import android.util.Log
-
 import com.androidacademy.msk.exerciseproject.di.Injector
-
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import java.io.IOException
 import java.net.SocketException
 
-import io.reactivex.exceptions.UndeliverableException
-import io.reactivex.plugins.RxJavaPlugins
-
+@Suppress("unused")
 class App : Application() {
 
     companion object {
-        private val ERROR_RX = "ERROR_RX"
+        private const val ERROR_RX = "ERROR_RX"
     }
 
     override fun onCreate() {

@@ -1,6 +1,5 @@
 package com.androidacademy.msk.exerciseproject.screen.newslist
 
-import kotlinx.android.synthetic.main.fragment_news_list.*
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
@@ -9,7 +8,10 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import com.androidacademy.msk.exerciseproject.R
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
 import com.androidacademy.msk.exerciseproject.di.Injector
@@ -21,10 +23,19 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_news_list.*
 import kotlinx.android.synthetic.main.view_error.*
 import javax.inject.Inject
 
 class NewsListFragment : MvpAppCompatFragment(), NewsListView {
+
+    companion object {
+        private const val KEY_LIST_POSITION = "KEY_LIST_POSITION"
+        private const val MIN_WIDTH_IN_DP = 300
+        private const val TABLET_WIDTH = 720
+
+        fun newInstance() = NewsListFragment()
+    }
 
     private lateinit var adapter: NewsAdapter
     private lateinit var visibilitySwitcher: ViewVisibilitySwitcher
@@ -36,19 +47,10 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
     lateinit var presenter: NewsListPresenter
 
     @ProvidePresenter
-    internal fun providePresenter(): NewsListPresenter? {
+    fun providePresenter(): NewsListPresenter {
         Injector.getInstance().dbAndNetworkComponent.inject(this)
         return presenter
     }
-
-    companion object {
-        private const val MIN_WIDTH_IN_DP = 300
-        private const val KEY_LIST_POSITION = "KEY_LIST_POSITION"
-        private const val TABLET_WIDTH = 720
-
-        fun newInstance() = NewsListFragment()
-    }
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -63,9 +65,11 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_news_list, container, false)
     }
 
@@ -75,9 +79,10 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
                 recyclerview_newslist,
                 progressbar_newslist,
                 errorview_newslist,
-                emptyview_newslist)
+                emptyview_newslist
+        )
 
-        button_viewerror_try_again.setOnClickListener { presenter.onFabClicked() }
+        button_viewerror_try_again.setOnClickListener { presenter.onTryAgainButtonClicked() }
 
         fab_newslist.setOnClickListener { presenter.onFabClicked() }
     }
@@ -172,12 +177,7 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
 
         setLayoutManager(recyclerView)
         setItemDecoration(recyclerView)
-        val clickListener = object : NewsAdapter.OnItemClickListener {
-            override fun onItemClick(id: Int) {
-                presenter.onItemClicked(id)
-            }
-        }
-        adapter = NewsAdapter(clickListener, context!!)
+        adapter = NewsAdapter({ presenter.onItemClicked(it) }, context!!)
         recyclerView.adapter = adapter
     }
 
@@ -197,17 +197,16 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
         recyclerView.layoutManager = layoutManager
     }
 
-//    private fun setupSpinner(spinner: Spinner) {
-//        presenter.onSetupSpinnerPosition()
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                presenter.onSpinnerItemClicked(Section.values()[position])
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>) {}
-//        }
-//    }
+    /*private fun setupSpinner(spinner: Spinner) {
+        presenter.onSetupSpinnerPosition()
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                presenter.onSpinnerItemClicked(Section.values()[position])
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }*/
 
     interface ItemClickListener {
         fun onNewItemClicked(id: Int)

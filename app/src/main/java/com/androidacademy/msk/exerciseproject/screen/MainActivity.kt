@@ -5,14 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-
 import com.androidacademy.msk.exerciseproject.R
 import com.androidacademy.msk.exerciseproject.model.Section
 import com.androidacademy.msk.exerciseproject.screen.newsdetails.NewsDetailsFragment
@@ -26,8 +22,8 @@ class MainActivity : AppCompatActivity(), NewsListFragment.ItemClickListener {
 
     companion object {
 
-        private val TAG_LIST = "TAG_LIST"
-        private val TAG_DETAILS = "TAG_DETAILS"
+        private const val TAG_LIST = "TAG_LIST"
+        private const val TAG_DETAILS = "TAG_DETAILS"
 
         @JvmStatic
         fun getStartIntent(context: Context): Intent {
@@ -35,7 +31,6 @@ class MainActivity : AppCompatActivity(), NewsListFragment.ItemClickListener {
         }
     }
 
-    private lateinit var fragmentManager: FragmentManager
     private lateinit var toolbarStateSwitcher: ToolbarStateSwitcher
     private var isTwoPanel: Boolean = false
 
@@ -46,26 +41,24 @@ class MainActivity : AppCompatActivity(), NewsListFragment.ItemClickListener {
         setSupportActionBar(toolbar_main)
         configureSpinner()
 
-        supportActionBar?.apply { toolbarStateSwitcher = ToolbarStateSwitcher(this, spinner_newslist) }
-
         isTwoPanel = findViewById<View>(R.id.framelayout_main_details) != null
 
-        fragmentManager = supportFragmentManager
         if (savedInstanceState == null) {
             toolbarStateSwitcher.setToolbarState(ToolbarState.SPINNER)
-            fragmentManager.beginTransaction()
+            supportFragmentManager.beginTransaction()
                     .replace(R.id.framelayout_main_list, NewsListFragment.newInstance(), TAG_LIST)
                     .addToBackStack(null)
                     .commit()
             return
         }
 
-        val detailsFragment = fragmentManager.findFragmentByTag(TAG_DETAILS)
+
+        val detailsFragment = supportFragmentManager.findFragmentByTag(TAG_DETAILS)
         if (detailsFragment == null) {
             toolbarStateSwitcher.setToolbarState(ToolbarState.SPINNER)
             return
         }
-        fragmentManager.popBackStackImmediate()
+        supportFragmentManager.popBackStackImmediate()
         if (isTwoPanel) {
             replaceFragment(detailsFragment, R.id.framelayout_main_details)
             toolbarStateSwitcher.setToolbarState(ToolbarState.SPINNER)
@@ -76,7 +69,7 @@ class MainActivity : AppCompatActivity(), NewsListFragment.ItemClickListener {
     }
 
     override fun onBackPressed() {
-        if (isTwoPanel || fragmentManager.backStackEntryCount <= 1) {
+        if (isTwoPanel || supportFragmentManager.backStackEntryCount <= 1) {
             finish()
         } else {
             toolbarStateSwitcher.setToolbarState(ToolbarState.SPINNER)
@@ -85,9 +78,9 @@ class MainActivity : AppCompatActivity(), NewsListFragment.ItemClickListener {
     }
 
     override fun onNewItemClicked(id: Int) {
-        val detailsFragment = fragmentManager.findFragmentByTag(TAG_DETAILS)
+        val detailsFragment = supportFragmentManager.findFragmentByTag(TAG_DETAILS)
         if (detailsFragment != null) {
-            fragmentManager.popBackStackImmediate()
+            supportFragmentManager.popBackStackImmediate()
         }
 
         if (isTwoPanel) {
@@ -101,7 +94,7 @@ class MainActivity : AppCompatActivity(), NewsListFragment.ItemClickListener {
 
 
     private fun replaceFragment(detailsFragment: Fragment, @IdRes containerId: Int) {
-        fragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
                 .replace(containerId, detailsFragment, TAG_DETAILS)
                 .addToBackStack(null)
                 .commit()
@@ -113,14 +106,18 @@ class MainActivity : AppCompatActivity(), NewsListFragment.ItemClickListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_newslist.adapter = adapter
         spinner_newslist.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val fragment = fragmentManager.findFragmentByTag(TAG_LIST) as NewsListFragment
-                fragment.spinnerItemClicked(id.toInt())
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val fragment = supportFragmentManager.findFragmentByTag(TAG_LIST)
+                if (fragment != null) {
+                    (fragment as NewsListFragment).spinnerItemClicked(id.toInt())
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-
             }
         }
+
+        supportActionBar?.apply { toolbarStateSwitcher = ToolbarStateSwitcher(this, spinner_newslist) }
+
     }
 }

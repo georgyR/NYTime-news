@@ -7,31 +7,31 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "news_item", indices = [Index("url", unique = true)])
 data class DbNewsItem(
-        @ColumnInfo(name = "id")
         @PrimaryKey(autoGenerate = true)
-        var id: Int?,
+        @ColumnInfo(name = "id")
+        var id: Int,
 
         @ColumnInfo(name = "main_section")
-        var mainSection: String?,
+        var mainSection: String,
 
         @ColumnInfo(name = "section")
-        var section: String?,
+        var section: String,
 
         @ColumnInfo(name = "title")
-        var title: String?,
+        var title: String,
 
         @ColumnInfo(name = "abstract")
-        var abstractX: String?,
+        var abstractX: String,
 
         @ColumnInfo(name = "url")
-        var url: String?,
+        var url: String,
 
         @ColumnInfo(name = "published_date")
-        var publishedDate: String?,
+        var publishedDate: String,
 
         @ColumnInfo(name = "preview_image_url")
-        var previewImageUrl: String?,
+        var previewImageUrl: String,
 
         @ColumnInfo(name = "fullsize_image_url")
-        var fullsizeImageUrl: String?
+        var fullsizeImageUrl: String
 )

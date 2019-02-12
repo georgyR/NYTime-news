@@ -10,14 +10,14 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_common_news.view.*
 
 class NewsViewHolder(itemView: View,
-                     listener: NewsAdapter.OnItemClickListener,
+                     listener: (Int) -> Unit,
                      news: List<DbNewsItem>) : RecyclerView.ViewHolder(itemView) {
 
     init {
         itemView.setOnClickListener {
             val position = this.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(news[position].id!!)
+                listener(news[position].id)
             }
         }
     }
@@ -28,15 +28,12 @@ class NewsViewHolder(itemView: View,
         itemView.textview_itemnews_title.text = newsItem.title
         itemView.textview_itemnews_preview.text = newsItem.abstractX
 
-        if (newsItem.publishedDate != null) {
-            val publishDate = DateUtils.getSpecialFormattedDate(
-                    newsItem.publishedDate!!,
-                    itemView.context)
-            itemView.textview_itemnews_date.text = publishDate
-        }
+        val publishDate = DateUtils.getSpecialFormattedDate(newsItem.publishedDate, itemView.context)
+        itemView.textview_itemnews_date.text = publishDate
+
 
         val previewImageUrl = newsItem.previewImageUrl
-        if (previewImageUrl != null) {
+        if (previewImageUrl.isNotEmpty()) {
             val context = itemView.context
             val requestOptions = RequestOptions().error(R.drawable.ic_image_blank)
             Glide.with(context).load(previewImageUrl).apply(requestOptions).into(itemView.imageview_itemnews)

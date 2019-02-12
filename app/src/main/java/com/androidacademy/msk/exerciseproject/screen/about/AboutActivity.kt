@@ -23,8 +23,8 @@ class AboutActivity : MvpAppCompatActivity(), AboutView {
 
     companion object {
 
-        private val EMAIL = "georgy.ryabykh@gmail.com"
-        private val PHONE_NUMBER = "+79165766299"
+        private const val EMAIL = "georgy.ryabykh@gmail.com"
+        private const val PHONE_NUMBER = "+79165766299"
 
         fun getStartIntent(context: Context): Intent {
             return Intent(context, AboutActivity::class.java)

@@ -3,14 +3,10 @@ package com.androidacademy.msk.exerciseproject.utils
 import android.content.Context
 import android.text.format.DateFormat
 import android.util.Log
-
 import com.androidacademy.msk.exerciseproject.R
-
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -48,7 +44,7 @@ object DateUtils {
         val formatter = SimpleDateFormat("", Locale.getDefault())
         val publishTime = getFormattedTime(date, context)
 
-        return when  {
+        return when {
             android.text.format.DateUtils.isToday(date.time) -> {
                 val currentDate = Date()
                 val timeDiff = currentDate.time - date.time
