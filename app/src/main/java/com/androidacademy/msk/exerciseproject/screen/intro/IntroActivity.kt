@@ -4,13 +4,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.androidacademy.msk.exerciseproject.R
-import com.androidacademy.msk.exerciseproject.di.Injector
+import com.androidacademy.msk.exerciseproject.di.DI
 import com.androidacademy.msk.exerciseproject.screen.MainActivity
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_intro.*
-import javax.inject.Inject
 
 class IntroActivity : MvpAppCompatActivity(), IntroView {
 
@@ -18,14 +17,17 @@ class IntroActivity : MvpAppCompatActivity(), IntroView {
         private const val NUM_PAGES = 3
     }
 
-    @Inject
     @InjectPresenter
     lateinit var presenter: IntroPresenter
 
     @ProvidePresenter
     fun providePresenter(): IntroPresenter {
-        Injector.getInstance().appComponent.inject(this)
-        return presenter
+        return DI.openIntroScope().getInstance(IntroPresenter::class.java)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DI.closeIntroScope()
     }
 
     override fun setLayout() {

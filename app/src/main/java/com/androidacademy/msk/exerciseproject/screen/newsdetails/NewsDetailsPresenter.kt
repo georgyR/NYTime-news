@@ -2,7 +2,8 @@ package com.androidacademy.msk.exerciseproject.screen.newsdetails
 
 import android.util.Log
 import com.androidacademy.msk.exerciseproject.data.database.dao.NewsDao
-import com.androidacademy.msk.exerciseproject.screen.base.BaseNewsItemPresenter
+import com.androidacademy.msk.exerciseproject.di.model.NewsId
+import com.androidacademy.msk.exerciseproject.screen.base.BasePresenter
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -10,12 +11,12 @@ import javax.inject.Inject
 
 @InjectViewState
 class NewsDetailsPresenter @Inject constructor(
-        dao: NewsDao,
-        id: Int
-) : BaseNewsItemPresenter<NewsDetailsView>(dao, id) {
+        private val itemId: NewsId,
+        private val dao: NewsDao
+) : BasePresenter<NewsDetailsView>() {
 
     companion object {
-        private val DEBUG_DB_QUERY = NewsDetailsPresenter::class.java.simpleName
+        private const val LOG_TAG = "NewsDetailsPresenter"
     }
 
     override fun onFirstViewAttach() {
@@ -25,14 +26,14 @@ class NewsDetailsPresenter @Inject constructor(
 
     private fun getNewsDetails() {
         compositeDisposable.add(
-                dao.getRxNewsById(itemId)
+                dao.getRxNewsById(itemId.id)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 { newsItem -> viewState.showNewsDetails(newsItem) },
                                 { throwable ->
                                     Log.d(
-                                            DEBUG_DB_QUERY,
+                                            LOG_TAG,
                                             "error in getRxNewsById() query",
                                             throwable
                                     )

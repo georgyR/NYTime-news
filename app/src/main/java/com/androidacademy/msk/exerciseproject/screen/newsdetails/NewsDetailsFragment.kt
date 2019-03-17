@@ -8,15 +8,14 @@ import android.view.ViewGroup
 
 import com.androidacademy.msk.exerciseproject.R
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
-import com.androidacademy.msk.exerciseproject.di.Injector
+import com.androidacademy.msk.exerciseproject.di.DI
+import com.androidacademy.msk.exerciseproject.di.model.NewsId
 import com.androidacademy.msk.exerciseproject.utils.DateUtils
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_news_details.*
-
-import javax.inject.Inject
 
 class NewsDetailsFragment : MvpAppCompatFragment(), NewsDetailsView {
 
@@ -34,15 +33,14 @@ class NewsDetailsFragment : MvpAppCompatFragment(), NewsDetailsView {
         }
     }
 
-    @Inject
     @InjectPresenter
     lateinit var presenter: NewsDetailsPresenter
 
     @ProvidePresenter
     fun providePresenter(): NewsDetailsPresenter {
-        val id = arguments?.getInt(KEY_ID) ?: 0
-        Injector.getInstance().getNewsItemComponent(id).inject(this)
-        return presenter
+
+        val id = NewsId(arguments?.getInt(KEY_ID) ?: 0)
+        return DI.openNewsDetailsScope(id).getInstance(NewsDetailsPresenter::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +55,10 @@ class NewsDetailsFragment : MvpAppCompatFragment(), NewsDetailsView {
         return inflater.inflate(R.layout.fragment_news_details, container, false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        DI.closeNewsDetailsScope()
+    }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         if (menuItem?.itemId == android.R.id.home) {
@@ -64,6 +66,7 @@ class NewsDetailsFragment : MvpAppCompatFragment(), NewsDetailsView {
         }
         return super.onOptionsItemSelected(menuItem)
     }
+
 
     override fun showNewsDetails(newsItem: DbNewsItem) {
         textview_newsdetails_title.text = newsItem.title

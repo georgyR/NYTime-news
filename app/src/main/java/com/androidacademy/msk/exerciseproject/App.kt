@@ -2,7 +2,7 @@ package com.androidacademy.msk.exerciseproject
 
 import android.app.Application
 import android.util.Log
-import com.androidacademy.msk.exerciseproject.di.Injector
+import com.androidacademy.msk.exerciseproject.di.DI
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import java.io.IOException
@@ -18,7 +18,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Injector.init(this)
+        DI.init()
+        DI.initAppScope(this)
 
         RxJavaPlugins.setErrorHandler { e ->
             var exception = e
