@@ -16,14 +16,17 @@ import javax.inject.Inject
 @InjectViewState
 class NewsListPresenter @Inject constructor(
         private val api: NYTimesApi,
-        private val newsDao: NewsDao) : BasePresenter<NewsListView>() {
+        private val newsDao: NewsDao
+) : BasePresenter<NewsListView>() {
 
     private var currentSelectedSection = Section.HOME
+
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.showEmptyView()
     }
+
 
     fun onItemClicked(id: Int) {
         viewState.openDetailsScreen(id)
@@ -43,6 +46,7 @@ class NewsListPresenter @Inject constructor(
             getNews(section.name.toLowerCase())
         }
     }
+
 
     private fun getCurrentNews() {
         getNews(currentSelectedSection.toString().toLowerCase())

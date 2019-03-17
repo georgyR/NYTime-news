@@ -14,7 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.androidacademy.msk.exerciseproject.R
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
-import com.androidacademy.msk.exerciseproject.di.Injector
+import com.androidacademy.msk.exerciseproject.di.DI
 import com.androidacademy.msk.exerciseproject.model.Section
 import com.androidacademy.msk.exerciseproject.screen.about.AboutActivity
 import com.androidacademy.msk.exerciseproject.screen.ui_state_switcher.screen.ScreenState.*
@@ -25,7 +25,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import kotlinx.android.synthetic.main.view_error.*
-import javax.inject.Inject
 
 class NewsListFragment : MvpAppCompatFragment(), NewsListView {
 
@@ -42,15 +41,15 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
     private lateinit var listener: ItemClickListener
     private var position: Int = 0
 
-    @Inject
     @InjectPresenter
     lateinit var presenter: NewsListPresenter
 
+
     @ProvidePresenter
     fun providePresenter(): NewsListPresenter {
-        Injector.getInstance().dbAndNetworkComponent.inject(this)
-        return presenter
+        return DI.openNewsListScope().getInstance(NewsListPresenter::class.java)
     }
+
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -61,6 +60,7 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         position = savedInstanceState?.getInt(KEY_LIST_POSITION) ?: 0
         setHasOptionsMenu(true)
     }
@@ -123,6 +123,12 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_LIST_POSITION, position)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DI.closeNewsListScope()
+    }
+
 
     override fun showNews(news: List<DbNewsItem>) {
         visibilitySwitcher.setUiState(HAS_DATA)

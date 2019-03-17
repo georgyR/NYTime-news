@@ -36,7 +36,8 @@ ext {
     ext.retrofit2_version = '2.4.0'
     ext.moxy_version = '1.5.5'
     ext.room_version = "1.1.1"
-    ext.dagger_version="2.17"
+    ext.dagger_version = "2.17"
+    ext.toothpick_version = "2.1.0"
 }
 
 dependencies {
@@ -70,8 +71,12 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    implementation "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpick_version"
+    implementation "com.github.stephanenicolas.toothpick:smoothie-androidx:$toothpick_version"
+    kapt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick_version"
+
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    implementation  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()

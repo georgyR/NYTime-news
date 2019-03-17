@@ -11,13 +11,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.androidacademy.msk.exerciseproject.R
 import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp
-import com.androidacademy.msk.exerciseproject.di.Injector
 import com.androidacademy.msk.exerciseproject.model.AppError
 import com.androidacademy.msk.exerciseproject.utils.IntentUtils
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.view_profile.*
-import javax.inject.Inject
 
 class AboutActivity : MvpAppCompatActivity(), AboutView {
 
@@ -31,8 +29,7 @@ class AboutActivity : MvpAppCompatActivity(), AboutView {
         }
     }
 
-    @Inject
-    lateinit var intentUtils: IntentUtils
+    private val intentUtils: IntentUtils = IntentUtils(this)
 
     @InjectPresenter
     lateinit var presenter: AboutPresenter
@@ -42,8 +39,6 @@ class AboutActivity : MvpAppCompatActivity(), AboutView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Injector.getInstance().appComponent.inject(this)
 
         setContentView(R.layout.activity_about)
 

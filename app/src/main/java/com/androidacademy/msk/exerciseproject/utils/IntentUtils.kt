@@ -5,10 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import com.androidacademy.msk.exerciseproject.data.network.SocialNetworkApp
 
-import javax.inject.Inject
-
-class IntentUtils
-@Inject constructor(private val appContext: Context) {
+class IntentUtils constructor(private val appContext: Context) {
 
     fun getEmailIntent(email: String, subject: String, message: String): Intent? {
         val mailto = "mailto:$email" +
