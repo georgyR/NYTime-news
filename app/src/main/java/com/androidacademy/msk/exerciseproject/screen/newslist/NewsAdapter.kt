@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.androidacademy.msk.exerciseproject.R
 import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
 import com.androidacademy.msk.exerciseproject.model.Section
+import com.androidacademy.msk.exerciseproject.utils.SectionUtils
 
 class NewsAdapter(
         private val clickListener: (Int) -> Unit,
@@ -28,8 +29,7 @@ class NewsAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return try {
-            val section = Section.valueOf(news[position].section.toUpperCase())
-
+            val section =  SectionUtils.getSection(news[position].section)
             when (section) {
                 Section.TECHNOLOGY -> R.layout.item_technology_news
                 else -> R.layout.item_common_news

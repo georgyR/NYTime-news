@@ -16,12 +16,12 @@ interface NewsListView : MvpView {
     @StateStrategyType(SingleStateStrategy::class)
     fun showError()
 
-    @StateStrategyType(SingleStateStrategy::class)
-    fun showEmptyView()
-
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun openDetailsScreen(id: Int)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun setCurrentSectionInSpinner(position: Int)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun toggleSwipeRefreshProgress(show: Boolean)
 }

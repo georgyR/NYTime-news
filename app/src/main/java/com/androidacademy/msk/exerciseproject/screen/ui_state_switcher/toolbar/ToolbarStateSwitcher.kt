@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Spinner
 
 import com.androidacademy.msk.exerciseproject.model.Section
+import com.androidacademy.msk.exerciseproject.utils.SectionUtils
 
 class ToolbarStateSwitcher(private val actionBar: ActionBar, private val spinner: Spinner) {
 
@@ -17,8 +18,8 @@ class ToolbarStateSwitcher(private val actionBar: ActionBar, private val spinner
             }
             ToolbarState.BACK_BUTTON_AND_TITLE -> {
                 val position = spinner.selectedItemPosition
-                var section = Section.values()[position].name
-                section = section.toLowerCase().capitalize()
+                val selectedSection = Section.values()[position]
+                val section = SectionUtils.getCapitalizedSectionName(selectedSection)
                 actionBar.title = section
                 actionBar.setDisplayShowTitleEnabled(true)
                 spinner.visibility = View.GONE
