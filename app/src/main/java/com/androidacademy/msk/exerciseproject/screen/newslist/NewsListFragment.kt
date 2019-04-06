@@ -157,7 +157,8 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
 
 
     fun spinnerItemClicked(id: Int) {
-        presenter.onSpinnerItemClicked(Section.values()[id])
+        val clickedSection = Section.values()[id]
+        presenter.onSpinnerItemClicked(clickedSection)
     }
 
 

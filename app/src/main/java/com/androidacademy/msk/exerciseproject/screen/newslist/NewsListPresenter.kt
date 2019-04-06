@@ -7,6 +7,7 @@ import com.androidacademy.msk.exerciseproject.data.database.entity.DbNewsItem
 import com.androidacademy.msk.exerciseproject.data.network.api.NYTimesApi
 import com.androidacademy.msk.exerciseproject.model.Section
 import com.androidacademy.msk.exerciseproject.screen.base.BasePresenter
+import com.androidacademy.msk.exerciseproject.utils.SectionUtils
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -43,7 +44,8 @@ class NewsListPresenter @Inject constructor(
             currentSelectedSection = section
 
             viewState.toggleSwipeRefreshProgress(true)
-            getNews(section.name.toLowerCase())
+            val sectionString = SectionUtils.getSectionForQuery(section)
+            getNews(sectionString)
         }
     }
 
