@@ -5,8 +5,7 @@ import android.view.View
 class ViewVisibilitySwitcher(
         private val dataView: View,
         private val loadingIndicatorView: View,
-        private val errorView: View,
-        private val emptyListView: View
+        private val errorView: View
 ) {
 
     fun setUiState(state: ScreenState) {
@@ -14,14 +13,13 @@ class ViewVisibilitySwitcher(
             ScreenState.HAS_DATA -> dataView
             ScreenState.LOADING -> loadingIndicatorView
             ScreenState.ERROR -> errorView
-            ScreenState.EMPTY -> emptyListView
         }
 
         show(view)
     }
 
     private fun show(targetView: View) {
-        val viewArray = arrayOf(dataView, loadingIndicatorView, errorView, emptyListView)
+        val viewArray = arrayOf(dataView, loadingIndicatorView, errorView)
         var isViewFound = false
         viewArray.forEach { view ->
             if (!isViewFound && view.id == targetView.id) {

@@ -24,7 +24,8 @@ class NewsListPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.showEmptyView()
+        viewState.showProgressBar()
+        getCurrentSectionNews()
     }
 
 
@@ -33,22 +34,25 @@ class NewsListPresenter @Inject constructor(
     }
 
     fun onTryAgainButtonClicked() {
-        getCurrentNews()
-    }
-
-    fun onFabClicked() {
-        getCurrentNews()
+        viewState.toggleSwipeRefreshProgress(true)
+        getCurrentSectionNews()
     }
 
     fun onSpinnerItemClicked(section: Section) {
         if (section != currentSelectedSection) {
             currentSelectedSection = section
+
+            viewState.toggleSwipeRefreshProgress(true)
             getNews(section.name.toLowerCase())
         }
     }
 
 
-    private fun getCurrentNews() {
+    fun onRefreshSwiped() {
+        getCurrentSectionNews()
+    }
+
+    private fun getCurrentSectionNews() {
         getNews(currentSelectedSection.toString().toLowerCase())
     }
 
@@ -68,10 +72,11 @@ class NewsListPresenter @Inject constructor(
                         }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { viewState.showProgressBar() }
+                        .doFinally { viewState.toggleSwipeRefreshProgress(false) }
                         .subscribe(
                                 { news -> viewState.showNews(news) },
-                                { viewState.showError() })
+                                { viewState.showError() }
+                        )
         )
     }
 }

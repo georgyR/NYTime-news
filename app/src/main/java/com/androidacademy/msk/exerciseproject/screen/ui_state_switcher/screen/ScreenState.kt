@@ -4,7 +4,6 @@ enum class ScreenState {
 
     HAS_DATA,
     LOADING,
-    ERROR,
-    EMPTY
+    ERROR
 
 }

@@ -78,13 +78,12 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
         visibilitySwitcher = ViewVisibilitySwitcher(
                 recyclerview_newslist,
                 progressbar_newslist,
-                errorview_newslist,
-                emptyview_newslist
+                errorview_newslist
         )
 
         button_viewerror_try_again.setOnClickListener { presenter.onTryAgainButtonClicked() }
 
-        fab_newslist.setOnClickListener { presenter.onFabClicked() }
+        fragment_news_list_swipe_refresh.setOnRefreshListener { presenter.onRefreshSwiped() }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -140,10 +139,6 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
         visibilitySwitcher.setUiState(ERROR)
     }
 
-    override fun showEmptyView() {
-        visibilitySwitcher.setUiState(EMPTY)
-    }
-
     override fun showProgressBar() {
         visibilitySwitcher.setUiState(LOADING)
     }
@@ -156,9 +151,15 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
         spinner_newslist.setSelection(position)
     }
 
+    override fun toggleSwipeRefreshProgress(show: Boolean) {
+        fragment_news_list_swipe_refresh.isRefreshing = show
+    }
+
+
     fun spinnerItemClicked(id: Int) {
         presenter.onSpinnerItemClicked(Section.values()[id])
     }
+
 
     private fun setItemDecoration(recyclerView: RecyclerView) {
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
@@ -171,16 +172,6 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                when {
-                    dy > 0 -> fab_newslist.hide()
-                    dy < 0 -> fab_newslist.show()
-                }
-            }
-        })
-
         setLayoutManager(recyclerView)
         setItemDecoration(recyclerView)
         adapter = NewsAdapter({ presenter.onItemClicked(it) }, context!!)

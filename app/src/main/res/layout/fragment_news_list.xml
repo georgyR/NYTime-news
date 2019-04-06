@@ -1,44 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout android:id="@+id/fragment_news_list_swipe_refresh"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray_light">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_newslist"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/padding_small"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item_common_news" />
+        android:background="@color/gray_light">
 
-    <include
-        android:id="@+id/progressbar_newslist"
-        layout="@layout/progressbar"
-        android:visibility="gone" />
 
-    <include
-        android:id="@+id/errorview_newslist"
-        layout="@layout/view_error"
-        android:visibility="gone" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_newslist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/padding_small"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/item_common_news" />
 
-    <include
-        android:id="@+id/emptyview_newslist"
-        layout="@layout/view_empty_list"
-        android:visibility="gone" />
+        <include
+            android:id="@+id/progressbar_newslist"
+            layout="@layout/progressbar"
+            android:visibility="gone" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_newslist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/margin_common"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_refresh_black_24dp" />
+        <include
+            android:id="@+id/errorview_newslist"
+            layout="@layout/view_error"
+            android:visibility="gone" />
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
