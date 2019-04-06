@@ -24,7 +24,7 @@
     <dimen name="imageheight_profile_photo">200dp</dimen>
     <dimen name="imagewidth_news">400dp</dimen>
     <dimen name="imageheight_news">300dp</dimen>
-    <dimen name="imagesize_news_item">100dp</dimen>
+    <dimen name="imagesize_news_item">120dp</dimen>
     <dimen name="imageheight_news_item_big">150dp</dimen>
     <dimen name="width_main_newslist">300dp</dimen>
     <dimen name="height_intro_circleindicator">20dp</dimen>
