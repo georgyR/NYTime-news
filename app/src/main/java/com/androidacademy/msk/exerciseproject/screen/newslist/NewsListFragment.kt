@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -96,6 +98,10 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
         if (position != 0) {
             recyclerview_newslist.layoutManager?.scrollToPosition(position)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.activity_news_list, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
