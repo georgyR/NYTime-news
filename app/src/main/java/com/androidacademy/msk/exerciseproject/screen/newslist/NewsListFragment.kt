@@ -101,7 +101,9 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuitem_open_about -> {
-                startActivity(AboutActivity.getStartIntent(activity!!))
+                activity?.let {
+                    startActivity(AboutActivity.getStartIntent(it))
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -163,20 +165,26 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
 
 
     private fun setItemDecoration(recyclerView: RecyclerView) {
-        val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-
-        val dividerDrawable = ContextCompat.getDrawable(context!!, R.drawable.divider)
-        if (dividerDrawable != null) {
-            decoration.setDrawable(dividerDrawable)
+        context?.let { context ->
+            val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            val dividerDrawable = ContextCompat.getDrawable(context, R.drawable.divider)
+            if (dividerDrawable != null) {
+                decoration.setDrawable(dividerDrawable)
+            }
+            recyclerView.addItemDecoration(decoration)
         }
-        recyclerView.addItemDecoration(decoration)
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        setLayoutManager(recyclerView)
-        setItemDecoration(recyclerView)
-        adapter = NewsAdapter({ presenter.onItemClicked(it) }, context!!)
-        recyclerView.adapter = adapter
+        context?.let { context ->
+            setLayoutManager(recyclerView)
+            setItemDecoration(recyclerView)
+            adapter = NewsAdapter(
+                    { clickListener -> presenter.onItemClicked(clickListener) },
+                    context
+            )
+            recyclerView.adapter = adapter
+        }
     }
 
     private fun setLayoutManager(recyclerView: RecyclerView) {
@@ -194,17 +202,6 @@ class NewsListFragment : MvpAppCompatFragment(), NewsListView {
 
         recyclerView.layoutManager = layoutManager
     }
-
-    /*private fun setupSpinner(spinner: Spinner) {
-        presenter.onSetupSpinnerPosition()
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                presenter.onSpinnerItemClicked(Section.values()[position])
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-    }*/
 
     interface ItemClickListener {
         fun onNewItemClicked(id: Int)

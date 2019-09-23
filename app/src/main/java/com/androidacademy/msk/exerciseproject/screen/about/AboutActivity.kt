@@ -45,7 +45,7 @@ class AboutActivity : MvpAppCompatActivity(), AboutView {
         val toolbar = findViewById<Toolbar>(R.id.toolbar_all)
         setSupportActionBar(toolbar)
         if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
         rootView = findViewById(android.R.id.content)

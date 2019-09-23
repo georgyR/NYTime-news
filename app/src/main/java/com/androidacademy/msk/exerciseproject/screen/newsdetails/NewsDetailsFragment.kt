@@ -80,8 +80,10 @@ class NewsDetailsFragment : MvpAppCompatFragment(), NewsDetailsView {
         if (publishedDate.isNotEmpty()) {
             val date = DateUtils.getFormattedDate(publishedDate)
             textview_newsdetails_date.text = date
-            val time = DateUtils.getFormattedTime(publishedDate, context!!)
-            textview_newsdetails_time.text = time
+            context?.let {
+                val time = DateUtils.getFormattedTime(publishedDate, it)
+                textview_newsdetails_time.text = time
+            }
         }
     }
 }
